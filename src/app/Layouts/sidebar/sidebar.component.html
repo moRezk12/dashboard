@@ -1,0 +1,15 @@
+<aside >
+  <div class=" text-white p-4 flex flex-col space-y-3 h-full" >
+    <!-- <a routerLinkActive="active" routerLink="/" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition"> Dashboard</a> -->
+    <a *ngFor="let item of links" routerLinkActive="active" [routerLink]="item.url" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition">
+      {{item.name}}
+    </a>
+    <!-- <a routerLinkActive="active" routerLink="/user" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition"> User</a>
+    <a routerLinkActive="active" routerLink="/branch" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition"> Branch</a>
+    <a routerLinkActive="active" routerLink="/product" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition"> Product</a>
+    <a routerLinkActive="active" routerLink="/company" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition"> Company</a>
+    <a routerLinkActive="active" routerLink="/order" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition"> Order</a>
+    <a routerLinkActive="active" routerLink="/advertisement" class="hover:bg-gray-700 px-3 py-2 text-[22px] rounded transition"> advertisement</a> -->
+    <a (click)="Logout()" class="hover:bg-red-600 cursor-pointer px-3 py-2 text-[22px] rounded transition"> Logout</a>
+  </div>
+</aside>

@@ -1,0 +1,421 @@
+<div>
+
+  <!-- Add Admin Button -->
+  <div class="mb-6 text-right ">
+    <button (click)="openAddModal()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
+      + Add Product
+    </button>
+
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
+
+      <div class="flex justify-between items-center mb-4 ">
+        <h2 class="text-xl font-semibold ">{{ mode ? 'Edit Product' : 'Add Product' }}</h2>
+
+        <div
+          class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+          (click)="closeModal()">
+          ✕
+        </div>
+
+      </div>
+
+      <!-- Form with styling and validation -->
+      <form [formGroup]="productForm" (ngSubmit)="addOrUpdateProduct()" class="space-y-4">
+
+        <!-- Name one Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- Name En Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Name </label>
+            <input type="text" formControlName="name1_en" placeholder="Enter Your Name"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="productForm.get('name1_en')?.errors?.['required'] && productForm.get('name1_en')?.touched"
+              class="text-red-500 mt-1">
+              Name is required
+            </small>
+            <small *ngIf="productForm.get('name1_en')?.errors?.['minlength'] && productForm.get('name1_en')?.touched"
+              class="text-red-500 mt-1">
+              Name must be at least {{ productForm.get('name1_en')?.errors?.['minlength'].requiredLength }} characters
+            </small>
+          </div>
+          <!-- Name Ar Field -->
+          <div class="w-full flex flex-col" dir="rtl">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم باللغه العربيه</label>
+            <input type="text" formControlName="name1_ar" placeholder="ادخل الاسم باللغه العربيه"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="productForm.get('name1_ar')?.errors?.['required'] && productForm.get('name1_ar')?.touched"
+              class="text-red-500 mt-1">
+              Name is required
+            </small>
+            <small *ngIf="productForm.get('name1_ar')?.errors?.['minlength'] && productForm.get('name1_ar')?.touched"
+              class="text-red-500 mt-1">
+              Name must be at least {{ productForm.get('name1_ar')?.errors?.['minlength'].requiredLength }} characters
+            </small>
+          </div>
+        </div>
+
+        <!-- Name Two Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- Name En Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Name </label>
+            <input type="text" formControlName="name2_en" placeholder="Enter Your Name"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="productForm.get('name2_en')?.errors?.['required'] && productForm.get('name2_en')?.touched"
+              class="text-red-500 mt-1">
+              Name is required
+            </small>
+            <small *ngIf="productForm.get('name2_en')?.errors?.['minlength'] && productForm.get('name2_en')?.touched"
+              class="text-red-500 mt-1">
+              Name must be at least {{ productForm.get('name2_en')?.errors?.['minlength'].requiredLength }} characters
+            </small>
+          </div>
+          <!-- Name Ar Field -->
+          <div class="w-full flex flex-col" dir="rtl">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم باللغه العربيه</label>
+            <input type="text" formControlName="name2_ar" placeholder="ادخل الاسم باللغه العربيه"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="productForm.get('name2_ar')?.errors?.['required'] && productForm.get('name2_ar')?.touched"
+              class="text-red-500 mt-1">
+              Name is required
+            </small>
+            <small *ngIf="productForm.get('name2_ar')?.errors?.['minlength'] && productForm.get('name2_ar')?.touched"
+              class="text-red-500 mt-1">
+              Name must be at least {{ productForm.get('name2_ar')?.errors?.['minlength'].requiredLength }} characters
+            </small>
+          </div>
+        </div>
+
+        <!-- description Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- description En Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Description </label>
+            <!-- <input type="text" formControlName="description_en" placeholder="Enter Your description"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" /> -->
+
+            <textarea type="text" formControlName="description_en" placeholder="Enter Your description"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="4"></textarea>
+
+            <small
+              *ngIf="productForm.get('description_en')?.errors?.['required'] && productForm.get('description_en')?.touched"
+              class="text-red-500 mt-1">
+              Description is required
+            </small>
+            <small
+              *ngIf="productForm.get('description_en')?.errors?.['minlength'] && productForm.get('description_en')?.touched"
+              class="text-red-500 mt-1">
+              Description must be at least {{ productForm.get('description_en')?.errors?.['minlength'].requiredLength }}
+              characters
+            </small>
+          </div>
+          <!-- description Ar Field -->
+          <div class="w-full flex flex-col" dir="rtl">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">
+              ادخل الوصف باللغه العربيه
+            </label>
+            <!-- <input type="text" formControlName="description_ar" placeholder="ادخل الوصف باللغه العربيه"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" /> -->
+
+            <textarea type="text" formControlName="description_ar" placeholder="ادخل الوصف باللغه العربيه"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="4"></textarea>
+
+            <small
+              *ngIf="productForm.get('description_ar')?.errors?.['required'] && productForm.get('description_ar')?.touched"
+              class="text-red-500 mt-1">
+              Description is required
+            </small>
+            <small
+              *ngIf="productForm.get('description_ar')?.errors?.['minlength'] && productForm.get('description_ar')?.touched"
+              class="text-red-500 mt-1">
+              Description must be at least {{ productForm.get('description_ar')?.errors?.['minlength'].requiredLength }}
+              characters
+            </small>
+          </div>
+        </div>
+
+        <!-- Quantity Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- Quantity En Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Quantity </label>
+            <input type="text" formControlName="quantity_en" placeholder="Enter Your Quantity"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small
+              *ngIf="productForm.get('quantity_en')?.errors?.['required'] && productForm.get('quantity_en')?.touched"
+              class="text-red-500 mt-1">
+              Quantity is required
+            </small>
+            <small
+              *ngIf="productForm.get('quantity_en')?.errors?.['minlength'] && productForm.get('quantity_en')?.touched"
+              class="text-red-500 mt-1">
+              Quantity must be at least {{ productForm.get('quantity_en')?.errors?.['minlength'].requiredLength }}
+              characters
+            </small>
+          </div>
+          <!-- Quantity Ar Field -->
+          <div class="w-full flex flex-col" dir="rtl">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">
+              ادخل الكميه باللغه العربية
+            </label>
+            <input type="text" formControlName="quantity_ar" placeholder="ادخل الكميه باللغه العربية"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small
+              *ngIf="productForm.get('quantity_ar')?.errors?.['required'] && productForm.get('quantity_ar')?.touched"
+              class="text-red-500 mt-1">
+              الكمية مطلوبة
+            </small>
+            <small
+              *ngIf="productForm.get('quantity_ar')?.errors?.['minlength'] && productForm.get('quantity_ar')?.touched"
+              class="text-red-500 mt-1">
+              Quantity must be at least {{ productForm.get('quantity_ar')?.errors?.['minlength'].requiredLength }}
+              characters
+            </small>
+          </div>
+
+        </div>
+
+        <!-- Country Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- Country En Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your country </label>
+            <input type="text" formControlName="country_en" placeholder="Enter Your country"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="productForm.get('country_en')?.errors?.['required'] && productForm.get('country_en')?.touched"
+              class="text-red-500 mt-1">
+              Country is required
+            </small>
+            <small
+              *ngIf="productForm.get('country_en')?.errors?.['minlength'] && productForm.get('country_en')?.touched"
+              class="text-red-500 mt-1">
+              Country must be at least {{ productForm.get('country_en')?.errors?.['minlength'].requiredLength }}
+              characters
+            </small>
+          </div>
+          <!-- Country Ar Field -->
+          <div class="w-full flex flex-col" dir="rtl">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">
+              ادخل البلد باللغه العربية
+            </label>
+            <input type="text" formControlName="country_ar" placeholder="ادخل البلد باللغه العربية"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="productForm.get('country_ar')?.errors?.['required'] && productForm.get('country_ar')?.touched"
+              class="text-red-500 mt-1">
+              الكمية مطلوبة
+            </small>
+            <small
+              *ngIf="productForm.get('country_ar')?.errors?.['minlength'] && productForm.get('country_ar')?.touched"
+              class="text-red-500 mt-1">
+              Country must be at least {{ productForm.get('country_ar')?.errors?.['minlength'].requiredLength }}
+              characters
+            </small>
+          </div>
+
+        </div>
+
+        <!-- Price Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- Old Price Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Old Price </label>
+            <input type="number" formControlName="oldprice" placeholder="Old Price"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="productForm.get('oldprice')?.errors?.['required'] && productForm.get('oldprice')?.touched"
+              class="text-red-500 mt-1">
+              Old Price is required
+            </small>
+            <!-- <small *ngIf="productForm.get('oldprice')?.errors?.['minlength'] && productForm.get('oldprice')?.touched"
+              class="text-red-500 mt-1">
+              Name must be at least {{ productForm.get('oldprice')?.errors?.['minlength'].requiredLength }} characters
+            </small> -->
+          </div>
+        </div>
+        <!-- New Price Field -->
+        <div class="w-full flex flex-col">
+          <label class="text-[18px] font-medium text-gray-700 mb-1">
+            New Price
+          </label>
+          <input type="number" formControlName="newprice" placeholder="New Price"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <small *ngIf="productForm.get('newprice')?.errors?.['required'] && productForm.get('newprice')?.touched"
+            class="text-red-500 mt-1">
+            New Price is required
+          </small>
+          <!-- <small *ngIf="productForm.get('newprice')?.errors?.['minlength'] && productForm.get('newprice')?.touched"
+            class="text-red-500 mt-1">
+            Name must be at least {{ productForm.get('newprice')?.errors?.['minlength'].requiredLength }} characters
+          </small> -->
+        </div>
+
+
+
+        <!-- CategoryId And Image Fields -->
+        <div class="w-full flex flex-col">
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Select Category</label>
+
+          <select formControlName="categoryId"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
+            <option value="" disabled hidden>Select a category</option>
+            <option *ngFor="let category of categories" [value]="category._id">
+              {{ category.name.en }}-{{ category.name.ar }}
+            </option>
+          </select>
+
+          <small *ngIf="productForm.get('categoryId')?.errors?.['required'] && productForm.get('categoryId')?.touched"
+            class="text-red-500 mt-1">
+            Category is required
+          </small>
+        </div>
+
+
+
+        <!-- Image Field -->
+
+        <div class="w-full flex flex-col">
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Upload Images</label>
+
+          <!-- زر رفع الصور -->
+          <div class="relative border-2 border-dashed border-blue-500 rounded-lg p-4 flex flex-col items-center justify-center
+                      cursor-pointer bg-blue-50 transition">
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" multiple
+              class="absolute inset-0 opacity-0 cursor-pointer" *ngIf="!showData" />
+
+            <svg *ngIf="imagesArray.length < 3 || !showData " class="w-12 h-12 text-blue-500 mb-2" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+            </svg>
+
+            <p class="text-gray-600" *ngIf="imagesArray.length === 0">Click to upload (Max: 3 images)</p>
+
+            <!-- عرض الصور -->
+            <div class="flex gap-2 mt-4">
+              <div *ngFor="let img of imagesArray.value; let i = index" class="relative w-24 h-24">
+                <img [src]="img" class="w-full h-full object-cover rounded-lg border border-gray-300 shadow">
+                <button type="button" (click)="removeImage(i)" *ngIf="!showData"
+                  class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition">
+                  ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <!-- Buttons  -->
+        <div class="flex justify-between mt-4">
+          <button type="submit" [disabled]="productForm.invalid" *ngIf="!showData"
+            class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-[40%] px-5 py-2 rounded hover:bg-green-700 transition">
+            {{ mode ? 'Update' : 'Add' }}
+          </button>
+          <button type="button" (click)="closeModal()"
+            class="bg-gray-500 cursor-pointer text-white px-5 py-2 rounded hover:bg-gray-600 transition">
+            Cancel
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Admins Table -->
+  <table class="w-full bg-white shadow rounded overflow-hidden text-center">
+    <thead class="bg-gray-100 text-gray-700">
+      <tr>
+        <th class="py-2 px-4">#</th>
+        <th class="py-2 px-4">Name Product</th>
+        <th class="py-2 px-4">Quantity</th>
+        <th class="py-2 px-4">New Price</th>
+        <th class="py-2 px-4">Country</th>
+        <!-- <th class="py-2 px-4">Category</th> -->
+        <!-- <th class="py-2 px-4">Image</th> -->
+        <th class="py-2 px-4">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of allProducts; trackBy : trackById ; let i = index" class="border-b  ">
+        <td class="py-2 px-4 align-middle">{{ i + 1 }}</td>
+        <td class="py-2 px-4 align-middle">{{ product.name1.en }}</td>
+        <td class="py-2 px-4 align-middle">{{ product.quantity.en }}</td>
+        <td class="py-2 px-4 align-middle">{{ product.newprice }}</td>
+        <td class="py-2 px-4 align-middle">{{ product.country.en }}</td>
+        <!-- <td class="py-2 px-4 align-middle">{{ admin.category }}</td> -->
+        <!-- <td class="py-2 px-4 align-middle ">
+          <img class=" mx-auto w-[50px] h-[50px] rounded-full " [src]="admin.image" alt="">
+        </td> -->
+        <td class="py-3 px-4 text-center align-middle">
+          <div class="flex justify-center items-center space-x-2">
+            <button (click)="showProduct(product)"
+              class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Show</button>
+            <button (click)="editProduct(product)"
+              class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Edit</button>
+            <button (click)="deleteProduct(i)"
+              class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <div class="container mx-auto p-4">
+      <!-- <h2 class="text-2xl font-bold mb-4">قائمة المنتجات</h2> -->
+
+      <!-- Pagination -->
+      <div class="p-4">
+        <!-- Page Information -->
+        <div class="flex justify-between items-center mb-4 text-lg font-semibold">
+          <div class="text-gray-700">
+            Page {{ currentPage }} of {{ totalPages }} | Total Products: {{ totalProducts }}
+          </div>
+
+          <!-- Pagination Controls -->
+          <div class="flex items-center gap-2">
+            <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1"
+              class="px-4 py-2 border cursor-pointer rounded bg-gray-200 disabled:hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-[0.5]">
+              Previous
+            </button>
+
+            <ng-container *ngFor="let page of visiblePages">
+              <!-- <button
+                (click)="goToPage(page)"
+                [class.bg-blue-500]="page === currentPage"
+                [class.text-white]="page === currentPage"
+                class="px-4 py-2 border rounded bg-gray-200 hover:bg-gray-300 cursor-pointer"
+              >
+                {{ page }}
+              </button> -->
+              <button (click)="goToPage(page)" class="px-4 py-2 border rounded hover:bg-blue-300 cursor-pointer"
+                [ngClass]="{
+                  'bg-blue-500 text-white': page === currentPage,
+                  'bg-gray-200': page !== currentPage
+                }">
+                {{ page }}
+              </button>
+
+            </ng-container>
+
+            <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages"
+              class="px-4 py-2 border cursor-pointer rounded bg-gray-200 disabled:hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-[0.5]">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,240 @@
+<div>
+
+  <div class="mb-4">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="Search..."
+      class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+
+  <!-- Modal Overlay -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-[600px] p-6 relative">
+      <!-- <button (click)="showModal = false" class="absolute top-2 right-2 text-gray-600 hover:text-red-600">✖</button> -->
+
+      <!-- Order Details -->
+      <div class="flex justify-between items-center mb-4 ">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Order Details</h2>
+
+        <div
+          class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+          (click)="closeModal()">
+          ✕
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 text-gray-700">
+        <div>
+          <p><span class="font-semibold">UserName:</span> {{ selectOneOrder.user.username }}</p>
+          <p><span class="font-semibold">Email:</span> {{ selectOneOrder.user.email }}</p>
+          <p><span class="font-semibold">Phone:</span> {{ selectOneOrder.phone }}</p>
+          <p><span class="font-semibold">Address:</span> {{ selectOneOrder.address }}</p>
+        </div>
+
+        <div>
+          <p><span class="font-semibold">Created At:</span> {{ selectOneOrder.createdAt | date: 'medium' }}</p>
+          <p><span class="font-semibold">Notes:</span> {{ selectOneOrder.notes || 'No Notes' }}</p>
+          <p><span class="font-semibold">Paid Amount:</span> {{ selectOneOrder.paidAmount }} EGP</p>
+        </div>
+      </div>
+
+      <hr class="my-4 border-gray-300" />
+
+      <!-- Products Table -->
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Products</h3>
+      <div class="max-h-40 overflow-y-auto">
+        <table class="w-full border-collapse">
+          <thead class="text-center" >
+            <tr class="bg-gray-100 ">
+              <th class="border px-3 py-2 align-middle ">#</th>
+              <th class="border px-3 py-2 align-middle ">Product (EN)</th>
+              <th class="border px-3 py-2 align-middle ">Product (AR)</th>
+              <th class="border px-3 py-2 align-middle ">Quantity</th>
+              <th class="border px-3 py-2 align-middle ">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of selectOneOrder.products; let i = index" class="text-center" >
+              <td class="border px-3 py-2 align-middle ">{{ i + 1 }}</td>
+              <td class="border px-3 py-2 align-middle ">{{ product.productId.name1.en }}</td>
+              <td class="border px-3 py-2 align-middle ">{{ product.productId.name1.ar }}</td>
+              <td class="border px-3 py-2 align-middle ">{{ product.quantity }}</td>
+              <td class="border px-3 py-2 align-middle ">{{ product.productId.newprice }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 flex justify-end">
+        <button (click)="showModal = false" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Send Message -->
+  <div *ngIf="showModalSend" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-[600px] p-6 relative">
+      <!-- <button (click)="showModal = false" class="absolute top-2 right-2 text-gray-600 hover:text-red-600">✖</button> -->
+
+      <!-- Order Details -->
+      <div class="flex justify-between items-center mb-4 ">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Order Details</h2>
+
+        <div
+          class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+          (click)="closeModalSend()">
+          ✕
+        </div>
+
+      </div>
+
+      <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessageToUser()">
+        <!-- Email Field -->
+        <div class="mb-4">
+          <label class=" block text-[18px] font-medium text-gray-700 mb-1">Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter Email"
+          />
+          <small *ngIf="sendMessageForm.get('email')?.touched && sendMessageForm.get('email')?.hasError('required')" class="text-red-500">
+            Email is required.
+          </small>
+          <small *ngIf="sendMessageForm.get('email')?.touched && sendMessageForm.get('email')?.hasError('email')" class="text-red-500">
+            Invalid email format.
+          </small>
+        </div>
+
+        <!-- English Title -->
+        <div class="mb-4">
+          <label class="block text-[18px] font-medium text-gray-700 mb-1">Title (English)</label>
+          <input
+            type="text"
+            formControlName="titleEn"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter English Title"
+          />
+          <small *ngIf="sendMessageForm.get('titleEn')?.touched && sendMessageForm.get('titleEn')?.hasError('required')" class="text-red-500">
+            Title in English is required.
+          </small>
+        </div>
+
+        <!-- Arabic Title -->
+        <div class="mb-4" dir="rtl" >
+          <label class="block text-[18px] font-medium text-gray-700 mb-1">ادخل العنوان باللغه العربيه</label>
+          <input
+            type="text"
+            formControlName="titleAr"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="أدخل العنوان بالعربية"
+          />
+          <small *ngIf="sendMessageForm.get('titleAr')?.touched && sendMessageForm.get('titleAr')?.hasError('required')" class="text-red-500">
+            العنوان بالعربية مطلوب.
+          </small>
+        </div>
+
+        <!-- English Message -->
+        <div class="mb-4">
+          <label class="block text-[18px] font-medium text-gray-700 mb-1">Message (English)</label>
+          <textarea
+            formControlName="messageEn"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter English Message"
+          ></textarea>
+          <small *ngIf="sendMessageForm.get('messageEn')?.touched && sendMessageForm.get('messageEn')?.hasError('required')" class="text-red-500">
+            Message in English is required.
+          </small>
+        </div>
+
+        <!-- Arabic Message -->
+        <div class="mb-4" dir="rtl" >
+          <label class="block text-[18px] font-medium text-gray-700 mb-1">ادخل الرسالة باللغه العربيه</label>
+          <textarea
+            formControlName="messageAr"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="أدخل الرسالة بالعربية"
+          ></textarea>
+          <small *ngIf="sendMessageForm.get('messageAr')?.touched && sendMessageForm.get('messageAr')?.hasError('required')" class="text-red-500">
+            الرسالة بالعربية مطلوبة.
+          </small>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="sendMessageForm.invalid"
+          class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-full px-5 py-2 rounded hover:bg-green-700 transition"
+        >
+          Send Update
+        </button>
+      </form>
+
+
+    </div>
+  </div>
+
+
+  <!-- Admins Table -->
+  <table class="w-full bg-white shadow rounded overflow-hidden text-center">
+    <thead class="bg-gray-100 text-gray-700">
+      <tr>
+        <th class="py-2 px-4">#</th>
+        <th class="py-2 px-4" >userName</th>
+        <th class="py-2 px-4" >Email</th>
+        <th class="py-2 px-4" >Phone</th>
+        <!-- <th class="py-2 px-4" >Quantity</th> -->
+        <!-- <th class="py-2 px-4" >name_en</th> -->
+        <!-- <th class="py-2 px-4" >name_ar</th> -->
+        <!-- <th class="py-2 px-4">Price</th> -->
+        <th class="py-2 px-4">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of filteredCategories; trackBy: trackBy ;let i = index" class="border-b">
+        <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
+        <td class="py-2 px-4 align-middle ">{{ order.user.username }}  </td>
+        <td class="py-2 px-4 align-middle ">{{ order.user.email }}  </td>
+        <td class="py-2 px-4 align-middle ">{{ order.user.mobileNumber }}  </td>
+        <!-- <td class="py-2 px-4 align-middle ">{{ order.products.quantity }}</td>
+        <td class="py-2 px-4 align-middle ">{{ order.products.productId.name1.en }}</td>
+        <td class="py-2 px-4 align-middle ">{{ order.products.productId.name1.ar }}</td> -->
+        <!-- <td class="py-2 px-4">
+          <ul>
+            <li *ngFor="let product of order.products">{{ product.quantity }}</li>
+          </ul>
+        </td>
+        <td class="py-2 px-4">
+          <ul>
+            <li *ngFor="let product of order.products">{{ product.productId.name1.en }}</li>
+          </ul>
+        </td>
+        <td class="py-2 px-4">
+          <ul>
+            <li *ngFor="let product of order.products">{{ product.productId.name1.ar }}</li>
+          </ul>
+        </td>
+        <td class="py-2 px-4">
+          <ul>
+            <li *ngFor="let product of order.products">{{ product.productId.newprice }}</li>
+          </ul>
+        </td> -->
+
+        <td class="py-3 px-4 text-center align-middle">
+          <div class="flex justify-center items-center space-x-2">
+            <button (click)="showOrder(order)"
+              class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Show</button>
+            <button (click)="sendMessage(order)"
+              class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Send Message</button>
+            <button (click)="deleteOrder(order._id)"
+              class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
