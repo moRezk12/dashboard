@@ -30,8 +30,8 @@ export class LoginComponent {
      // Check if the value is a phone number
     this.loginForm.get('identifier')?.valueChanges.subscribe(value => {
       if (this.isPhoneNumber(value)) {
-        if (!value.startsWith('+20')) {
-          this.loginForm.patchValue({ identifier: `+2${value}` }, { emitEvent: false });
+        if (!value.startsWith('+966')) {
+          this.loginForm.patchValue({ identifier: `+966${value}` }, { emitEvent: false });
         }
       }
     });
@@ -40,7 +40,7 @@ export class LoginComponent {
 
   // Check if the value is a phone number
   isPhoneNumber(value: string): boolean {
-    return /^[0-9]{10,}$/.test(value);
+    return /^[0-9]{1,}$/.test(value);
   }
 
   // Login
