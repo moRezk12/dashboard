@@ -353,8 +353,46 @@ export class ProductComponent implements OnInit {
   }
 
   // Delete an Product
-  deleteProduct(index: number) {
-    this.allProducts.splice(index, 1);
+  deleteProduct(id: number | string | undefined) {
+    console.log(id);
+
+    Swal.fire({
+      title: 'Are you sure want to delete ?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._productService.deleteProducts(id).subscribe({
+          next: (res) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: res.message,
+              confirmButtonColor: '#28a745',
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+              this.getProducts(this.currentPage);
+            });
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: err.error?.message,
+              confirmButtonColor: '#d33',
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          }
+        });
+      }
+    });
   }
 
   // Close the modal
