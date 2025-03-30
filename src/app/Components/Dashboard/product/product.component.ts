@@ -71,7 +71,6 @@ export class ProductComponent implements OnInit {
   getProducts(page : number ): void {
     this._productService.getProducts(page).subscribe({
       next: (res) => {
-        console.log(res);
         this.allProducts = res.data.products;
         this.currentPage = res.data.pagination.currentPage;
         this.totalPages = res.data.pagination.totalPages;
@@ -80,7 +79,14 @@ export class ProductComponent implements OnInit {
         this.updateVisiblePages();
       },
       error: (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: err.error?.message,
+          confirmButtonColor: '#d33',
+          timer: 2000,
+          timerProgressBar: true,
+        })
       }
     })
   }
@@ -111,10 +117,16 @@ export class ProductComponent implements OnInit {
         if (res?.data?.categories) {
 
           this.categories = res.data.categories;
-          console.log(this.categories);
 
         } else {
-          console.error('Error fetching categories:', res);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: res.message,
+            confirmButtonColor: '#d33',
+            timer: 2000,
+            timerProgressBar: true,
+          })
         }
       },
       error: (err) => {
@@ -134,10 +146,8 @@ export class ProductComponent implements OnInit {
   // Add or update an Product
   addOrUpdateProduct() {
     this.showData = false;
-    console.log(this.productForm.value);
 
     if (this.productForm.invalid) {
-      console.log('Invalid form' + this.productForm.value );
       Swal.fire({
         icon: 'error',
         title: 'Invalid Form',
@@ -148,9 +158,6 @@ export class ProductComponent implements OnInit {
 
       return;
     }
-
-    console.log( "new" + this.productForm.value);
-
 
 
     this.productForm.enable();
@@ -166,12 +173,10 @@ export class ProductComponent implements OnInit {
 
     this.showModal = false;
 
-    console.log( "form data" + formData);
 
     if(!this.mode) {
       this._productService.createProducts(formData).subscribe({
         next: (res) => {
-          console.log( "done" + res);
 
           Swal.fire({
             icon: 'success',
@@ -324,7 +329,6 @@ export class ProductComponent implements OnInit {
   // ShowData an Product
   showProduct(product: any) {
     this.showData = true;
-    console.log(product);
 
     this.productForm.disable();
     this.productForm.patchValue({
@@ -354,7 +358,6 @@ export class ProductComponent implements OnInit {
 
   // Delete an Product
   deleteProduct(id: number | string | undefined) {
-    console.log(id);
 
     Swal.fire({
       title: 'Are you sure want to delete ?',

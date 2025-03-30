@@ -71,7 +71,14 @@ export class OrderComponent implements OnInit {
         }
       })
     } else {
-      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Please fill all fields',
+        confirmButtonColor: '#d33',
+        timer: 2000,
+        timerProgressBar: true,
+      })
     }
   }
 
@@ -82,7 +89,14 @@ export class OrderComponent implements OnInit {
         this.orders = res.data.orders;
       },
       error : (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: err.error?.message,
+          confirmButtonColor: '#d33',
+          timer: 2000,
+          timerProgressBar: true,
+        })
       }
     })
   }
@@ -97,13 +111,12 @@ export class OrderComponent implements OnInit {
 
   // Show order
   showOrder(order: any) {
-    console.log(order);
     this.selectOneOrder = order;
+
     this.showModal = true;
   }
 
   deleteOrder(id: string) {
-    console.log(id);
 
     Swal.fire({
       title: 'Are you sure want to delete ?',
@@ -147,7 +160,6 @@ export class OrderComponent implements OnInit {
 
   // send Message
   sendMessage(order: any) {
-    console.log(order.user.email);
     // this.selectOneOrder = order;
     this.sendMessageForm.get('email')?.setValue(order.user.email);
 

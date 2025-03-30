@@ -61,12 +61,18 @@ export class AdminComponent implements OnInit {
   getAllAdmins() : void {
     this._adminservices.getAdmins().subscribe({
       next : (res) => {
-        console.log(res.data.admins);
 
         this.admins = res.data.admins;
       },
       error : (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: err.error?.message,
+          confirmButtonColor: '#d33',
+          timer: 2000,
+          timerProgressBar: true,
+        });
       }
     })
   }
@@ -96,7 +102,6 @@ export class AdminComponent implements OnInit {
     if(!this.mode) {
       this._adminservices.createAdmin(adminData).subscribe({
         next : (res) => {
-          console.log(res);
 
           Swal.fire({
             icon: 'success',
@@ -157,19 +162,16 @@ export class AdminComponent implements OnInit {
 
   // Edit an admin
   editAdmin(category: Admin) {
-    console.log(category);
     this.hideInputpass = true;
 
     this.mode = true;
     this.showModal = false;
     this.adminForm.enable();
     const fullname = category.username;
-    console.log("full" + fullname);
 
     const [firstName, lastName] = fullname.split(' ');
     this.adminForm.get('firstName')?.setValue(firstName);
     this.adminForm.get('lastName')?.setValue(lastName);
-    console.log("full" + firstName + " " + lastName);
 
     this.adminForm.patchValue({
       email: category.email,
@@ -188,18 +190,15 @@ export class AdminComponent implements OnInit {
   // Show an admin
   show : boolean = false ;
   showAdmin(category: Admin) {
-    console.log(category);
 
     this.hideInputpass = true;
     this.show = true;
     this.adminForm.disable();
     const fullname = category.username;
-    console.log("full" + fullname);
 
     const [firstName, lastName] = fullname.split(' ');
     this.adminForm.get('firstName')?.setValue(firstName);
     this.adminForm.get('lastName')?.setValue(lastName);
-    console.log("full" + firstName + " " + lastName);
 
     this.adminForm.patchValue({
       email: category.email,
@@ -214,7 +213,6 @@ export class AdminComponent implements OnInit {
 
   // Delete an admin
   deleteAdmin(id: number) {
-    console.log(id);
     Swal.fire({
       title: 'Are you sure want to delete ?',
       text: "",

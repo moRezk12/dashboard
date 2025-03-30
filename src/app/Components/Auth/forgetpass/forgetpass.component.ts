@@ -42,13 +42,11 @@ export class ForgetpassComponent {
 
     // Login
     ForgetPass() {
-      console.log( "value" + JSON.stringify(this.loginForm.value));
 
       if (this.loginForm.valid) {
         const data = this.loginForm.value;
         this._loginService.forgetpass(data).subscribe({
           next : (res : any ) => {
-            console.log(res);
             Swal.fire({
               icon: 'success',
               title: 'Success',

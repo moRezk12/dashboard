@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Admin } from 'src/app/Core/interface/Admins/admin';
 import { MessageService } from 'src/app/Core/Services/Messages/message.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -50,29 +51,64 @@ export class MessageComponent implements OnInit {
   getAllMessage() : void {
     this._messageService.getMessage().subscribe({
       next : (res) => {
-        console.log(res);
 
         this.messages = res.data;
 
-        // this.admins = res.data.admins;
       },
       error : (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: err.error?.message,
+          confirmButtonColor: '#d33',
+          timer: 2000,
+          timerProgressBar: true,
+        })
       }
     })
   }
 
   // Delete Message
   deleteMessage(id : any) {
-    this._messageService.deleteMessage(id).subscribe({
-      next : (res) => {
-        console.log(res);
-        this.getAllMessage();
-      },
-      error : (err) => {
-        console.log(err);
-      }
-    })
+
+    Swal.fire({
+          title: 'Are you sure want to delete ?',
+          text: "",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this._messageService.deleteMessage(id).subscribe({
+              next: (res) => {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Deleted!',
+                  text: res.message,
+                  confirmButtonColor: '#28a745',
+                  timer: 2000,
+                  timerProgressBar: true,
+                }).then(() => {
+                  this.getAllMessage();
+                });
+              },
+              error: (err) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error!',
+                  text: err.error?.message,
+                  confirmButtonColor: '#d33',
+                  timer: 2000,
+                  timerProgressBar: true,
+                });
+              }
+            });
+          }
+        });
+
   }
 
   // Open the modal
@@ -88,7 +124,6 @@ export class MessageComponent implements OnInit {
   show : boolean = false ;
   message : any
   showMessage(message : any) {
-    console.log(message);
     this.message = message ;
 
     // this.selectId = category.id;

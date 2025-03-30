@@ -44,12 +44,18 @@ export class AdvertisementComponent implements OnInit {
   getAllAdvertise() : void {
     this._advService.getAdv().subscribe({
       next : (res) => {
-        console.log(res.data.images);
 
         this.advertise = res.data.images ;
       },
       error : (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: err.error?.message,
+          confirmButtonColor: '#d33',
+          confirmButtonText: 'Close',
+          timer: 2000,
+          timerProgressBar: true,
+        });
       }
     })
   }
@@ -137,12 +143,10 @@ export class AdvertisementComponent implements OnInit {
 
     this.showModal = false;
 
-    console.log( "form data" + formData);
 
     if(!this.mode) {
       this._advService.createAdv(formData).subscribe({
         next : (res) => {
-          console.log(res);
 
           Swal.fire({
             icon: 'success',
@@ -176,13 +180,10 @@ export class AdvertisementComponent implements OnInit {
 
   // Delete an admin
   deleteImage(id : any) {
-    console.log(id);
 
     const image = {
       imageId : id
     }
-
-    console.log(image);
 
 
     Swal.fire({

@@ -66,12 +66,18 @@ export class BranchComponent implements OnInit {
   getAllBranches() : void {
     this._branchservice.getBranches().subscribe({
       next : (res) => {
-        console.log(res.data);
         this.branches = res.data.branches;
 
       },
       error : (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: err.error?.message,
+          confirmButtonColor: '#d33',
+          timer: 2000,
+          timerProgressBar: true,
+        });
       }
     })
   }
@@ -101,7 +107,6 @@ export class BranchComponent implements OnInit {
     if(!this.mode) {
       this._branchservice.createBranch(adminData).subscribe({
         next : (res) => {
-          console.log(res);
 
           Swal.fire({
             icon: 'success',
@@ -135,7 +140,6 @@ export class BranchComponent implements OnInit {
   // Show an admin
   show : boolean = false ;
   showBranche(branch: any) {
-    console.log(branch);
 
     this.show = true;
     this.branchForm.disable();
@@ -162,7 +166,6 @@ export class BranchComponent implements OnInit {
 
   // Delete an admin
   deleteBranche(id: number) {
-    console.log(id);
     Swal.fire({
       title: 'Are you sure want to delete ?',
       text: "",

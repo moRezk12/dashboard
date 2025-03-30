@@ -39,10 +39,16 @@ export class CompanyComponent implements OnInit {
         if (res?.data?.categories) {
 
           this.categories = res.data.categories;
-          console.log(this.categories);
 
         } else {
-          console.error('Error fetching categories:', res);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: res.message,
+            confirmButtonColor: '#d33',
+            timer: 2000,
+            timerProgressBar: true,
+          })
         }
       },
       error: (err) => {

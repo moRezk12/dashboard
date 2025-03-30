@@ -47,11 +47,9 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       const data = this.loginForm.value;
-      console.log( "data" + JSON.stringify(data));
 
       this._loginService.login(data).subscribe({
         next: (res: any) => {
-          console.log(res);
 
           Swal.fire({
             icon: 'success',

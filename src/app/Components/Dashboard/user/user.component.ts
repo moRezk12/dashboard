@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Admin } from 'src/app/Core/interface/Admins/admin';
 import { AdminService } from 'src/app/Core/Services/Admins/admin.service';
 import { UserService } from 'src/app/Core/Services/user/user.service';
+import Swal from 'sweetalert2';
 // import Swal from 'sweetalert2';
 // import Swal from 'sweetalert2/dist/sweetalert2.js';
 
@@ -54,7 +55,6 @@ export class UserComponent implements OnInit {
   getAllUsers(page : number) : void {
     this._userService.getUsers(page).subscribe({
       next : (res) => {
-        console.log(res);
 
         this.Users = res.message.users;
         this.currentPage = res.message.currentPage;
@@ -65,7 +65,14 @@ export class UserComponent implements OnInit {
         // this.admins = res.data.admins;
       },
       error : (err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: err.error?.message,
+          confirmButtonColor: '#d33',
+          timer: 2000,
+          timerProgressBar: true,
+        })
       }
     })
   }
@@ -100,18 +107,15 @@ export class UserComponent implements OnInit {
   // Show an admin
   show : boolean = false ;
   showUser(category: Admin) {
-    console.log(category);
 
     this.hideInputpass = true;
     this.show = true;
     this.adminForm.disable();
     const fullname = category.username;
-    console.log("full" + fullname);
 
     const [firstName, lastName] = fullname.split(' ');
     this.adminForm.get('firstName')?.setValue(firstName);
     this.adminForm.get('lastName')?.setValue(lastName);
-    console.log("full" + firstName + " " + lastName);
 
     this.adminForm.patchValue({
       email: category.email,

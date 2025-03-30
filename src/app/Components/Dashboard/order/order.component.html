@@ -57,13 +57,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of selectOneOrder.products; let i = index" class="text-center" >
-              <td class="border px-3 py-2 align-middle ">{{ i + 1 }}</td>
-              <td class="border px-3 py-2 align-middle ">{{ product.productId.name1.en }}</td>
-              <td class="border px-3 py-2 align-middle ">{{ product.productId.name1.ar }}</td>
-              <td class="border px-3 py-2 align-middle ">{{ product.quantity }}</td>
-              <td class="border px-3 py-2 align-middle ">{{ product.productId.newprice }} </td>
+            <tr *ngFor="let product of selectOneOrder.products; let i = index" class="text-center">
+              <td class="border px-3 py-2 align-middle">{{ i + 1 }}</td>
+              <td class="border px-3 py-2 align-middle">
+                {{ product?.productId ? product.productId.name1?.en : 'N/A' }}
+              </td>
+              <td class="border px-3 py-2 align-middle">
+                {{ product?.productId ? product.productId.name1?.ar : 'N/A' }}
+              </td>
+              <td class="border px-3 py-2 align-middle">{{ product?.quantity }}</td>
+              <td class="border px-3 py-2 align-middle">
+                {{ product?.productId ? product.productId.newprice : 'N/A' }}
+              </td>
             </tr>
+
           </tbody>
         </table>
       </div>

@@ -39,7 +39,6 @@ export class ConfirmpassComponent {
   // Login
   Confirme() {
     const phone = localStorage.getItem('phone');
-    console.log( "value" + JSON.stringify(this.loginForm.value));
 
     if (this.loginForm.valid) {
       const data = this.loginForm.value;
