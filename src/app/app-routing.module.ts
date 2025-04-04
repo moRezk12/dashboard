@@ -13,6 +13,8 @@ import { OrderComponent } from './Components/Dashboard/order/order.component';
 import { UserComponent } from './Components/Dashboard/user/user.component';
 import { BranchComponent } from './Components/Dashboard/branch/branch.component';
 import { MessageComponent } from './Components/Dashboard/message/message.component';
+import { DepartmentComponent } from './Components/Dashboard/department/department.component';
+import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialmedia.component';
 
 const routes: Routes = [
 
@@ -30,6 +32,8 @@ const routes: Routes = [
       {path : 'company' , component : CompanyComponent},
       {path : 'product' , component : ProductComponent},
       {path : 'advertisement' , component : AdvertisementComponent},
+      {path : 'department' , component : DepartmentComponent},
+      {path : 'social' , component : SocialmediaComponent},
       {path : 'order' , component : OrderComponent},
       {path : 'message' , component : MessageComponent}
     ],

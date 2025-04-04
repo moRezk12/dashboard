@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from 'src/app/Core/Services/Company/category.service';
+import { DepartmentService } from 'src/app/Core/Services/department/department.service';
 import { ProductService } from 'src/app/Core/Services/Products/product.service';
 import Swal from 'sweetalert2';
 // import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -37,7 +38,10 @@ export class ProductComponent implements OnInit {
 
   editingIndex: number | null = null;
 
-  constructor(private fb: FormBuilder , private _productService : ProductService , private _categoryService : CategoryService ) {}
+  constructor(private fb: FormBuilder , private _productService : ProductService ,
+    private _categoryService : CategoryService,
+    private _departmentService : DepartmentService
+  ) {}
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
@@ -53,17 +57,109 @@ export class ProductComponent implements OnInit {
       quantity_ar: ['', [Validators.required, Validators.minLength(3)]],
       country_en: ['', [Validators.required, Validators.minLength(3)]],
       country_ar: ['', [Validators.required, Validators.minLength(3)]],
+      stoargecondition_en: ['', [Validators.required, Validators.minLength(3)]],
+      stoargecondition_ar: ['', [Validators.required, Validators.minLength(3)]],
       categoryId: ['', [Validators.required, Validators.minLength(3)]],
-      image: this.fb.array([], [Validators.required])
+      departmentId: ['', [Validators.required, Validators.minLength(3)]],
+      image: this.fb.array([], [Validators.required]),
+      tableData: this.fb.array([]),
+      animalTypes: this.fb.array([])
+
     });
 
     // Get All Products
     this.getProducts(this.currentPage);
     // Get Category
     this.getCategory();
+    // Get Department
+    this.getDepartment();
 
     // Pagination
     this.updateVisiblePages();
+
+  }
+
+  // Table Data
+  get tableData(): FormArray {
+    return this.productForm.get('tableData') as FormArray;
+  }
+
+  addAttribute(): void {
+    const attributeGroup = this.fb.group({
+      name_en: [''],
+      name_ar: [''],
+      value_en: [''],
+      value_ar: ['']
+    });
+
+    this.tableData.push(attributeGroup);
+  }
+
+  removeAttribute(index: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to undo this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (this.tableData && this.tableData.length > index) {
+          this.tableData.removeAt(index);
+          Swal.fire('Deleted!', 'The row has been removed.', 'success');
+        } else {
+          Swal.fire('Error!', 'Invalid index.', 'error');
+        }
+      } else {
+        Swal.fire('Cancelled', 'The row was not deleted.', 'info');
+      }
+    });
+  }
+
+
+  // Animal Types
+  get animalTypesArray(): FormArray {
+    return this.productForm.get('animalTypes') as FormArray;
+  }
+
+  // Add new animal input
+  addAnimal(): void {
+    this.animalTypesArray.push(this.fb.control(''));
+  }
+
+  // Remove specific animal input
+  removeAnimal(index: number): void {
+    // if (this.animalTypesArray && this.animalTypesArray.length > index) {
+    //   this.animalTypesArray.removeAt(index);
+    // } else {
+    //   console.error('Invalid index for removeAnimal');
+    // }
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to undo this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (this.animalTypesArray && this.animalTypesArray.length > index) {
+          this.animalTypesArray.removeAt(index);
+          Swal.fire('Deleted!', 'The row has been removed.', 'success');
+        } else {
+          Swal.fire('Error!', 'Invalid index.', 'error');
+        }
+      } else {
+        Swal.fire('Cancelled', 'The row was not deleted.', 'info');
+      }
+    });
+
 
   }
 
@@ -71,6 +167,8 @@ export class ProductComponent implements OnInit {
   getProducts(page : number ): void {
     this._productService.getProducts(page).subscribe({
       next: (res) => {
+        console.log(res);
+
         this.allProducts = res.data.products;
         this.currentPage = res.data.pagination.currentPage;
         this.totalPages = res.data.pagination.totalPages;
@@ -134,11 +232,51 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+  // Get Department
+  departments : any = [];
+  getDepartment(): void {
+    this._departmentService.getDepartment().subscribe({
+      next: (res) => {
+        console.log(res);
+
+        if (res?.data?.department) {
+
+          this.departments = res.data.department;
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: res.message,
+            confirmButtonColor: '#d33',
+            timer: 2000,
+            timerProgressBar: true,
+          })
+        }
+      },
+      error: (err) => {
+        console.error('Error :', err);
+      }
+    });
+  }
 
   // Open the modal
   openAddModal() {
+    this.mode = false;
+    this.productForm.addControl('categoryId', this.fb.control('', Validators.required));
+    this.productForm.addControl('departmentId', this.fb.control('', Validators.required));
     this.productForm.enable();
     this.productForm.reset();
+    const tableDataFormArray = this.productForm.get('tableData') as FormArray;
+    tableDataFormArray.clear();
+
+    const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
+    animalTypesFormArray.clear();
+
+    const imageFormArray = this.productForm.get('image') as FormArray;
+    imageFormArray.clear();
+
+
     this.editingIndex = null;
     this.showModal = true;
   }
@@ -159,20 +297,37 @@ export class ProductComponent implements OnInit {
       return;
     }
 
-
     this.productForm.enable();
-
     const formData = new FormData();
+
     Object.keys(this.productForm.controls).forEach((key) => {
-      formData.append(key, this.productForm.get(key)?.value);
+      const value = this.productForm.get(key)?.value;
+
+      if (key === 'tableData' || key === 'animalTypes') {
+        formData.append(key, JSON.stringify(value));
+      } else if (key !== 'image') {
+        formData.append(key, value);
+      }
     });
 
-    this.selectedFiles.forEach((file, index) => {
-      formData.append(`image`, file);
+
+    this.selectedFiles.forEach((file: File) => {
+      formData.append('image', file);
     });
+
+    formData.forEach((value, key) => {
+      if (value instanceof File) {
+        console.log(`${key}: [File] ${value.name}`);
+      } else {
+        console.log(`${key}: ${value}`);
+      }
+    });
+
+
 
     this.showModal = false;
 
+    console.log( "new   "+  JSON.stringify(formData));
 
     if(!this.mode) {
       this._productService.createProducts(formData).subscribe({
@@ -206,8 +361,10 @@ export class ProductComponent implements OnInit {
         },
       });
     }else {
-      this._productService.updateProducts(this.editingIndex, this.productForm.value).subscribe({
+
+      this._productService.updateProducts(this.editingIndex, formData).subscribe({
         next: (res) => {
+
           Swal.fire({
             icon: 'success',
             title: 'Success',
@@ -295,10 +452,17 @@ export class ProductComponent implements OnInit {
 
 
   // Edit an Product
+
+  editdata : boolean = false;
   editProduct(product: any) {
     this.mode = true;
     this.showModal = false;
+    this.showData = false;
     this.productForm.enable();
+
+    this.productForm.removeControl('categoryId');
+    this.productForm.removeControl('departmentId');
+
     this.productForm.patchValue({
       name1_en: product.name1.en,
       name1_ar: product.name1.ar,
@@ -312,22 +476,56 @@ export class ProductComponent implements OnInit {
       quantity_ar: product.quantity.ar,
       country_en: product.country.en,
       country_ar: product.country.ar,
-      categoryId: product._id,
+      stoargecondition_en: product.stoargecondition?.en || '',
+      stoargecondition_ar: product.stoargecondition?.ar || '',
     });
 
+    // Image
     this.imagesArray.clear();
     product.image.forEach((img: any) => {
       this.imagesArray.push(this.fb.control(img.secure_url));
     });
+    // Animal Types
+    const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
+    animalTypesFormArray.clear();
+    if (product.animalTypes && product.animalTypes.length > 0) {
+      product.animalTypes.forEach((type: string) => {
+        animalTypesFormArray.push(this.fb.control(type));
+      });
+    }
+    // Table Data
+    const tableDataFormArray = this.productForm.get('tableData') as FormArray;
+    tableDataFormArray.clear();
+    if (product.tableData && product.tableData.length > 0) {
+      product.tableData.forEach((item: any) => {
+        tableDataFormArray.push(
+          this.fb.group({
+            name_en: [item.name.en, Validators.required],
+            name_ar: [item.name.ar, Validators.required],
+            value_en: [item.value.en, Validators.required],
+            value_ar: [item.value.ar, Validators.required],
+          })
+        );
+      });
+    }
+
+    // تحديد هل هنخفي الجدولين أثناء التعديل
+    this.editdata = tableDataFormArray.length === 0 || animalTypesFormArray.length === 0;
+
     this.editingIndex = product._id;
-
-
+    console.log('editingIndex:', this.editingIndex);
+    console.log("product " + JSON.stringify(product)) ;
 
     this.showModal = true;
   }
 
+
+
+
   // ShowData an Product
+  categoryName: string = '';
   showProduct(product: any) {
+    this.mode = true;
     this.showData = true;
 
     this.productForm.disable();
@@ -344,15 +542,35 @@ export class ProductComponent implements OnInit {
       quantity_ar: product.quantity.ar,
       country_en: product.country.en,
       country_ar: product.country.ar,
-      categoryId: product._id,
+      stoargecondition_en: product.stoargecondition?.en || '',
+      stoargecondition_ar: product.stoargecondition?.ar || '',
     });
+
 
     this.imagesArray.clear();
     product.image.forEach((img: any) => {
       this.imagesArray.push(this.fb.control(img.secure_url));
     });
 
-    // this.editingIndex = product._id;
+    const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
+    animalTypesFormArray.clear();
+    product.animalTypes.forEach((type: string) => {
+      animalTypesFormArray.push(this.fb.control(type));
+    });
+
+    const tableDataFormArray = this.productForm.get('tableData') as FormArray;
+    tableDataFormArray.clear();
+    console.log('tableData:', product.tableData);
+    product.tableData.forEach((item: any) => {
+      tableDataFormArray.push(
+        this.fb.group({
+          name_en: [item.name.en, Validators.required],
+          name_ar: [item.name.ar, Validators.required],
+          value_en: [item.value.en, Validators.required],
+          value_ar: [item.value.ar, Validators.required],
+        })
+      );
+    });
     this.showModal = true;
   }
 

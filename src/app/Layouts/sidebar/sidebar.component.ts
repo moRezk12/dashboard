@@ -17,8 +17,10 @@ export class SidebarComponent {
     { url: '/product', name: 'Product' },
     { url: '/company', name: 'Company' },
     { url: '/order', name: 'Order' },
+    { url: '/social', name: 'Social Media' },
     { url: '/message', name: 'Message' },
-    { url: '/advertisement', name: 'advertisement' },
+    { url: '/advertisement', name: 'Advertisement' },
+    { url: '/department', name: 'Department' },
   ]
 
   Logout() {

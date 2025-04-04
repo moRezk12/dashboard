@@ -15,6 +15,11 @@ export class OrderService {
     return this.http.get(`${environment.apiUrl}/product/getAllOrders`);
   }
 
+  // Updata Order
+  updataOrder(id : any , data : any): Observable<any> {
+    return this.http.patch(`${environment.apiUrl}/product/updateOrder/${id}`, data);
+  }
+
   // Delete Order
   deleteOrder(id : any): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/product/cancelOrder/${id}`);
@@ -22,7 +27,7 @@ export class OrderService {
 
   // Send Message To User
   sendToUser(data : any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/product/sendNotificationToUser/admin`, data);
+    return this.http.post(`${environment.apiUrl}/category/sendNotificationToUser`, data);
   }
 
 }

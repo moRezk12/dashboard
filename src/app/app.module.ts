@@ -24,6 +24,8 @@ import { UserComponent } from './Components/Dashboard/user/user.component';
 import { BranchComponent } from './Components/Dashboard/branch/branch.component';
 import { MessageComponent } from './Components/Dashboard/message/message.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { DepartmentComponent } from './Components/Dashboard/department/department.component';
+import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialmedia.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     OrderComponent,
     UserComponent,
     BranchComponent,
-    MessageComponent
+    MessageComponent,
+    DepartmentComponent,
+    SocialmediaComponent
   ],
   imports: [
     BrowserModule,

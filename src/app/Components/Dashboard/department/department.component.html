@@ -1,0 +1,110 @@
+<div>
+
+  <!-- Add Admin Button -->
+  <div class="mb-6 flex justify-end items-center ">
+    <!-- <div class="flex justify-end mb-4">
+      <select (change)="changeLanguage($event)" class="border border-gray-300 outline-none px-3 py-1 rounded">
+        <option value="ar" [selected]="selectedLang === 'ar'">العربية</option>
+        <option value="en" [selected]="selectedLang === 'en'">English</option>
+      </select>
+    </div> -->
+    <button (click)="openAddModal()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
+      + Add Department
+    </button>
+  </div>
+
+
+  <!-- Modal -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto relative">
+
+      <div class="flex justify-between items-center mb-4 ">
+        <h2 class="text-xl font-semibold mb-4">{{ mode ? 'Edit Category' : 'Add Category' }}</h2>
+
+        <div
+          class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+          (click)="closeModal()">
+          ✕
+        </div>
+
+      </div>
+
+      <!-- Form with styling and validation -->
+      <form [formGroup]="departmentForm" (ngSubmit)="addorUpdateDepatment()" class="space-y-4">
+
+        <!-- Name Ar Field -->
+        <div class="flex flex-col" dir="rtl" >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم باللغه العربيه</label>
+          <input type="text" formControlName="name_ar" placeholder="ادخل الاسم باللغه العربيه"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <small *ngIf="departmentForm.get('name_ar')?.errors?.['required'] && departmentForm.get('name_ar')?.touched"
+            class="text-red-500 mt-1">
+            Name is required
+          </small>
+          <small *ngIf="departmentForm.get('name_ar')?.errors?.['minlength'] && departmentForm.get('name_ar')?.touched"
+            class="text-red-500 mt-1">
+            Name must be at least {{ departmentForm.get('name_ar')?.errors?.['minlength'].requiredLength }} characters
+          </small>
+        </div>
+
+        <!-- Name En Field -->
+        <div class="flex flex-col"  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Name </label>
+          <input type="text" formControlName="name_en" placeholder="Enter Your Name"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <small *ngIf="departmentForm.get('name_en')?.errors?.['required'] && departmentForm.get('name_en')?.touched"
+            class="text-red-500 mt-1">
+            Name is required
+          </small>
+          <small *ngIf="departmentForm.get('name_en')?.errors?.['minlength'] && departmentForm.get('name_en')?.touched"
+            class="text-red-500 mt-1">
+            Name must be at least {{ departmentForm.get('name_en')?.errors?.['minlength'].requiredLength }} characters
+          </small>
+        </div>
+
+        <!-- Buttons *ngIf="!show" -->
+        <div class="flex justify-between mt-4">
+          <button type="submit" [disabled]="departmentForm.invalid"
+            class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-[40%] px-5 py-2 rounded hover:bg-green-700 transition">
+            {{ mode ? 'Update' : 'Add' }}
+          </button>
+          <button type="button" (click)="closeModal()"
+            class="bg-gray-500 cursor-pointer text-white px-5 py-2 rounded hover:bg-gray-600 transition">
+            Cancel
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Admins Table -->
+  <table class="w-full bg-white shadow rounded overflow-hidden text-center">
+    <thead class="bg-gray-100 text-gray-700">
+      <tr>
+        <th class="py-2 px-4">#</th>
+        <th class="py-2 px-4">Name-en</th>
+        <th class="py-2 px-4">Name-ar</th>
+        <th class="py-2 px-4">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let department of departments; let i = index" class="border-b">
+        <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
+        <td class="py-2 px-4 align-middle ">{{ department.name.en }}</td>
+        <td class="py-2 px-4 align-middle ">{{ department.name.ar }}</td>
+        <td class="py-3 px-4 text-center align-middle">
+          <div class="flex justify-center items-center space-x-2">
+            <!-- <button (click)="showCategory(department._id)"
+              class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Show</button> -->
+            <button (click)="editDepartment(department)"
+              class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Edit</button>
+            <button (click)="deleteDepartment(department._id)"
+              class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

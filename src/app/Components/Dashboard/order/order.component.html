@@ -1,6 +1,6 @@
 <div>
 
-  <div class="mb-4">
+  <div class="mb-4 ">
     <input
       type="text"
       [(ngModel)]="searchTerm"
@@ -81,14 +81,72 @@
     </div>
   </div>
 
+  <!-- Edit Modal -->
+  <div *ngIf="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto relative">
+
+      <div class="flex justify-between items-center mb-4 ">
+        <h2 class="text-xl font-semibold mb-4">Edit Order</h2>
+
+        <div
+          class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+          (click)="closeModal()">
+          ✕
+        </div>
+
+      </div>
+
+      <!-- Form with styling and validation -->
+      <form [formGroup]="statusForm" (ngSubmit)="updateStatus()" class="space-y-6 p-4">
+
+        <!-- Status Field -->
+        <div class="flex flex-col">
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Status</label>
+          <input
+            type="text"
+            formControlName="status"
+            placeholder="Enter status"
+            class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <small
+            *ngIf="statusForm.get('status')?.errors?.['required'] && statusForm.get('status')?.touched"
+            class="text-red-500 mt-1"
+          >
+            Status is required
+          </small>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-between mt-6">
+          <button
+            type="submit"
+            [disabled]="statusForm.invalid"
+            class="bg-green-600 text-white w-[45%] px-5 py-2 rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            update
+          </button>
+          <button
+            type="button"
+            (click)="closeModal()"
+            class="bg-gray-500 text-white w-[45%] px-5 py-2 rounded hover:bg-gray-600 transition"
+          >
+            Cancel
+          </button>
+        </div>
+
+      </form>
+
+
+    </div>
+  </div>
   <!-- Modal Send Message -->
   <div *ngIf="showModalSend" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg w-[600px] p-6 relative">
+    <div class="bg-white rounded-lg shadow-lg  p-6 w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
       <!-- <button (click)="showModal = false" class="absolute top-2 right-2 text-gray-600 hover:text-red-600">✖</button> -->
 
       <!-- Order Details -->
       <div class="flex justify-between items-center mb-4 ">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Order Details</h2>
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Message Details</h2>
 
         <div
           class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
@@ -98,87 +156,165 @@
 
       </div>
 
-      <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessageToUser()">
-        <!-- Email Field -->
+      <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessageToUser()" class="space-y-4">
+
+
         <div class="mb-4">
-          <label class=" block text-[18px] font-medium text-gray-700 mb-1">Email</label>
-          <input
-            type="email"
-            formControlName="email"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Email"
-          />
-          <small *ngIf="sendMessageForm.get('email')?.touched && sendMessageForm.get('email')?.hasError('required')" class="text-red-500">
-            Email is required.
-          </small>
-          <small *ngIf="sendMessageForm.get('email')?.touched && sendMessageForm.get('email')?.hasError('email')" class="text-red-500">
-            Invalid email format.
+          <!-- Email -->
+          <div class="mb-4 w-full flex flex-col">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" formControlName="email" placeholder="Enter email"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="sendMessageForm.get('email')?.touched && sendMessageForm.get('email')?.hasError('required')" class="text-red-500">
+              Email is required.
+            </small>
+          </div>
+        </div>
+
+
+        <div class="flex justify-between items-center gap-3 " >
+
+          <!-- Order Status English -->
+          <div class="mb-4  w-full flex flex-col ">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">Order Status (English)</label>
+            <input type="text" formControlName="orderStatus_en" placeholder="Enter order status (EN)"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="sendMessageForm.get('orderStatus_en')?.touched && sendMessageForm.get('orderStatus_en')?.hasError('required')" class="text-red-500">
+              Order status in English is required.
+            </small>
+          </div>
+
+          <!-- Order Status Arabic -->
+          <div class="mb-4  w-full flex flex-col " dir="rtl">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">حالة الطلب (بالعربية)</label>
+            <input type="text" formControlName="orderStatus_ar" placeholder="أدخل حالة الطلب"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="sendMessageForm.get('orderStatus_ar')?.touched && sendMessageForm.get('orderStatus_ar')?.hasError('required')" class="text-red-500">
+              حالة الطلب بالعربية مطلوبة.
+            </small>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center gap-3 " >
+          <!-- Order Details English -->
+          <div class="mb-4  w-full flex flex-col ">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">Order Details (English)</label>
+            <textarea formControlName="orderDetails_en" placeholder="Enter order details (EN)"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            <small *ngIf="sendMessageForm.get('orderDetails_en')?.touched && sendMessageForm.get('orderDetails_en')?.hasError('required')" class="text-red-500">
+              Order details in English are required.
+            </small>
+          </div>
+
+          <!-- Order Details Arabic -->
+          <div class="mb-4  w-full flex flex-col " dir="rtl">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">تفاصيل الطلب (بالعربية)</label>
+            <textarea formControlName="orderDetails_ar" placeholder="أدخل تفاصيل الطلب"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            <small *ngIf="sendMessageForm.get('orderDetails_ar')?.touched && sendMessageForm.get('orderDetails_ar')?.hasError('required')" class="text-red-500">
+              تفاصيل الطلب بالعربية مطلوبة.
+            </small>
+          </div>
+
+        </div>
+
+        <div class="flex justify-between items-center gap-3 " >
+          <!-- Order Paid -->
+          <div class="mb-4  w-full flex flex-col ">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">Order Paid Amount</label>
+            <input type="number" formControlName="orderPaid" placeholder="Enter paid amount"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="sendMessageForm.get('orderPaid')?.touched && sendMessageForm.get('orderPaid')?.hasError('required')" class="text-red-500">
+              Paid amount is required.
+            </small>
+          </div>
+
+          <!-- Remaining Amount -->
+          <div class="mb-4  w-full flex flex-col ">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">Remaining Amount</label>
+            <input type="number" formControlName="remainingAmount" placeholder="Enter remaining amount"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="sendMessageForm.get('remainingAmount')?.touched && sendMessageForm.get('remainingAmount')?.hasError('required')" class="text-red-500">
+              Remaining amount is required.
+            </small>
+          </div>
+
+        </div>
+
+        <div class="flex justify-between items-center gap-3 " >
+          <!-- Order Date -->
+          <div class="mb-4  w-full flex flex-col ">
+            <label class="block text-[18px] font-medium text-gray-700 mb-1">Order Date</label>
+            <input type="date" formControlName="orderDate"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <small *ngIf="sendMessageForm.get('orderDate')?.touched && sendMessageForm.get('orderDate')?.hasError('required')" class="text-red-500">
+              Order date is required.
+            </small>
+          </div>
+           <!-- Order Number -->
+        <div class="mb-4  w-full flex flex-col ">
+          <label class="block text-[18px] font-medium text-gray-700 mb-1">Order Number</label>
+          <input type="text" formControlName="orderNumber" placeholder="Enter order number"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <small *ngIf="sendMessageForm.get('orderNumber')?.touched && sendMessageForm.get('orderNumber')?.hasError('required')" class="text-red-500">
+            Order number is required.
           </small>
         </div>
 
-        <!-- English Title -->
-        <div class="mb-4">
-          <label class="block text-[18px] font-medium text-gray-700 mb-1">Title (English)</label>
-          <input
-            type="text"
-            formControlName="titleEn"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter English Title"
-          />
-          <small *ngIf="sendMessageForm.get('titleEn')?.touched && sendMessageForm.get('titleEn')?.hasError('required')" class="text-red-500">
-            Title in English is required.
+        </div>
+
+         <!-- Image -->
+         <div class="w-full flex flex-col">
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Upload Image</label>
+
+          <!-- Upload Box -->
+          <div class="relative border-2 border-dashed border-blue-500 rounded-lg p-4 flex flex-col items-center justify-center
+                      cursor-pointer bg-blue-50 transition">
+            <input
+              type="file"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              class="absolute inset-0 opacity-0 cursor-pointer"
+            />
+
+            <svg *ngIf="!imagePreview" class="w-12 h-12 text-blue-500 mb-2" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+
+            <p class="text-gray-600" *ngIf="!imagePreview">Click to upload one image</p>
+
+            <!-- Preview -->
+            <div *ngIf="imagePreview" class="mt-4 relative w-32 h-32">
+              <img [src]="imagePreview" class="w-full h-full object-cover rounded border shadow" />
+              <button type="button" (click)="removeImage()"
+                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition">
+                ✕
+              </button>
+            </div>
+          </div>
+
+          <!-- Validation message -->
+          <small *ngIf="sendMessageForm.get('image')?.touched && sendMessageForm.get('image')?.hasError('required')"
+            class="text-red-500 mt-1">
+            Image is required.
           </small>
         </div>
 
-        <!-- Arabic Title -->
-        <div class="mb-4" dir="rtl" >
-          <label class="block text-[18px] font-medium text-gray-700 mb-1">ادخل العنوان باللغه العربيه</label>
-          <input
-            type="text"
-            formControlName="titleAr"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="أدخل العنوان بالعربية"
-          />
-          <small *ngIf="sendMessageForm.get('titleAr')?.touched && sendMessageForm.get('titleAr')?.hasError('required')" class="text-red-500">
-            العنوان بالعربية مطلوب.
-          </small>
-        </div>
 
-        <!-- English Message -->
-        <div class="mb-4">
-          <label class="block text-[18px] font-medium text-gray-700 mb-1">Message (English)</label>
-          <textarea
-            formControlName="messageEn"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter English Message"
-          ></textarea>
-          <small *ngIf="sendMessageForm.get('messageEn')?.touched && sendMessageForm.get('messageEn')?.hasError('required')" class="text-red-500">
-            Message in English is required.
-          </small>
-        </div>
 
-        <!-- Arabic Message -->
-        <div class="mb-4" dir="rtl" >
-          <label class="block text-[18px] font-medium text-gray-700 mb-1">ادخل الرسالة باللغه العربيه</label>
-          <textarea
-            formControlName="messageAr"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="أدخل الرسالة بالعربية"
-          ></textarea>
-          <small *ngIf="sendMessageForm.get('messageAr')?.touched && sendMessageForm.get('messageAr')?.hasError('required')" class="text-red-500">
-            الرسالة بالعربية مطلوبة.
-          </small>
-        </div>
+
+
 
         <!-- Submit Button -->
-        <button
-          type="submit"
+        <button type="submit"
           [disabled]="sendMessageForm.invalid"
-          class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-full px-5 py-2 rounded hover:bg-green-700 transition"
-        >
-          Send Update
+          class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-full px-5 py-2 rounded hover:bg-green-700 transition">
+          Send Message
         </button>
+
       </form>
+
 
 
     </div>
@@ -192,7 +328,7 @@
         <th class="py-2 px-4">#</th>
         <th class="py-2 px-4" >userName</th>
         <th class="py-2 px-4" >Email</th>
-        <th class="py-2 px-4" >Phone</th>
+        <th class="py-2 px-4" >Data</th>
         <!-- <th class="py-2 px-4" >Quantity</th> -->
         <!-- <th class="py-2 px-4" >name_en</th> -->
         <!-- <th class="py-2 px-4" >name_ar</th> -->
@@ -205,7 +341,7 @@
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
         <td class="py-2 px-4 align-middle ">{{ order.user.username }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.user.email }}  </td>
-        <td class="py-2 px-4 align-middle ">{{ order.user.mobileNumber }}  </td>
+        <td class="py-2 px-4 align-middle ">{{ order.createdAt | date }}  </td>
         <!-- <td class="py-2 px-4 align-middle ">{{ order.products.quantity }}</td>
         <td class="py-2 px-4 align-middle ">{{ order.products.productId.name1.en }}</td>
         <td class="py-2 px-4 align-middle ">{{ order.products.productId.name1.ar }}</td> -->
@@ -234,6 +370,8 @@
           <div class="flex justify-center items-center space-x-2">
             <button (click)="showOrder(order)"
               class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Show</button>
+              <button (click)="editOrder(order)"
+                class="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-700">Edit</button>
             <button (click)="sendMessage(order)"
               class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Send Message</button>
             <button (click)="deleteOrder(order._id)"

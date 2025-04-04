@@ -20,6 +20,16 @@ export class UserService {
       return this.http.post(`${environment.apiUrl}/user/getAllUsers`, {} , { params });
     }
 
+    // Update user
+    updateUser(data : any): Observable<any> {
+      return this.http.patch(`${environment.apiUrl}/user/Updateuseraccount`, data);
+    }
+
+    // updata Notification
+    updateNotification(data : any): Observable<any> {
+      return this.http.post(`${environment.apiUrl}/category/updateNotification`, data);
+    }
+
     // Delete User
     deleteUser(id : any): Observable<any> {
       return this.http.delete(`${environment.apiUrl}/product/deleteProduct/${id}`);
