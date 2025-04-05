@@ -34,7 +34,7 @@ export class OrderComponent implements OnInit {
     });
 
     this.sendMessageForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [''],
       image: ['', Validators.required],
       orderStatus_en: ['', Validators.required],
       orderStatus_ar: ['', Validators.required],
@@ -49,7 +49,6 @@ export class OrderComponent implements OnInit {
   }
 
   // image
-
   selectedFile: File | null = null;
   imagePreview: string | null = null;
 
@@ -74,9 +73,8 @@ export class OrderComponent implements OnInit {
       this.imagePreview = e.target.result;
       this.selectedFile = file;
 
-      this.sendMessageForm.patchValue({
-        image: file
-      });
+      // ✅ set the file in the form correctly
+      this.sendMessageForm.get('image')?.setValue(file);
       this.sendMessageForm.get('image')?.updateValueAndValidity();
     };
     reader.readAsDataURL(file);
@@ -85,14 +83,17 @@ export class OrderComponent implements OnInit {
   removeImage(): void {
     this.imagePreview = null;
     this.selectedFile = null;
-    this.sendMessageForm.patchValue({ image: null });
+
+    // ✅ Reset form value to empty string, not null
+    this.sendMessageForm.get('image')?.setValue('');
     this.sendMessageForm.get('image')?.updateValueAndValidity();
 
-    // إعادة تعيين قيمة الـ input لإمكانية اختيار نفس الصورة مرة أخرى
+    // ✅ Reset input file element
     const fileInput: HTMLInputElement = document.querySelector('input[type="file"]')!;
-    fileInput.value = '';
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
-
 
   // Close Modal Send Message
   closeModalSend() {
@@ -100,6 +101,10 @@ export class OrderComponent implements OnInit {
   }
 
   sendMessageToUser() {
+    console.log(this.sendMessageForm.status); // لازم تكون VALID
+    console.log(this.sendMessageForm.controls); // يوريك كل فيلد وحالته
+    console.log(this.sendMessageForm.value);
+
     if (this.sendMessageForm.valid) {
       const formData = new FormData();
       if (this.selectedFile) {
@@ -141,6 +146,8 @@ export class OrderComponent implements OnInit {
         }
       });
     } else {
+      console.log('Form Invalid Fields:', this.sendMessageForm.errors);
+      console.log('Form Values:', this.sendMessageForm.value);
       Swal.fire({
         icon: 'error',
         title: 'Error!',
