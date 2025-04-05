@@ -48,7 +48,7 @@ export class UserComponent implements OnInit {
     });
 
     this.orderForm = this.fb.group({
-      // email: ['', [Validators.required, Validators.email]],
+      email: [''],
       notificationId: ['', Validators.required],
       orderNumber: ['', Validators.required],
       orderDate: ['', Validators.required],
