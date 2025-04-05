@@ -43,12 +43,12 @@ export class UserComponent implements OnInit {
 
   constructor(  private _userService : UserService , private fb : FormBuilder) {
     this.userForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [''],
       Points: ['', [Validators.required, Validators.min(0)]]
     });
 
     this.orderForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [''],
       notificationId: ['', Validators.required],
       orderNumber: ['', Validators.required],
       orderDate: ['', Validators.required],

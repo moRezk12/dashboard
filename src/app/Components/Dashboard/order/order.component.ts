@@ -34,7 +34,7 @@ export class OrderComponent implements OnInit {
     });
 
     this.sendMessageForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [''],
       image: ['', Validators.required],
       orderStatus_en: ['', Validators.required],
       orderStatus_ar: ['', Validators.required],
