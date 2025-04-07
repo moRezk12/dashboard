@@ -20,6 +20,12 @@ export class OrderComponent implements OnInit {
   sendMessageForm! : FormGroup ;
   statusForm! : FormGroup ;
 
+    // Pagination
+    currentPage: number = 1;
+    totalPages: number = 1;
+    totalOrders: number = 0;
+    visiblePages: number[] = [];
+
   trackBy(index: number, category: any): number {
     return category.id;
   }
@@ -27,11 +33,16 @@ export class OrderComponent implements OnInit {
   ngOnInit(): void {
 
     this.filterOrders = this.orders ;
-    this.getOrder();
+    this.getOrder(this.currentPage);
 
     this.statusForm = this.fb.group({
-      status: ['', [Validators.required]]
+      status: ['', Validators.required]
     });
+
+    // this.statusForm.get('status')?.setValue(this.selectOneOrder?.status);
+
+    // Pagination
+    this.updateVisiblePages();
 
     this.sendMessageForm = this.fb.group({
       email: [''],
@@ -95,14 +106,32 @@ export class OrderComponent implements OnInit {
     }
   }
 
+   // Pagination
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.getOrder(page);
+    }
+  }
+
+  updateVisiblePages() {
+    let startPage = Math.max(1, this.currentPage - 2);
+    let endPage = Math.min(this.totalPages, startPage + 4);
+
+    if (endPage - startPage < 4) {
+      startPage = Math.max(1, endPage - 4);
+    }
+
+    this.visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  }
+
   // Close Modal Send Message
   closeModalSend() {
     this.showModalSend = false;
   }
 
   sendMessageToUser() {
-    console.log(this.sendMessageForm.status); // لازم تكون VALID
-    console.log(this.sendMessageForm.controls); // يوريك كل فيلد وحالته
+    console.log(this.sendMessageForm.status);
+    console.log(this.sendMessageForm.controls);
     console.log(this.sendMessageForm.value);
 
     if (this.sendMessageForm.valid) {
@@ -161,12 +190,17 @@ export class OrderComponent implements OnInit {
 
 
   // Get Order
-  getOrder() : void {
-    this._orderservice.getOrder().subscribe({
+  getOrder(page : number) : void {
+    this._orderservice.getOrder(page).subscribe({
       next : (res) => {
         console.log(res);
 
         this.orders = res.data.orders;
+
+        this.currentPage = res.data.currentPage;
+        this.totalPages = res.data.totalPages;
+        this.totalOrders = res.data.totalOrders;
+        this.updateVisiblePages();
       },
       error : (err) => {
         Swal.fire({
@@ -187,6 +221,10 @@ export class OrderComponent implements OnInit {
       (order.user?.email?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase()) ||
       (order.user?.username?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase())
     );
+
+    console.log(this.filterOrders);
+
+
   }
 
   // Show order
@@ -219,7 +257,7 @@ export class OrderComponent implements OnInit {
               timer: 2000,
               timerProgressBar: true,
             }).then(() => {
-              this.getOrder();
+              this.getOrder(this.currentPage);
             });
           },
           error: (err) => {
@@ -250,12 +288,12 @@ export class OrderComponent implements OnInit {
   // edit
   editModal : boolean = false;
   editOrder(order : any){
-    this.editModal = true;
     this.selectOneOrder = order;
-    console.log(this.selectOneOrder);
-    this.statusForm.get('status')?.setValue(this.selectOneOrder.status);
+    this.statusForm.get('status')?.setValue(order.status.toLowerCase());
+    this.editModal = true;
 
   }
+  // this.statusForm.get('status')?.setValue("Wating");
 
   updateStatus(){
 
@@ -271,7 +309,8 @@ export class OrderComponent implements OnInit {
             timer: 2000,
             timerProgressBar: true,
           }).then(() => {
-            this.getOrder();
+            this.getOrder(this.currentPage);
+            this.statusForm.reset();
             this.editModal = false;
           });
         },
