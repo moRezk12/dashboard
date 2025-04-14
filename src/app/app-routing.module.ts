@@ -26,18 +26,18 @@ const routes: Routes = [
   {path : '' , component : LayoutComponent,
   children : [
       {path : '' , redirectTo : 'admin', pathMatch : 'full'},
-      {path : 'admin' , component : AdminComponent},
-      {path : 'user' , component : UserComponent},
-      {path : 'branch' , component : BranchComponent},
-      {path : 'company' , component : CompanyComponent},
-      {path : 'product' , component : ProductComponent},
-      {path : 'advertisement' , component : AdvertisementComponent},
-      {path : 'department' , component : DepartmentComponent},
-      {path : 'social' , component : SocialmediaComponent},
-      {path : 'order' , component : OrderComponent},
-      {path : 'message' , component : MessageComponent}
+      {path : 'admin' , component : AdminComponent , canActivate : [authGuard]},
+      {path : 'user' , component : UserComponent , canActivate : [authGuard]},
+      {path : 'branch' , component : BranchComponent , canActivate : [authGuard] },
+      {path : 'company' , component : CompanyComponent , canActivate : [authGuard] },
+      {path : 'product' , component : ProductComponent ,canActivate : [authGuard] },
+      {path : 'advertisement' , component : AdvertisementComponent , canActivate : [authGuard]},
+      {path : 'department' , component : DepartmentComponent , canActivate : [authGuard] },
+      {path : 'social' , component : SocialmediaComponent , canActivate : [authGuard] },
+      {path : 'order' , component : OrderComponent , canActivate : [authGuard] },
+      {path : 'message' , component : MessageComponent , canActivate : [authGuard] }
     ],
-    canActivate : [authGuard]
+
   }
 
 ];
