@@ -222,9 +222,6 @@ export class ProductComponent implements OnInit {
   }
 
 
-
-
-
   saveOrder(productId: string, newIndex: number): void {
 
     const orderedProducts =  {
