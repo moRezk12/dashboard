@@ -17,7 +17,7 @@ export class UserService {
       if (page) {
         params = params.set('page', page);
       }
-      return this.http.post(`${environment.apiUrl}/user/getAllUsers`, {} , { params });
+      return this.http.post(`${environment.apiUrl}/user/getAllUsers`, {} );
     }
 
     // Update user

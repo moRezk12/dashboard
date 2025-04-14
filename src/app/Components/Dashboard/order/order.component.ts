@@ -46,15 +46,16 @@ export class OrderComponent implements OnInit {
 
     this.sendMessageForm = this.fb.group({
       email: [''],
-      image: ['', Validators.required],
+      image: [''],
       orderStatus_en: ['', Validators.required],
       orderStatus_ar: ['', Validators.required],
       orderDetails_en: ['', Validators.required],
       orderDetails_ar: ['', Validators.required],
-      orderPaid: ['', [Validators.required, Validators.min(0)]],
-      remainingAmount: ['', [Validators.required, Validators.min(0)]],
+      orderPaid: [''],
+      remainingAmount: [''],
       orderDate: ['', Validators.required],
-      orderNumber: ['', Validators.required]
+      orderNumber: ['', Validators.required],
+      ordervalue: ['', Validators.required],
     });
 
   }
@@ -223,7 +224,6 @@ export class OrderComponent implements OnInit {
     );
 
     console.log(this.filterOrders);
-
 
   }
 

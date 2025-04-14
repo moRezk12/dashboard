@@ -1,11 +1,14 @@
 <div>
 
   <!-- Add Admin Button -->
-  <div class="mb-6 text-right ">
+  <div class="mb-6 flex justify-between items-center ">
+    <!-- <button (click)="saveOrder()"
+    class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded shadow">
+    Save Changes
+  </button> -->
     <button (click)="openAddModal()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
       + Add Product
     </button>
-
   </div>
 
   <!-- Modal -->
@@ -27,7 +30,7 @@
       <!-- Form with styling and validation -->
       <form [formGroup]="productForm" (ngSubmit)="addOrUpdateProduct()" class="space-y-4">
 
-        <div class="w-full flex flex-col"  >
+        <div class="w-full flex flex-col">
           <label class="text-[18px] font-medium text-gray-700 mb-1">Product Quality</label>
 
           <div formArrayName="tableData">
@@ -46,27 +49,36 @@
               <input type="text" formControlName="value_ar" placeholder="القيمة (العربية)"
                 class="border px-3 py-2 rounded w-1/4" dir="rtl" />
 
-              <button type="button" *ngIf="!showData" (click)="removeAttribute(i)" class="bg-red-500 text-white px-3 py-1 rounded">
+              <button type="button" *ngIf="!showData" (click)="removeAttribute(i)"
+                class="bg-red-500 text-white px-3 py-1 rounded">
                 ✕
               </button>
             </div>
           </div>
 
           <button type="button" [disabled]="showData" (click)="addAttribute()"
-          class="bg-blue-500 cursor-pointer disabled:hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white px-4 py-2 rounded mt-2">
+            class="bg-blue-500 cursor-pointer disabled:hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white px-4 py-2 rounded mt-2">
             + Add Quality
           </button>
         </div>
 
         <!-- animals Type -->
-        <div class="w-full flex flex-col"  >
+        <div class="w-full flex flex-col">
           <label class="text-[18px] font-medium text-gray-700 mb-1">Animal Types</label>
 
           <div formArrayName="animalTypes">
-            <div *ngFor="let animal of animalTypesArray.controls; let i = index" class="flex gap-2 mb-2 items-center">
-              <input type="text" [formControlName]="i" class="border px-3 py-2 rounded w-full"
-                placeholder="Enter animal type" />
+            <div *ngFor="let animal of animalTypesArray.controls; let i = index" [formGroupName]="i"
+              class="flex gap-2 mb-2 items-center">
 
+              <!-- English Input -->
+              <input type="text" formControlName="en" placeholder="Name (English)"
+                class="border px-3 py-2 rounded w-1/2" />
+
+              <!-- Arabic Input -->
+              <input type="text" formControlName="ar" placeholder="الاسم (العربية)"
+                class="border px-3 py-2 rounded w-1/2" dir="rtl" />
+
+              <!-- Remove Button -->
               <button type="button" *ngIf="!showData" (click)="removeAnimal(i)"
                 class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                 ✕
@@ -126,7 +138,8 @@
             </small>
             <small *ngIf="productForm.get('name2_en')?.errors?.['minlength'] && productForm.get('name2_en')?.touched"
               class="text-red-500 mt-1">
-              Product Overview must be at least {{ productForm.get('name2_en')?.errors?.['minlength'].requiredLength }} characters
+              Product Overview must be at least {{ productForm.get('name2_en')?.errors?.['minlength'].requiredLength }}
+              characters
             </small>
           </div>
           <!-- Name Ar Field -->
@@ -140,7 +153,8 @@
             </small>
             <small *ngIf="productForm.get('name2_ar')?.errors?.['minlength'] && productForm.get('name2_ar')?.touched"
               class="text-red-500 mt-1">
-              Product Overview must be at least {{ productForm.get('name2_ar')?.errors?.['minlength'].requiredLength }} characters
+              Product Overview must be at least {{ productForm.get('name2_ar')?.errors?.['minlength'].requiredLength }}
+              characters
             </small>
           </div>
         </div>
@@ -355,7 +369,7 @@
 
 
         <!-- CategoryId And Image Fields -->
-        <div class="w-full flex flex-col" *ngIf="!mode" >
+        <div class="w-full flex flex-col" *ngIf="!mode">
           <label class="text-[18px] font-medium text-gray-700 mb-1">Select Company</label>
 
           <select formControlName="categoryId"
@@ -373,7 +387,7 @@
         </div>
 
         <!-- DepartmentId And Image Fields -->
-        <div class="w-full flex flex-col" *ngIf="!mode" >
+        <div class="w-full flex flex-col" *ngIf="!mode">
           <label class="text-[18px] font-medium text-gray-700 mb-1">Select Department</label>
 
           <select formControlName="departmentId"
@@ -384,7 +398,8 @@
             </option>
           </select>
 
-          <small *ngIf="productForm.get('departmentId')?.errors?.['required'] && productForm.get('departmentId')?.touched"
+          <small
+            *ngIf="productForm.get('departmentId')?.errors?.['required'] && productForm.get('departmentId')?.touched"
             class="text-red-500 mt-1">
             Department is required
           </small>
@@ -446,6 +461,7 @@
   <table class="w-full bg-white shadow rounded overflow-hidden text-center">
     <thead class="bg-gray-100 text-gray-700">
       <tr>
+        <th class="py-2 px-4">Sort</th>
         <th class="py-2 px-4">#</th>
         <th class="py-2 px-4">Name Product</th>
         <th class="py-2 px-4">Quantity</th>
@@ -458,7 +474,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let product of allProducts; trackBy : trackById ; let i = index" class="border-b  ">
-        <td class="py-2 px-4 align-middle">{{ i + 1 }}</td>
+        <td class="py-2 px-4 align-middle">
+          <input type="number" [(ngModel)]="product.newIndex" [min]="1" [max]="totalProducts"
+            class="w-16 border rounded px-2 text-center" />
+
+          <button (click)="changeOrderGlobal(i, product.newIndex - 1)"
+            class="ml-2 bg-green-500 text-white px-2 py-1 rounded">
+            Move
+          </button>
+        </td>
+        <td class="py-2 px-4 align-middle">{{ product.number }}</td>
         <td class="py-2 px-4 align-middle">{{ product.name1.en }}</td>
         <td class="py-2 px-4 align-middle">{{ product.quantity.en }}</td>
         <td class="py-2 px-4 align-middle">{{ product.newprice }}</td>
@@ -501,7 +526,7 @@
             </button>
 
             <ng-container *ngFor="let page of visiblePages">
-            
+
               <button (click)="goToPage(page)" class="px-4 py-2 border rounded hover:bg-blue-300 cursor-pointer"
                 [ngClass]="{
                   'bg-blue-500 text-white': page === currentPage,

@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 1;
   totalProducts: number = 0;
+  itemsPerPage: number = 10;
   // limit: number = 10; // عدد المنتجات في كل صفحة
   visiblePages: number[] = [];
 
@@ -34,7 +35,6 @@ export class ProductComponent implements OnInit {
   trackById(index: number, Product: any): number {
     return Product.id;
   }
-
 
   editingIndex: number | null = null;
 
@@ -127,17 +127,14 @@ export class ProductComponent implements OnInit {
 
   // Add new animal input
   addAnimal(): void {
-    this.animalTypesArray.push(this.fb.control(''));
+    this.animalTypesArray.push(this.fb.group({
+      ar: [''],
+      en: ['']
+    }));
   }
 
   // Remove specific animal input
   removeAnimal(index: number): void {
-    // if (this.animalTypesArray && this.animalTypesArray.length > index) {
-    //   this.animalTypesArray.removeAt(index);
-    // } else {
-    //   console.error('Invalid index for removeAnimal');
-    // }
-
     Swal.fire({
       title: 'Are you sure?',
       text: 'You won\'t be able to undo this!',
@@ -149,8 +146,9 @@ export class ProductComponent implements OnInit {
       cancelButtonText: 'No, cancel'
     }).then((result) => {
       if (result.isConfirmed) {
+        // التأكد من أن الـ FormArray موجود وصالح
         if (this.animalTypesArray && this.animalTypesArray.length > index) {
-          this.animalTypesArray.removeAt(index);
+          this.animalTypesArray.removeAt(index); // إزالة العنصر
           Swal.fire('Deleted!', 'The row has been removed.', 'success');
         } else {
           Swal.fire('Error!', 'Invalid index.', 'error');
@@ -159,9 +157,8 @@ export class ProductComponent implements OnInit {
         Swal.fire('Cancelled', 'The row was not deleted.', 'info');
       }
     });
-
-
   }
+
 
   // Get All Products
   getProducts(page : number ): void {
@@ -173,7 +170,7 @@ export class ProductComponent implements OnInit {
         this.currentPage = res.data.pagination.currentPage;
         this.totalPages = res.data.pagination.totalPages;
         this.totalProducts = res.data.pagination.totalProducts;
-        // this.limit = res.pagination.limit;
+        // this.itemsPerPage = res.pagination.limit;
         this.updateVisiblePages();
       },
       error: (err) => {
@@ -206,6 +203,59 @@ export class ProductComponent implements OnInit {
 
     this.visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   }
+
+  // Drag and Drop
+
+  getGlobalIndex(localIndex: number): number {
+    return (this.currentPage - 1) * this.itemsPerPage + localIndex;
+  }
+
+  changeOrderGlobal(fromLocalIndex: number, toGlobalIndex: number): void {
+    const fromGlobalIndex = this.getGlobalIndex(fromLocalIndex);
+
+    // Call the API to reorder
+    const movedProduct = this.allProducts[fromLocalIndex];
+
+    if (movedProduct && fromGlobalIndex !== toGlobalIndex) {
+      this.saveOrder(movedProduct._id, toGlobalIndex);
+    }
+  }
+
+
+
+
+
+  saveOrder(productId: string, newIndex: number): void {
+
+    const orderedProducts =  {
+      productId: productId,
+      newIndex: newIndex
+    };
+
+    console.log(orderedProducts);
+
+    this._productService.updateProductOrder(orderedProducts).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Order Saved!',
+          text: 'Product order has been updated successfully.',
+          timer: 2000
+        }).then(() => {
+          this.getProducts(this.currentPage);
+        });
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Failed to update order.',
+          timer: 2000
+        });
+      }
+    });
+  }
+
 
   // Get Category
   categories : any = [];
@@ -280,6 +330,10 @@ export class ProductComponent implements OnInit {
     this.editingIndex = null;
     this.showModal = true;
   }
+
+
+
+
 
   // Add or update an Product
   addOrUpdateProduct() {
@@ -554,9 +608,23 @@ export class ProductComponent implements OnInit {
 
     const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
     animalTypesFormArray.clear();
-    product.animalTypes.forEach((type: string) => {
-      animalTypesFormArray.push(this.fb.control(type));
+    product.animalTypes.forEach((item: any) => {
+      // animalTypesFormArray.push(this.fb.control(type));
+      this.fb.group({
+        en: [item.en, Validators.required],
+        ar: [item.ar, Validators.required],
+      })
     });
+
+    // const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
+    // animalTypesFormArray.clear();  // تنظيف الـ FormArray قبل إضافة عناصر جديدة
+
+    // product.animalTypes.forEach((item: any) => {
+    //   animalTypesFormArray.push(this.fb.group({
+    //     en: [item.en, Validators.required],
+    //     ar: [item.ar, Validators.required],
+    //   }));
+    // });
 
     const tableDataFormArray = this.productForm.get('tableData') as FormArray;
     tableDataFormArray.clear();

@@ -279,6 +279,19 @@
 
         </div>
 
+        <div class="flex justify-between items-center gap-3 " >
+           <!-- Order Number -->
+        <div class="mb-4  w-full flex flex-col ">
+          <label class="block text-[18px] font-medium text-gray-700 mb-1">Order Value</label>
+          <input type="text" formControlName="ordervalue" placeholder="Enter order number"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <small *ngIf="sendMessageForm.get('ordervalue')?.touched && sendMessageForm.get('ordervalue')?.hasError('required')" class="text-red-500">
+            Order Value is required.
+          </small>
+        </div>
+
+        </div>
+
          <!-- Image -->
          <div class="w-full flex flex-col">
           <label class="text-[18px] font-medium text-gray-700 mb-1">Upload Image</label>
@@ -353,36 +366,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of filteredCategories; trackBy: trackBy ;let i = index" class="border-b">
+      <tr *ngFor="let order of filteredCategories; trackBy: trackBy ;let i = index"
+      [ngClass]="{ 'bg-green-400': (order.status === 'done' || order.status === 'Done' ) }"
+      class="border-b">
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
         <td class="py-2 px-4 align-middle ">{{ order.user.username }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.user.email }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.status }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.createdAt | date }}  </td>
-        <!-- <td class="py-2 px-4 align-middle ">{{ order.products.quantity }}</td>
-        <td class="py-2 px-4 align-middle ">{{ order.products.productId.name1.en }}</td>
-        <td class="py-2 px-4 align-middle ">{{ order.products.productId.name1.ar }}</td> -->
-        <!-- <td class="py-2 px-4">
-          <ul>
-            <li *ngFor="let product of order.products">{{ product.quantity }}</li>
-          </ul>
-        </td>
-        <td class="py-2 px-4">
-          <ul>
-            <li *ngFor="let product of order.products">{{ product.productId.name1.en }}</li>
-          </ul>
-        </td>
-        <td class="py-2 px-4">
-          <ul>
-            <li *ngFor="let product of order.products">{{ product.productId.name1.ar }}</li>
-          </ul>
-        </td>
-        <td class="py-2 px-4">
-          <ul>
-            <li *ngFor="let product of order.products">{{ product.productId.newprice }}</li>
-          </ul>
-        </td> -->
-
         <td class="py-3 px-4 text-center align-middle">
           <div class="flex justify-center items-center space-x-2">
             <button (click)="showOrder(order)"
@@ -391,8 +382,6 @@
                 class="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-700">Edit</button>
             <button (click)="sendMessage(order)"
               class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Send Message</button>
-            <!-- <button (click)="deleteOrder(order._id)"
-              class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button> -->
           </div>
         </td>
       </tr>

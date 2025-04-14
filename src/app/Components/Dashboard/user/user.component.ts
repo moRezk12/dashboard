@@ -15,6 +15,12 @@ import Swal from 'sweetalert2';
 })
 export class UserComponent implements OnInit {
 
+  // search
+  searchTerm: string = '';
+  filterUser : any
+
+
+
   showModal = false;
   adminForm!: FormGroup;
   userForm!: FormGroup;
@@ -152,6 +158,7 @@ export class UserComponent implements OnInit {
         console.log(res);
 
         this.Users = res.message.users;
+        // this.filterUser = this.Users;
         this.currentPage = res.message.currentPage;
         this.totalPages = res.message.totalPages;
         this.totalProducts = res.message.totalUsers;
@@ -170,6 +177,13 @@ export class UserComponent implements OnInit {
         })
       }
     })
+  }
+
+  // Search
+  get filteredUsers() {
+    return this.Users.filter((user: any) =>
+      (user?.email?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase())
+    );
   }
 
   // Pagination

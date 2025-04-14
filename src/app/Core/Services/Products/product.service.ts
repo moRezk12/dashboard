@@ -20,6 +20,12 @@ export class ProductService {
     return this.http.post(`${environment.apiUrl}/product/getProducts`, {} , { params });
   }
 
+  updateProductOrder(orderedProducts: { productId: string, newIndex: number }): Observable<any> {
+    console.log( "Api" + JSON.stringify(orderedProducts));
+
+    return this.http.post(`${environment.apiUrl}/product/reorderProduct`, orderedProducts );
+  }
+
   // Create Products
   createProducts(data : any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/product/createProduct`, data);

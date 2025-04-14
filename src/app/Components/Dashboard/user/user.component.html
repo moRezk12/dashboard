@@ -1,5 +1,14 @@
 <div>
 
+   <div class="mb-4 ">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="Search By Email..."
+      class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+
 
   <!-- Modal Notification -->
   <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -52,7 +61,12 @@
             <td class="p-2 align-middle border">{{ notif.orderPaid ?? 'N/A' }}</td>
             <td class="p-2 align-middle border">{{ notif.remainingAmount ?? 'N/A' }}</td>
             <td class="py-2 px-4 align-middle border ">
-              <img class=" mx-auto w-[50px] h-[50px] rounded-full " [src]="notif.image.secure_url  " alt="">
+              <!-- <img *ngIf="notif.image.secure_url" class=" mx-auto w-[50px] h-[50px] rounded-full " [src]="notif.image.secure_url" alt="">
+              {{ !(notif.image.secure_url) ?? 'No Image' }} -->
+              <ng-container *ngIf="notif.image?.secure_url; else noImage">
+                <img class="mx-auto w-[50px] h-[50px] rounded-full" [src]="notif.image.secure_url" alt="User Image">
+              </ng-container>
+              <ng-template #noImage>No Image</ng-template>
             </td>
             <td class="py-3 px-4 text-center border align-middle">
               <div class="flex justify-center items-center space-x-2">
@@ -277,7 +291,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of Users ; trackBy : trackBy ;let i = index" class="border-b">
+      <tr *ngFor="let user of filteredUsers ; trackBy : trackBy ;let i = index" class="border-b">
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
         <td class="py-2 px-4 align-middle ">{{ user.firstName }} {{ user.lastName }}</td>
         <td class="py-2 px-4 align-middle ">{{ user.email }}</td>
@@ -298,18 +312,15 @@
   </table>
 
   <!-- Pagination -->
-  <div>
+  <!-- <div>
     <div class="container mx-auto p-4">
 
-      <!-- Pagination -->
       <div class="p-4">
-        <!-- Page Information -->
         <div class="flex justify-between items-center mb-4 text-lg font-semibold">
           <div class="text-gray-700">
             Page {{ currentPage }} of {{ totalPages }} | Total Products: {{ totalProducts }}
           </div>
 
-          <!-- Pagination Controls -->
           <div class="flex items-center gap-2">
             <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1"
               class="px-4 py-2 border cursor-pointer rounded bg-gray-200 disabled:hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-[0.5]">
@@ -338,6 +349,6 @@
 
     </div>
 
-  </div>
+  </div> -->
 
 </div>
