@@ -337,6 +337,8 @@ export class ProductComponent implements OnInit {
     this.showData = false;
 
     if (this.productForm.invalid) {
+      console.log(this.productForm.value);
+
       Swal.fire({
         icon: 'error',
         title: 'Invalid Form',
@@ -536,14 +538,18 @@ export class ProductComponent implements OnInit {
     product.image.forEach((img: any) => {
       this.imagesArray.push(this.fb.control(img.secure_url));
     });
-    // Animal Types
+
     const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
     animalTypesFormArray.clear();
-    if (product.animalTypes && product.animalTypes.length > 0) {
-      product.animalTypes.forEach((type: string) => {
-        animalTypesFormArray.push(this.fb.control(type));
-      });
-    }
+    product.animalTypes.forEach((item: any) => {
+      animalTypesFormArray.push(this.fb.group({
+        en: [item.en],
+        ar: [item.ar],
+      }));
+    });
+
+
+
     // Table Data
     const tableDataFormArray = this.productForm.get('tableData') as FormArray;
     tableDataFormArray.clear();
@@ -551,10 +557,10 @@ export class ProductComponent implements OnInit {
       product.tableData.forEach((item: any) => {
         tableDataFormArray.push(
           this.fb.group({
-            name_en: [item.name.en, Validators.required],
-            name_ar: [item.name.ar, Validators.required],
-            value_en: [item.value.en, Validators.required],
-            value_ar: [item.value.ar, Validators.required],
+            name_en: [item.name.en],
+            name_ar: [item.name.ar],
+            value_en: [item.value.en],
+            value_ar: [item.value.ar],
           })
         );
       });
@@ -606,22 +612,11 @@ export class ProductComponent implements OnInit {
     const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
     animalTypesFormArray.clear();
     product.animalTypes.forEach((item: any) => {
-      // animalTypesFormArray.push(this.fb.control(type));
-      this.fb.group({
-        en: [item.en, Validators.required],
-        ar: [item.ar, Validators.required],
-      })
+      animalTypesFormArray.push(this.fb.group({
+        en: [item.en],
+        ar: [item.ar],
+      }));
     });
-
-    // const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
-    // animalTypesFormArray.clear();  // تنظيف الـ FormArray قبل إضافة عناصر جديدة
-
-    // product.animalTypes.forEach((item: any) => {
-    //   animalTypesFormArray.push(this.fb.group({
-    //     en: [item.en, Validators.required],
-    //     ar: [item.ar, Validators.required],
-    //   }));
-    // });
 
     const tableDataFormArray = this.productForm.get('tableData') as FormArray;
     tableDataFormArray.clear();
@@ -629,10 +624,10 @@ export class ProductComponent implements OnInit {
     product.tableData.forEach((item: any) => {
       tableDataFormArray.push(
         this.fb.group({
-          name_en: [item.name.en, Validators.required],
-          name_ar: [item.name.ar, Validators.required],
-          value_en: [item.value.en, Validators.required],
-          value_ar: [item.value.ar, Validators.required],
+          name_en: [item.name.en],
+          name_ar: [item.name.ar],
+          value_en: [item.value.en],
+          value_ar: [item.value.ar],
         })
       );
     });

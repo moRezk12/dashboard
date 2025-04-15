@@ -30,6 +30,7 @@
       <!-- Form with styling and validation -->
       <form [formGroup]="productForm" (ngSubmit)="addOrUpdateProduct()" class="space-y-4">
 
+        <!-- tableData -->
         <div class="w-full flex flex-col">
           <label class="text-[18px] font-medium text-gray-700 mb-1">Product Quality</label>
 
@@ -104,7 +105,7 @@
               class="text-red-500 mt-1">
               Name is required
             </small>
-            <small *ngIf="productForm.get('name1_en')?.errors?.['minlength'] && productForm.get('name1_en')?.touched"
+            <small *ngIf="productForm.get('name1_en')?.errors?.['minlength'] || productForm.get('name1_en')?.touched"
               class="text-red-500 mt-1">
               Name must be at least {{ productForm.get('name1_en')?.errors?.['minlength'].requiredLength }} characters
             </small>
@@ -118,7 +119,7 @@
               class="text-red-500 mt-1">
               Name is required
             </small>
-            <small *ngIf="productForm.get('name1_ar')?.errors?.['minlength'] && productForm.get('name1_ar')?.touched"
+            <small *ngIf="productForm.get('name1_ar')?.errors?.['minlength'] || productForm.get('name1_ar')?.touched"
               class="text-red-500 mt-1">
               Name must be at least {{ productForm.get('name1_ar')?.errors?.['minlength'].requiredLength }} characters
             </small>
@@ -136,7 +137,7 @@
               class="text-red-500 mt-1">
               Product Overview is required
             </small>
-            <small *ngIf="productForm.get('name2_en')?.errors?.['minlength'] && productForm.get('name2_en')?.touched"
+            <small *ngIf="productForm.get('name2_en')?.errors?.['minlength'] || productForm.get('name2_en')?.touched"
               class="text-red-500 mt-1">
               Product Overview must be at least {{ productForm.get('name2_en')?.errors?.['minlength'].requiredLength }}
               characters
@@ -151,7 +152,7 @@
               class="text-red-500 mt-1">
               Product Overview is required
             </small>
-            <small *ngIf="productForm.get('name2_ar')?.errors?.['minlength'] && productForm.get('name2_ar')?.touched"
+            <small *ngIf="productForm.get('name2_ar')?.errors?.['minlength'] || productForm.get('name2_ar')?.touched"
               class="text-red-500 mt-1">
               Product Overview must be at least {{ productForm.get('name2_ar')?.errors?.['minlength'].requiredLength }}
               characters
@@ -177,7 +178,7 @@
               Description is required
             </small>
             <small
-              *ngIf="productForm.get('description_en')?.errors?.['minlength'] && productForm.get('description_en')?.touched"
+              *ngIf="productForm.get('description_en')?.errors?.['minlength'] || productForm.get('description_en')?.touched"
               class="text-red-500 mt-1">
               Description must be at least {{ productForm.get('description_en')?.errors?.['minlength'].requiredLength }}
               characters
@@ -201,7 +202,7 @@
               Description is required
             </small>
             <small
-              *ngIf="productForm.get('description_ar')?.errors?.['minlength'] && productForm.get('description_ar')?.touched"
+              *ngIf="productForm.get('description_ar')?.errors?.['minlength'] || productForm.get('description_ar')?.touched"
               class="text-red-500 mt-1">
               Description must be at least {{ productForm.get('description_ar')?.errors?.['minlength'].requiredLength }}
               characters
@@ -222,7 +223,7 @@
               Quantity is required
             </small>
             <small
-              *ngIf="productForm.get('quantity_en')?.errors?.['minlength'] && productForm.get('quantity_en')?.touched"
+              *ngIf="productForm.get('quantity_en')?.errors?.['minlength'] || productForm.get('quantity_en')?.touched"
               class="text-red-500 mt-1">
               Quantity must be at least {{ productForm.get('quantity_en')?.errors?.['minlength'].requiredLength }}
               characters
@@ -241,7 +242,7 @@
               الكمية مطلوبة
             </small>
             <small
-              *ngIf="productForm.get('quantity_ar')?.errors?.['minlength'] && productForm.get('quantity_ar')?.touched"
+              *ngIf="productForm.get('quantity_ar')?.errors?.['minlength'] || productForm.get('quantity_ar')?.touched"
               class="text-red-500 mt-1">
               Quantity must be at least {{ productForm.get('quantity_ar')?.errors?.['minlength'].requiredLength }}
               characters
@@ -262,7 +263,7 @@
               Country is required
             </small>
             <small
-              *ngIf="productForm.get('country_en')?.errors?.['minlength'] && productForm.get('country_en')?.touched"
+              *ngIf="productForm.get('country_en')?.errors?.['minlength'] || productForm.get('country_en')?.touched"
               class="text-red-500 mt-1">
               Country must be at least {{ productForm.get('country_en')?.errors?.['minlength'].requiredLength }}
               characters
@@ -280,7 +281,7 @@
               الكمية مطلوبة
             </small>
             <small
-              *ngIf="productForm.get('country_ar')?.errors?.['minlength'] && productForm.get('country_ar')?.touched"
+              *ngIf="productForm.get('country_ar')?.errors?.['minlength'] || productForm.get('country_ar')?.touched"
               class="text-red-500 mt-1">
               Country must be at least {{ productForm.get('country_ar')?.errors?.['minlength'].requiredLength }}
               characters
@@ -302,7 +303,7 @@
               Country is required
             </small>
             <small
-              *ngIf="productForm.get('stoargecondition_en')?.errors?.['minlength'] && productForm.get('stoargecondition_en')?.touched"
+              *ngIf="productForm.get('stoargecondition_en')?.errors?.['minlength'] || productForm.get('stoargecondition_en')?.touched"
               class="text-red-500 mt-1">
               Country must be at least
               {{ productForm.get('stoargecondition_en')?.errors?.['minlength'].requiredLength }}
@@ -322,7 +323,7 @@
               الكمية مطلوبة
             </small>
             <small
-              *ngIf="productForm.get('stoargecondition_ar')?.errors?.['minlength'] && productForm.get('stoargecondition_ar')?.touched"
+              *ngIf="productForm.get('stoargecondition_ar')?.errors?.['minlength'] || productForm.get('stoargecondition_ar')?.touched"
               class="text-red-500 mt-1">
               Country must be at least
               {{ productForm.get('stoargecondition_ar')?.errors?.['minlength'].requiredLength }}
@@ -343,7 +344,7 @@
               class="text-red-500 mt-1">
               Old Price is required
             </small>
-            <!-- <small *ngIf="productForm.get('oldprice')?.errors?.['minlength'] && productForm.get('oldprice')?.touched"
+            <!-- <small *ngIf="productForm.get('oldprice')?.errors?.['minlength'] || productForm.get('oldprice')?.touched"
               class="text-red-500 mt-1">
               Name must be at least {{ productForm.get('oldprice')?.errors?.['minlength'].requiredLength }} characters
             </small> -->
@@ -360,7 +361,7 @@
             class="text-red-500 mt-1">
             New Price is required
           </small>
-          <!-- <small *ngIf="productForm.get('newprice')?.errors?.['minlength'] && productForm.get('newprice')?.touched"
+          <!-- <small *ngIf="productForm.get('newprice')?.errors?.['minlength'] || productForm.get('newprice')?.touched"
             class="text-red-500 mt-1">
             Name must be at least {{ productForm.get('newprice')?.errors?.['minlength'].requiredLength }} characters
           </small> -->
