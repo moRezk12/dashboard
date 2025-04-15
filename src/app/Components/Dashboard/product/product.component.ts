@@ -508,6 +508,8 @@ export class ProductComponent implements OnInit {
 
   editdata : boolean = false;
   editProduct(product: any) {
+    console.log(product);
+
     this.mode = true;
     this.showModal = false;
     this.showData = false;
@@ -582,6 +584,8 @@ export class ProductComponent implements OnInit {
   // ShowData an Product
   categoryName: string = '';
   showProduct(product: any) {
+    console.log(product);
+
     this.mode = true;
     this.showData = true;
 

@@ -31,10 +31,10 @@
       <form [formGroup]="productForm" (ngSubmit)="addOrUpdateProduct()" class="space-y-4">
 
         <!-- tableData -->
-        <div class="w-full flex flex-col">
-          <label class="text-[18px] font-medium text-gray-700 mb-1">Product Quality</label>
+        <div class="w-full flex flex-col"  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1" *ngIf="tableData.controls.length > 0 " >Product Quality</label>
 
-          <div formArrayName="tableData">
+          <div formArrayName="tableData" *ngIf="tableData.controls.length > 0 " >
             <div *ngFor="let attribute of tableData.controls; let i = index" [formGroupName]="i"
               class="flex gap-2 mb-2">
 
@@ -57,17 +57,17 @@
             </div>
           </div>
 
-          <button type="button" [disabled]="showData" (click)="addAttribute()"
+          <button type="button" *ngIf="!showData" [disabled]="showData" (click)="addAttribute()"
             class="bg-blue-500 cursor-pointer disabled:hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white px-4 py-2 rounded mt-2">
             + Add Quality
           </button>
         </div>
 
         <!-- animals Type -->
-        <div class="w-full flex flex-col">
-          <label class="text-[18px] font-medium text-gray-700 mb-1">Animal Types</label>
+        <div class="w-full flex flex-col"  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1" *ngIf="animalTypesArray.controls.length > 0 " >Animal Types</label>
 
-          <div formArrayName="animalTypes">
+          <div formArrayName="animalTypes" *ngIf="animalTypesArray.controls.length > 0 " >
             <div *ngFor="let animal of animalTypesArray.controls; let i = index" [formGroupName]="i"
               class="flex gap-2 mb-2 items-center">
 
@@ -87,7 +87,7 @@
             </div>
           </div>
 
-          <button type="button" [disabled]="showData" (click)="addAnimal()"
+          <button type="button" *ngIf="!showData" [disabled]="showData" (click)="addAnimal()"
             class="bg-blue-500 cursor-pointer disabled:hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white px-4 py-2 rounded mt-2">
             + Add Suitable for
           </button>
