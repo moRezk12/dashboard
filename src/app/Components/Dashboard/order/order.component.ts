@@ -135,6 +135,16 @@ export class OrderComponent implements OnInit {
     console.log(this.sendMessageForm.controls);
     console.log(this.sendMessageForm.value);
 
+    const formData = this.sendMessageForm.value;
+
+    if(this.sendMessageForm.get('orderPaid')?.value === 'null' || this.sendMessageForm.get('orderPaid')?.value === null || this.sendMessageForm.get('orderPaid')?.value === '' ) {
+      this.sendMessageForm.get('orderPaid')?.setValue(0);
+    }
+
+    if(this.sendMessageForm.get('remainingAmount')?.value === 'null' || this.sendMessageForm.get('remainingAmount')?.value === null || this.sendMessageForm.get('orderPaid')?.value === '' ) {
+      this.sendMessageForm.get('remainingAmount')?.setValue(0);
+    }
+
     if (this.sendMessageForm.valid) {
       const formData = new FormData();
       if (this.selectedFile) {
@@ -159,7 +169,19 @@ export class OrderComponent implements OnInit {
             timerProgressBar: true,
           }).then(() => {
             this.showModalSend = false;
-            this.sendMessageForm.reset();
+            this.sendMessageForm.reset({
+              email: '',
+              image: '',
+              orderStatus_en: '',
+              orderStatus_ar: '',
+              orderDetails_en: '',
+              orderDetails_ar: '',
+              orderPaid: 0,
+              remainingAmount: 0,
+              orderDate: '',
+              orderNumber: 0,
+              ordervalue: 0
+            });
             this.selectedFile = null;
             this.imagePreview = null;
           });
