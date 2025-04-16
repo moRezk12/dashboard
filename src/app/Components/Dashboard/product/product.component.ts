@@ -52,7 +52,7 @@ export class ProductComponent implements OnInit {
       description_en: ['', [Validators.required, Validators.minLength(10)]],
       description_ar: ['', [Validators.required, Validators.minLength(10)]],
       newprice: ['', [Validators.required]],
-      oldprice: ['', [Validators.required]],
+      oldprice: [''],
       quantity_en: ['', [Validators.required, Validators.minLength(3)]],
       quantity_ar: ['', [Validators.required, Validators.minLength(3)]],
       country_en: ['', [Validators.required, Validators.minLength(3)]],
@@ -335,6 +335,11 @@ export class ProductComponent implements OnInit {
   // Add or update an Product
   addOrUpdateProduct() {
     this.showData = false;
+
+    if( this.productForm.get('oldprice')?.value == 'null' || this.productForm.get('oldprice')?.value == null || this.productForm.get('oldprice')?.value == '' ) {
+      this.productForm.get('oldprice')?.setValue(0);
+
+    }
 
     if (this.productForm.invalid) {
       console.log(this.productForm.value);

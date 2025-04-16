@@ -59,8 +59,8 @@ export class UserComponent implements OnInit {
       orderNumber: ['', Validators.required],
       ordervalue: ['', Validators.required],
       orderDate: ['', Validators.required],
-      orderPaid: ['', [Validators.required, Validators.min(0)]],
-      remainingAmount: ['', [Validators.required, Validators.min(0)]],
+      orderPaid: [''],
+      remainingAmount: [''],
       orderStatus_en: ['', Validators.required],
       orderStatus_ar: ['', Validators.required],
       orderDetails_en: ['', Validators.required],
@@ -91,6 +91,15 @@ export class UserComponent implements OnInit {
 
   updateNotificationOrder(): void {
     if (this.orderForm.valid) {
+      console.log(this.orderForm.value);
+
+      if( this.orderForm.get('orderPaid')?.value == 'null' || this.orderForm.get('orderPaid')?.value == null || this.orderForm.get('orderPaid')?.value == '' ) {
+        this.orderForm.get('orderPaid')?.setValue(0);
+      }
+      if( this.orderForm.get('remainingAmount')?.value == 'null' || this.orderForm.get('remainingAmount')?.value == null || this.orderForm.get('remainingAmount')?.value == '' ) {
+        this.orderForm.get('remainingAmount')?.setValue(0);
+      }
+
       const formData = new FormData();
 
       if (this.selectedFile) {
