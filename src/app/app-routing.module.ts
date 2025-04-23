@@ -29,7 +29,7 @@ const routes: Routes = [
       {path : 'admin' , component : AdminComponent , canActivate : [authGuard]},
       {path : 'user' , component : UserComponent , canActivate : [authGuard]},
       {path : 'branch' , component : BranchComponent , canActivate : [authGuard] },
-      {path : 'company' , component : CompanyComponent , canActivate : [authGuard] },
+      {path : 'store' , component : CompanyComponent , canActivate : [authGuard] },
       {path : 'product' , component : ProductComponent ,canActivate : [authGuard] },
       {path : 'advertisement' , component : AdvertisementComponent , canActivate : [authGuard]},
       {path : 'department' , component : DepartmentComponent , canActivate : [authGuard] },

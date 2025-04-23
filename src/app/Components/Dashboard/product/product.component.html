@@ -101,28 +101,28 @@
             <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Name Product </label>
             <input type="text" formControlName="name1_en" placeholder="Enter Name Product"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="productForm.get('name1_en')?.errors?.['required'] && productForm.get('name1_en')?.touched"
+            <!-- <small *ngIf="productForm.get('name1_en')?.errors?.['required'] && productForm.get('name1_en')?.touched"
               class="text-red-500 mt-1">
               Name is required
             </small>
             <small *ngIf="productForm.get('name1_en')?.errors?.['minlength']"
               class="text-red-500 mt-1">
               Name must be at least {{ productForm.get('name1_en')?.errors?.['minlength'].requiredLength }} characters
-            </small>
+            </small> -->
           </div>
           <!-- Name Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
             <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم المنتج</label>
             <input type="text" formControlName="name1_ar" placeholder="ادخل الاسم المنتج"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="productForm.get('name1_ar')?.errors?.['required'] && productForm.get('name1_ar')?.touched"
+            <!-- <small *ngIf="productForm.get('name1_ar')?.errors?.['required'] && productForm.get('name1_ar')?.touched"
               class="text-red-500 mt-1">
               Name is required
             </small>
             <small *ngIf="productForm.get('name1_ar')?.errors?.['minlength'] "
               class="text-red-500 mt-1">
               Name must be at least {{ productForm.get('name1_ar')?.errors?.['minlength'].requiredLength }} characters
-            </small>
+            </small> -->
           </div>
         </div>
 
@@ -133,7 +133,7 @@
             <label class="text-[18px] font-medium text-gray-700 mb-1">Product Overview </label>
             <input type="text" formControlName="name2_en" placeholder="Product Overview"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="productForm.get('name2_en')?.errors?.['required'] && productForm.get('name2_en')?.touched"
+            <!-- <small *ngIf="productForm.get('name2_en')?.errors?.['required'] && productForm.get('name2_en')?.touched"
               class="text-red-500 mt-1">
               Product Overview is required
             </small>
@@ -141,14 +141,14 @@
               class="text-red-500 mt-1">
               Product Overview must be at least {{ productForm.get('name2_en')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
           <!-- Name Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
             <label class="text-[18px] font-medium text-gray-700 mb-1">نبذه عن المنتج</label>
             <input type="text" formControlName="name2_ar" placeholder="نبذه عن المنتج"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="productForm.get('name2_ar')?.errors?.['required'] && productForm.get('name2_ar')?.touched"
+            <!-- <small *ngIf="productForm.get('name2_ar')?.errors?.['required'] && productForm.get('name2_ar')?.touched"
               class="text-red-500 mt-1">
               Product Overview is required
             </small>
@@ -156,7 +156,7 @@
               class="text-red-500 mt-1">
               Product Overview must be at least {{ productForm.get('name2_ar')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
         </div>
 
@@ -172,7 +172,7 @@
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="4"></textarea>
 
-            <small
+            <!-- <small
               *ngIf="productForm.get('description_en')?.errors?.['required'] && productForm.get('description_en')?.touched"
               class="text-red-500 mt-1">
               Description is required
@@ -182,7 +182,7 @@
               class="text-red-500 mt-1">
               Description must be at least {{ productForm.get('description_en')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
           <!-- description Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
@@ -196,7 +196,7 @@
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="4"></textarea>
 
-            <small
+            <!-- <small
               *ngIf="productForm.get('description_ar')?.errors?.['required'] && productForm.get('description_ar')?.touched"
               class="text-red-500 mt-1">
               Description is required
@@ -206,7 +206,7 @@
               class="text-red-500 mt-1">
               Description must be at least {{ productForm.get('description_ar')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
         </div>
 
@@ -217,7 +217,7 @@
             <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Quantity </label>
             <input type="text" formControlName="quantity_en" placeholder="Enter Your Quantity"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small
+            <!-- <small
               *ngIf="productForm.get('quantity_en')?.errors?.['required'] && productForm.get('quantity_en')?.touched"
               class="text-red-500 mt-1">
               Quantity is required
@@ -227,7 +227,7 @@
               class="text-red-500 mt-1">
               Quantity must be at least {{ productForm.get('quantity_en')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
           <!-- Quantity Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
@@ -236,7 +236,7 @@
             </label>
             <input type="text" formControlName="quantity_ar" placeholder="ادخل الكميه باللغه العربية"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small
+            <!-- <small
               *ngIf="productForm.get('quantity_ar')?.errors?.['required'] && productForm.get('quantity_ar')?.touched"
               class="text-red-500 mt-1">
               الكمية مطلوبة
@@ -246,7 +246,7 @@
               class="text-red-500 mt-1">
               Quantity must be at least {{ productForm.get('quantity_ar')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
 
         </div>
@@ -258,7 +258,7 @@
             <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your country </label>
             <input type="text" formControlName="country_en" placeholder="Enter Your country"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="productForm.get('country_en')?.errors?.['required'] && productForm.get('country_en')?.touched"
+            <!-- <small *ngIf="productForm.get('country_en')?.errors?.['required'] && productForm.get('country_en')?.touched"
               class="text-red-500 mt-1">
               Country is required
             </small>
@@ -267,7 +267,7 @@
               class="text-red-500 mt-1">
               Country must be at least {{ productForm.get('country_en')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
           <!-- Country Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
@@ -276,7 +276,7 @@
             </label>
             <input type="text" formControlName="country_ar" placeholder="ادخل البلد باللغه العربية"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="productForm.get('country_ar')?.errors?.['required'] && productForm.get('country_ar')?.touched"
+            <!-- <small *ngIf="productForm.get('country_ar')?.errors?.['required'] && productForm.get('country_ar')?.touched"
               class="text-red-500 mt-1">
               الكمية مطلوبة
             </small>
@@ -285,7 +285,7 @@
               class="text-red-500 mt-1">
               Country must be at least {{ productForm.get('country_ar')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
 
         </div>
@@ -297,7 +297,7 @@
             <label class="text-[18px] font-medium text-gray-700 mb-1">Storage conditions</label>
             <input type="text" formControlName="stoargecondition_en" placeholder="Enter Storage conditions"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small
+            <!-- <small
               *ngIf="productForm.get('stoargecondition_en')?.errors?.['required'] && productForm.get('stoargecondition_en')?.touched"
               class="text-red-500 mt-1">
               Country is required
@@ -308,7 +308,7 @@
               Country must be at least
               {{ productForm.get('stoargecondition_en')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
+            </small> -->
           </div>
           <!-- Country Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
@@ -317,7 +317,7 @@
             </label>
             <input type="text" formControlName="stoargecondition_ar" placeholder="شروط التخزين"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <small
+            <!-- <small
               *ngIf="productForm.get('stoargecondition_ar')?.errors?.['required'] && productForm.get('stoargecondition_ar')?.touched"
               class="text-red-500 mt-1">
               الكمية مطلوبة
@@ -328,45 +328,10 @@
               Country must be at least
               {{ productForm.get('stoargecondition_ar')?.errors?.['minlength'].requiredLength }}
               characters
-            </small>
-          </div>
-
-        </div>
-
-        <!-- Price Fields -->
-        <div class="flex justify-between items-center gap-3 ">
-          <!-- Old Price Field -->
-          <div class="w-full flex flex-col">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">Old Price </label>
-            <input type="number" formControlName="oldprice" placeholder="Old Price"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small *ngIf="productForm.get('oldprice')?.errors?.['required'] && productForm.get('oldprice')?.touched"
-              class="text-red-500 mt-1">
-              Old Price is required
-            </small> -->
-            <!-- <small *ngIf="productForm.get('oldprice')?.errors?.['minlength'] "
-              class="text-red-500 mt-1">
-              Name must be at least {{ productForm.get('oldprice')?.errors?.['minlength'].requiredLength }} characters
             </small> -->
           </div>
-        </div>
-        <!-- New Price Field -->
-        <div class="w-full flex flex-col">
-          <label class="text-[18px] font-medium text-gray-700 mb-1">
-            New Price
-          </label>
-          <input type="number" formControlName="newprice" placeholder="New Price"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <small *ngIf="productForm.get('newprice')?.errors?.['required'] && productForm.get('newprice')?.touched"
-            class="text-red-500 mt-1">
-            New Price is required
-          </small>
-          <!-- <small *ngIf="productForm.get('newprice')?.errors?.['minlength'] "
-            class="text-red-500 mt-1">
-            Name must be at least {{ productForm.get('newprice')?.errors?.['minlength'].requiredLength }} characters
-          </small> -->
-        </div>
 
+        </div>
 
 
         <!-- CategoryId And Image Fields -->
@@ -444,7 +409,7 @@
 
         <!-- Buttons  -->
         <div class="flex justify-between mt-4">
-          <button type="submit" [disabled]="productForm.invalid" *ngIf="!showData"
+          <button type="submit"  *ngIf="!showData"
             class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-[40%] px-5 py-2 rounded hover:bg-green-700 transition">
             {{ mode ? 'Update' : 'Add' }}
           </button>
@@ -466,7 +431,7 @@
         <th class="py-2 px-4">#</th>
         <th class="py-2 px-4">Name Product</th>
         <th class="py-2 px-4">Quantity</th>
-        <th class="py-2 px-4">New Price</th>
+        <!-- <th class="py-2 px-4">New Price</th> -->
         <th class="py-2 px-4">Country</th>
         <!-- <th class="py-2 px-4">Category</th> -->
         <!-- <th class="py-2 px-4">Image</th> -->
@@ -487,7 +452,7 @@
         <td class="py-2 px-4 align-middle">{{ product.number }}</td>
         <td class="py-2 px-4 align-middle">{{ product.name1.en }}</td>
         <td class="py-2 px-4 align-middle">{{ product.quantity.en }}</td>
-        <td class="py-2 px-4 align-middle">{{ product.newprice }}</td>
+        <!-- <td class="py-2 px-4 align-middle">{{ product.newprice }}</td> -->
         <td class="py-2 px-4 align-middle">{{ product.country.en }}</td>
         <!-- <td class="py-2 px-4 align-middle">{{ admin.category }}</td> -->
         <!-- <td class="py-2 px-4 align-middle ">
@@ -512,14 +477,11 @@
       <!-- <h2 class="text-2xl font-bold mb-4">قائمة المنتجات</h2> -->
 
       <!-- Pagination -->
-      <div class="p-4">
-        <!-- Page Information -->
+      <!-- <div class="p-4">
         <div class="flex justify-between items-center mb-4 text-lg font-semibold">
           <div class="text-gray-700">
             Page {{ currentPage }} of {{ totalPages }} | Total Products: {{ totalProducts }}
           </div>
-
-          <!-- Pagination Controls -->
           <div class="flex items-center gap-2">
             <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1"
               class="px-4 py-2 border cursor-pointer rounded bg-gray-200 disabled:hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-[0.5]">
@@ -544,7 +506,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
 

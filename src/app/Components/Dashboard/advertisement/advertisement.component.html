@@ -1,9 +1,9 @@
 <div>
 
-  <!-- Add Admin Button -->
+  <!-- Add advertise Button -->
   <div class="mb-6 text-right ">
     <button (click)="openAddModal()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
-      + Add Admin
+      + Add advertise
     </button>
   </div>
 
@@ -34,7 +34,7 @@
           <!-- زر رفع الصور -->
           <div class="relative border-2 border-dashed border-blue-500 rounded-lg p-4 flex flex-col items-center justify-center
                       cursor-pointer bg-blue-50 transition">
-            <input type="file" (change)="onFileSelected($event)" accept="image/*" multiple
+            <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png, .gif, .svg" multiple
               class="absolute inset-0 opacity-0 cursor-pointer"  />
 
             <svg *ngIf="imagesArray.length < 3" class="w-12 h-12 text-blue-500 mb-2" fill="none" stroke="currentColor"

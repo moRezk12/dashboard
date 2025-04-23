@@ -9,15 +9,16 @@
       </select>
     </div> -->
     <button (click)="openAddModal()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
-      + Add Category
+      + Add Store
     </button>
   </div>
 
 
+
   <!-- Modal -->
   <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto relative">
-
+    <div
+      class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
       <div class="flex justify-between items-center mb-4 ">
         <h2 class="text-xl font-semibold mb-4">{{ mode ? 'Edit Category' : 'Add Category' }}</h2>
 
@@ -33,75 +34,142 @@
       <form [formGroup]="adminForm" (ngSubmit)="addorUpdateCategory()" class="space-y-4">
 
         <!-- Name Ar Field -->
-        <div class="flex flex-col" dir="rtl" >
-          <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم باللغه العربيه</label>
-          <input type="text" formControlName="name_ar" placeholder="ادخل الاسم باللغه العربيه"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <small *ngIf="adminForm.get('name_ar')?.errors?.['required'] && adminForm.get('name_ar')?.touched"
-            class="text-red-500 mt-1">
-            Name is required
-          </small>
-          <small *ngIf="adminForm.get('name_ar')?.errors?.['minlength'] && adminForm.get('name_ar')?.touched"
-            class="text-red-500 mt-1">
-            Name must be at least {{ adminForm.get('name_ar')?.errors?.['minlength'].requiredLength }} characters
-          </small>
-        </div>
 
-        <!-- Name En Field -->
-        <div class="flex flex-col"  >
-          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Name </label>
-          <input type="text" formControlName="name_en" placeholder="Enter Your Name"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <small *ngIf="adminForm.get('name_en')?.errors?.['required'] && adminForm.get('name_en')?.touched"
-            class="text-red-500 mt-1">
-            Name is required
-          </small>
-          <small *ngIf="adminForm.get('name_en')?.errors?.['minlength'] && adminForm.get('name_en')?.touched"
-            class="text-red-500 mt-1">
-            Name must be at least {{ adminForm.get('name_en')?.errors?.['minlength'].requiredLength }} characters
-          </small>
-        </div>
-
-        <!-- Image Field -->
-        <!-- <div class="flex flex-col">
-          <label class="text-[18px] font-medium text-gray-700 mb-1">Image</label>
-          <input type="file" formControlName="image" placeholder="Image"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <small *ngIf="adminForm.get('image')?.errors?.['required'] && adminForm.get('image')?.touched"
-            class="text-red-500 mt-1">
-            Role is required
-          </small>
-        </div> -->
-
-        <div class="flex flex-col">
-          <label class="text-[18px] font-medium text-gray-700 mb-1">Image</label>
-
-          <!-- إدخال رفع الصورة -->
-          <input type="file" (change)="onFileSelected($event)" placeholder="Image"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-
-          <!-- عرض الصورة عند رفعها -->
-          <div *ngIf="imagePreview" class="relative mt-2 w-fit ">
-            <img [src]="imagePreview" alt="Selected Image" class="w-32 h-32 object-cover rounded border shadow-md">
-
-            <!-- زر الحذف -->
-            <button (click)="removeImage()"
-              class="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 hover:bg-red-700">
-              X
-            </button>
+        <div class="flex justify-between gap-4" >
+          <!-- name_en Field -->
+          <div class="flex flex-col w-full "  >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your name_en </label>
+            <input type="text" formControlName="name_en" placeholder="Enter Your name_en"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
-          <!-- رسالة الخطأ -->
-          <small *ngIf="adminForm.get('image')?.errors?.['required'] && adminForm.get('image')?.touched"
-            class="text-red-500 mt-1">
-            Image is required
-          </small>
+          <!-- name_ar Field -->
+          <div class="flex flex-col w-full  " dir="rtl"  >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل اسم المخرن بالعربيه  </label>
+            <input type="text" formControlName="name_ar" placeholder="ادخل اسم المخرن بالعربيه "
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
         </div>
+
+        <div class="flex justify-between gap-4" >
+          <!-- owner_en Field -->
+          <div class="flex flex-col w-full "  >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your owner_en </label>
+            <input type="text" formControlName="owner_en" placeholder="Enter Your owner_en"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <!-- owner_ar Field -->
+          <div class="flex flex-col w-full " dir="rtl" >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل اسم مالك المخرن بالعربيه  </label>
+            <input type="text" formControlName="owner_ar" placeholder="ادخل اسم مالك المخرن بالعربيه "
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+
+        <div class="flex justify-between gap-4" >
+          <!-- location1_en Field -->
+          <div class="flex flex-col w-full "  >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your location1_en </label>
+            <input type="text" formControlName="location1_en" placeholder="Enter Your location1_en"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <!-- location1_ar Field -->
+          <div class="flex flex-col w-full " dir="rtl" >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل موقع المخرن بالعربيه </label>
+            <input type="text" formControlName="location1_ar" placeholder="ادخل موقع المخرن بالعربيه"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+        <div class="flex justify-between gap-4" >
+          <!-- location2_en Field -->
+          <div class="flex flex-col w-full "  >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your location2_en </label>
+            <input type="text" formControlName="location2_en" placeholder="Enter Your location2_en"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <!-- location2_ar Field -->
+          <div class="flex flex-col w-full " dir="rtl" >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل موقع المخرن بالعربيه </label>
+            <input type="text" formControlName="location2_ar" placeholder="ادخل موقع المخرن بالعربيه"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+
+        <div class="flex justify-between gap-4" >
+          <!-- workdate_en Field -->
+        <div class="flex flex-col w-full "  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your workdate_en </label>
+          <input type="text" formControlName="workdate_en" placeholder="Enter Your workdate_en"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- workdate_ar Field -->
+        <div class="flex flex-col w-full " dir="rtl" >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الوقت باللغه العربيه </label>
+          <input type="text" formControlName="workdate_ar" placeholder="ادخل الوقت باللغه العربيه"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+        <div class="flex justify-between gap-4" >
+          <!-- Phone Field -->
+          <div class="flex flex-col w-full "  >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Phone </label>
+            <input type="text" formControlName="phone" placeholder="Enter Your Phone"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <!-- Phone Whatsapp Field -->
+          <div class="flex flex-col w-full "  >
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your PhoneWhatsapp </label>
+            <input type="text" formControlName="Watsapp" placeholder="Enter Your Whatsapp"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+
+
+        <!-- Image Field -->
+
+    <!-- Image Field -->
+    <div class="w-full flex flex-col">
+      <label class="text-[18px] font-medium text-gray-700 mb-1">Upload Image</label>
+
+      <div class="relative border-2 border-dashed border-blue-500 rounded-lg p-4 flex flex-col items-center justify-center
+                  cursor-pointer bg-blue-50 transition">
+        <input type="file" (change)="onFileSelected($event)" accept="image/*"
+          class="absolute inset-0 opacity-0 cursor-pointer" *ngIf="!showData" />
+
+        <svg *ngIf="!image || !showData" class="w-12 h-12 text-blue-500 mb-2" fill="none"
+          stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+        </svg>
+
+        <p class="text-gray-600" *ngIf="!image">Click to upload an image</p>
+
+        <!-- عرض الصورة -->
+        <div class="mt-4" *ngIf="image">
+          <div class="relative w-32 h-32">
+            <img [src]="image" class="w-full h-full object-cover rounded-lg border border-gray-300 shadow">
+            <button type="button" (click)="removeImage()" *ngIf="!showData"
+              class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
         <!-- Buttons -->
         <div class="flex justify-between mt-4">
-          <button type="submit" [disabled]="adminForm.invalid" *ngIf="!show"
+          <button type="submit" [disabled]="adminForm.invalid" *ngIf="show"
             class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-[40%] px-5 py-2 rounded hover:bg-green-700 transition">
             {{ mode ? 'Update' : 'Add' }}
           </button>
@@ -120,27 +188,28 @@
     <thead class="bg-gray-100 text-gray-700">
       <tr>
         <th class="py-2 px-4">#</th>
-        <th class="py-2 px-4" *ngIf="selectedLang === 'en'" >Name-en</th>
-        <th class="py-2 px-4" *ngIf="selectedLang === 'ar'" >Name-ar</th>
-        <th class="py-2 px-4">Image</th>
+        <th class="py-2 px-4">Owner(EN)</th>
+        <th class="py-2 px-4">location(EN)</th>
+        <th class="py-2 px-4">phoneWhatsapp</th>
         <th class="py-2 px-4">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let categorie of categories; let i = index" class="border-b">
+      <tr *ngFor="let store of stores; let i = index" class="border-b">
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
-        <td *ngIf="selectedLang === 'ar'" class="py-2 px-4 align-middle ">{{ categorie.name[selectedLang] }}</td>
-        <td *ngIf="selectedLang === 'en'" class="py-2 px-4 align-middle ">{{ categorie.name[selectedLang] }}</td>
-        <td class="py-2 px-4 align-middle  ">
-          <img class=" mx-auto w-[50px] h-[50px] rounded-full " [src]="categorie.image.secure_url" alt="">
-        </td>
+        <td class="py-2 px-4 align-middle ">{{ store?.owner?.en }}</td>
+        <td class="py-2 px-4 align-middle ">{{ store?.location1?.en }}</td>
+        <td class="py-2 px-4 align-middle ">{{ store?.watsapp }}</td>
+
         <td class="py-3 px-4 text-center align-middle">
           <div class="flex justify-center items-center space-x-2">
-            <button (click)="showCategory(categorie._id)"
+            <button (click)="addNewProduct(store._id)"
+              class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Add Product </button>
+            <button (click)="showStore(store)"
               class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Show</button>
-            <button (click)="editCategory(categorie)"
+            <button (click)="editStore(store)"
               class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Edit</button>
-            <button (click)="deleteCategory(categorie._id)"
+            <button (click)="deleteStore(store._id)"
               class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
           </div>
         </td>
@@ -148,4 +217,157 @@
     </tbody>
   </table>
 
+</div>
+
+
+
+<!-- Show Data For one Store -->
+
+<div *ngIf="showOneStore" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
+
+    <!-- ✕ Close Button -->
+    <div class="absolute top-4 right-4">
+      <div
+        class="bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+        (click)="closeOneStore()">
+        ✕
+      </div>
+    </div>
+
+    <!-- ✅ محتوى المتجر -->
+    <div *ngIf="storeData" class="flex gap-6 flex-wrap items-start">
+
+      <!-- 🖼️ صورة المتجر -->
+      <div class="w-32 h-32 flex-shrink-0">
+        <img [src]="storeData.image?.secure_url" alt="Store Image"
+          class="w-full h-full object-cover rounded-xl border" />
+      </div>
+
+      <!-- 📋 التفاصيل -->
+      <div class="flex-1 space-y-2">
+        <h2 class="text-2xl font-bold text-blue-700">
+          {{ storeData.name?.en }} / {{ storeData.name?.ar }}
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-gray-700">
+          <p><span class="font-semibold text-black">Owner:</span> {{ storeData.owner?.en }} / {{ storeData.owner?.ar }}</p>
+          <p><span class="font-semibold text-black">Phone:</span> {{ storeData.phone }}</p>
+          <p><span class="font-semibold text-black">Whatsapp:</span> {{ storeData.watsapp }}</p>
+          <p><span class="font-semibold text-black">Work Date:</span> {{ storeData.workdate?.en }} / {{ storeData.workdate?.ar }}</p>
+          <p><span class="font-semibold text-black">Location 1:</span> {{ storeData.location1?.en }} / {{ storeData.location1?.ar }}</p>
+          <p><span class="font-semibold text-black">Location 2:</span> {{ storeData.location2?.en }} / {{ storeData.location2?.ar }}</p>
+        </div>
+      </div>
+    </div>
+
+
+
+    <table class="w-full bg-white shadow rounded overflow-hidden text-center mt-[20px] ">
+      <thead class="bg-gray-100 text-gray-700">
+        <tr>
+          <th class="py-2 px-4">#</th>
+          <th class="py-2 px-4">Name Store</th>
+          <th class="py-2 px-4">Old Price</th>
+          <th class="py-2 px-4">New Price</th>
+          <th class="py-2 px-4">Quantity</th>
+          <th class="py-2 px-4">ِActions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of allProducts let i = index" class="border-b">
+          <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
+          <td class="py-2 px-4 align-middle ">{{ product.Mostawdaa?.en }} </td>
+          <td class="py-2 px-4 align-middle ">{{ product.oldprice }}</td>
+          <td class="py-2 px-4 align-middle ">{{ product.newprice }}</td>
+          <td class="py-2 px-4 align-middle ">{{ product.quantity?.en }} </td>
+
+          <td class="py-3 px-4 text-center align-middle">
+            <div class="flex justify-center items-center space-x-2">
+              <button (click)="editStore(product)"
+                class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Edit</button>
+              <button (click)="deleteStore(product._id)"
+                class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+<!-- Add Product -->
+<div *ngIf="showModalAddProduct" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div
+    class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
+    <div class="flex justify-end items-center mb-4 ">
+
+      <div
+        class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+        (click)="closeModalproduct()">
+        ✕
+      </div>
+    </div>
+    <form action="" [formGroup]="addproductForm"   (ngSubmit)="addProduct()">
+      <div class="flex justify-between gap-4" >
+        <!-- newprice Field -->
+        <div class="flex flex-col w-full "  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your newprice </label>
+          <input type="text" formControlName="newprice" placeholder="Enter Your newprice"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- oldprice Field -->
+        <div class="flex flex-col w-full "  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your oldprice </label>
+          <input type="text" formControlName="oldprice" placeholder="Enter Your oldprice"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+      <div class="flex justify-between gap-4" >
+        <!-- owner_en Field -->
+        <div class="flex flex-col w-full "  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your owner_en </label>
+          <input type="text" formControlName="owner_en" placeholder="Enter Your owner_en"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- owner_ar Field -->
+        <div class="flex flex-col w-full " dir="rtl" >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الكميه بالعربيه  </label>
+          <input type="text" formControlName="owner_ar" placeholder="ادخل الكميه بالعربيه "
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+
+      <!-- CategoryId And Image Fields -->
+      <div class="w-full flex flex-col" >
+        <label class="text-[18px] font-medium text-gray-700 mb-1">Select Company</label>
+
+        <select formControlName="categoryId"
+          class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
+          <option value="" selected>Select a Company</option>
+          <option *ngFor="let prod of allProducts" [value]="prod._id">
+            {{ prod.name.en }}-{{ prod.name.ar }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between mt-4">
+        <button type="submit" [disabled]="addproductForm.invalid"
+          class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-[40%] px-5 py-2 rounded hover:bg-green-700 transition">
+          {{ modeProduct ? 'Update' : 'Add' }}
+        </button>
+        <button type="button" (click)="closeModalproduct()"
+          class="bg-gray-500 cursor-pointer text-white px-5 py-2 rounded hover:bg-gray-600 transition">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>

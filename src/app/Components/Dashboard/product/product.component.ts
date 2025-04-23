@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CategoryService } from 'src/app/Core/Services/Company/category.service';
+import { CategoryService } from 'src/app/Core/Services/Category/category.service';
 import { DepartmentService } from 'src/app/Core/Services/department/department.service';
 import { ProductService } from 'src/app/Core/Services/Products/product.service';
 import Swal from 'sweetalert2';
@@ -45,30 +45,28 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
-      name1_en: ['', [Validators.required, Validators.minLength(3)]],
-      name1_ar: ['', [Validators.required, Validators.minLength(3)]],
-      name2_en: ['', [Validators.required, Validators.minLength(3)]],
-      name2_ar: ['', [Validators.required, Validators.minLength(3)]],
-      description_en: ['', [Validators.required, Validators.minLength(10)]],
-      description_ar: ['', [Validators.required, Validators.minLength(10)]],
-      newprice: ['', [Validators.required]],
-      oldprice: [''],
-      quantity_en: ['', [Validators.required, Validators.minLength(3)]],
-      quantity_ar: ['', [Validators.required, Validators.minLength(3)]],
-      country_en: ['', [Validators.required, Validators.minLength(3)]],
-      country_ar: ['', [Validators.required, Validators.minLength(3)]],
-      stoargecondition_en: ['', [Validators.required, Validators.minLength(3)]],
-      stoargecondition_ar: ['', [Validators.required, Validators.minLength(3)]],
-      categoryId: ['', [Validators.required, Validators.minLength(3)]],
-      departmentId: ['', [Validators.required, Validators.minLength(3)]],
-      image: this.fb.array([], [Validators.required]),
+      name1_en: [''],
+      name1_ar: [''],
+      name2_en: [''],
+      name2_ar: [''],
+      description_en: [''],
+      description_ar: [''],
+      quantity_en: [''],
+      quantity_ar: [''],
+      country_en: [''],
+      country_ar: [''],
+      stoargecondition_en: [''],
+      stoargecondition_ar: [''],
+      categoryId: [''],
+      departmentId: [''],
+      image: this.fb.array([]),
       tableData: this.fb.array([]),
       animalTypes: this.fb.array([])
 
     });
 
     // Get All Products
-    this.getProducts(this.currentPage);
+    this.getProducts();
     // Get Category
     this.getCategory();
     // Get Department
@@ -161,8 +159,8 @@ export class ProductComponent implements OnInit {
 
 
   // Get All Products
-  getProducts(page : number ): void {
-    this._productService.getProducts(page).subscribe({
+  getProducts( ): void {
+    this._productService.getProducts().subscribe({
       next: (res) => {
         console.log(res);
 
@@ -189,7 +187,7 @@ export class ProductComponent implements OnInit {
   // Pagination
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
-      this.getProducts(page);
+      // this.getProducts(page);
     }
   }
 
@@ -239,7 +237,7 @@ export class ProductComponent implements OnInit {
           text: 'Product order has been updated successfully.',
           timer: 2000
         }).then(() => {
-          this.getProducts(this.currentPage);
+          this.getProducts();
         });
       },
       error: () => {
@@ -322,7 +320,7 @@ export class ProductComponent implements OnInit {
 
     const imageFormArray = this.productForm.get('image') as FormArray;
     imageFormArray.clear();
-
+    // imagesArray
 
     this.editingIndex = null;
     this.showModal = true;
@@ -400,7 +398,7 @@ export class ProductComponent implements OnInit {
             timer: 2000,
             timerProgressBar: true,
           }).then(() => {
-            this.getProducts(this.currentPage);
+            this.getProducts();
 
             this.productForm.reset();
           });
@@ -432,7 +430,7 @@ export class ProductComponent implements OnInit {
             timer: 2000,
             timerProgressBar: true,
           }).then(() => {
-            this.getProducts(this.currentPage);
+            this.getProducts();
             this.productForm.reset();
           });
         },
@@ -530,8 +528,6 @@ export class ProductComponent implements OnInit {
       name2_ar: product.name2.ar,
       description_en: product.description.en,
       description_ar: product.description.ar,
-      newprice: product.newprice,
-      oldprice: product.oldprice,
       quantity_en: product.quantity.en,
       quantity_ar: product.quantity.ar,
       country_en: product.country.en,
@@ -602,8 +598,6 @@ export class ProductComponent implements OnInit {
       name2_ar: product.name2.ar,
       description_en: product.description.en,
       description_ar: product.description.ar,
-      newprice: product.newprice,
-      oldprice: product.oldprice,
       quantity_en: product.quantity.en,
       quantity_ar: product.quantity.ar,
       country_en: product.country.en,
@@ -667,7 +661,7 @@ export class ProductComponent implements OnInit {
               timer: 2000,
               timerProgressBar: true,
             }).then(() => {
-              this.getProducts(this.currentPage);
+              this.getProducts();
             });
           },
           error: (err) => {

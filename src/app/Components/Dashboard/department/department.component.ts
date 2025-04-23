@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CategoryService } from 'src/app/Core/Services/Company/category.service';
 import { DepartmentService } from 'src/app/Core/Services/department/department.service';
 import Swal from 'sweetalert2';
 
