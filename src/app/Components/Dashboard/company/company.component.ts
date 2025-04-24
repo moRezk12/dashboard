@@ -388,7 +388,7 @@ export class CompanyComponent implements OnInit {
         }).then(() => {
           this.getStore();
           this.showModalAddProduct = false;
-          this.adminForm.reset();
+          this.addproductForm.reset();
         });
       },
       error: (err) => {
