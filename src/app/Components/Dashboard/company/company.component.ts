@@ -14,6 +14,7 @@ export class CompanyComponent implements OnInit {
 
   adminForm!: FormGroup;
   addproductForm!: FormGroup;
+  editproductForm!: FormGroup;
 
 
   selectedLang: string = 'ar';
@@ -32,18 +33,18 @@ export class CompanyComponent implements OnInit {
   ngOnInit(): void {
     this.adminForm = this.fb.group({
       image: ['', [Validators.required]],
-      Watsapp: ['', [Validators.required, Validators.minLength(3)]],
-      phone: ['', [Validators.required, Validators.minLength(3)]],
-      workdate_en: ['', [Validators.required, Validators.minLength(3)]],
-      workdate_ar: ['', [Validators.required, Validators.minLength(3)]],
-      owner_en: ['', [Validators.required, Validators.minLength(3)]],
-      owner_ar: ['', [Validators.required, Validators.minLength(3)]],
-      name_en: ['', [Validators.required, Validators.minLength(3)]],
-      name_ar: ['', [Validators.required, Validators.minLength(3)]],
-      location1_en: ['', [Validators.required, Validators.minLength(3)]],
-      location1_ar: ['', [Validators.required, Validators.minLength(3)]],
-      location2_en: ['', [Validators.required, Validators.minLength(3)]],
-      location2_ar: ['', [Validators.required, Validators.minLength(3)]],
+      Watsapp: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+      workdate_en: ['', [Validators.required]],
+      workdate_ar: ['', [Validators.required]],
+      owner_en: ['', [Validators.required]],
+      owner_ar: ['', [Validators.required]],
+      name_en: ['', [Validators.required]],
+      name_ar: ['', [Validators.required]],
+      location1_en: ['', [Validators.required]],
+      location1_ar: ['', [Validators.required]],
+      location2_en: ['', [Validators.required]],
+      location2_ar: ['', [Validators.required]],
     });
 
     this.addproductForm = this.fb.group({
@@ -55,20 +56,21 @@ export class CompanyComponent implements OnInit {
       quantity_ar: [''],
     });
 
+    this.editproductForm = this.fb.group({
+      newprice: [''],
+      oldprice: [''],
+      quantity: this.fb.group({
+        en: [''],
+        ar: ['']
+      })
+    });
+
+
+
     // Get stores
     this.getStore();
 
     // Get All product
-
-    this._productService.getProducts().subscribe({
-      next: (res) => {
-        this.allProducts = res;
-        // console.log(res);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
 
   }
 
@@ -86,7 +88,7 @@ export class CompanyComponent implements OnInit {
     reader.onload = (e: any) => {
       this.image = e.target.result;
       this.selectedFile = file;
-      this.adminForm.get('image')?.setValue(this.image); // Just for validation
+      this.adminForm.get('image')?.setValue(this.image);
     };
     reader.readAsDataURL(file);
   }
@@ -147,7 +149,7 @@ export class CompanyComponent implements OnInit {
 
   // Open the modal
   openAddModal() {
-    this.show = true;
+    this.show = false;
     this.mode = false;
     this.adminForm.enable();
     this.adminForm.reset();
@@ -207,6 +209,7 @@ export class CompanyComponent implements OnInit {
       });
     }else {
       // Update Category
+
       this._storeServices.updateStore(this.selectId, formData).subscribe({
         next: (res) => {
           Swal.fire({
@@ -263,7 +266,9 @@ export class CompanyComponent implements OnInit {
       location2_ar: category.location2.ar || '',
     });
 
-    this.image = category.image;
+    this.image = category.image.secure_url;
+    this.adminForm.get('image')?.setValue(this.image);
+
     this.selectedFile = null;
     this.selectId = category._id;
     this.showModal = true;
@@ -272,10 +277,18 @@ export class CompanyComponent implements OnInit {
   // Show an admin
   show : boolean = false ;
   storeData : any ;
+  prodId! : number
+
   showStore(categoryId: any) {
     this.showOneStore = true;
     this.storeData = categoryId;
-    this._storeServices.getallproductForoneStore(categoryId._id).subscribe({
+    this.prodId = categoryId._id;
+    this.getallproduct();
+  }
+
+  // Get All Product
+  getallproduct(){
+    this._storeServices.getallproductForoneStore( this.prodId).subscribe({
       next: (res) => {
         this.allProducts = res.data.products ;
         console.log(this.allProducts);
@@ -343,16 +356,155 @@ export class CompanyComponent implements OnInit {
   // addNewProduct
   modeProduct : boolean = false ;
   addNewProduct(id : number ){
+    console.log(id);
+    this.addproductForm.get('Mostawdaa')?.setValue(id);
+    this._productService.getProducts().subscribe({
+      next: (res) => {
+        if(res?.data?.products?.length > 0){
+          this.allProducts = res.data.products;
+          // console.log(this.allProducts);
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
     this.showModalAddProduct = true;
-    this.modeProduct = true ;
+    this.modeProduct = false ;
   }
   addProduct(){
 
+
+    this._storeServices.createProduct(this.addproductForm.value).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: res.message,
+          confirmButtonColor: '#28a745',
+          confirmButtonText: 'OK',
+          timer: 2000,
+          timerProgressBar: true,
+        }).then(() => {
+          this.getStore();
+          this.showModalAddProduct = false;
+          this.adminForm.reset();
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: err.error?.message,
+          confirmButtonColor: '#d33',
+          confirmButtonText: 'Close',
+          timer: 2000,
+          timerProgressBar: true,
+        }).then(() => {
+          this.showModalAddProduct = true;
+        });
+      }
+    });
+
+  }
+
+
+  selectIdForProduct !: number ;
+  editProductForStore(product  :any){
+    this.showModaleditProduct = true;
+    console.log(product);
+    this.showOneStore = false;
+    this.selectIdForProduct = product._id
+
+    this.editproductForm.patchValue({
+      newprice: product.newprice,
+      oldprice: product.oldprice,
+      quantity: {
+        en: product.quantity.en,
+        ar: product.quantity.ar
+      }
+    })
+
+  }
+
+  editNewpriceForProduct(){
+    console.log(this.editproductForm.value);
+
+    this._storeServices.updateProduct(this.selectIdForProduct , this.editproductForm.value).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: res.message,
+          confirmButtonColor: '#28a745',
+          timer: 2000,
+          timerProgressBar: true,
+        }).then(() => {
+          this.showModaleditProduct = false ;
+          this.getallproduct();
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: err.error?.message,
+          confirmButtonColor: '#d33',
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    });
+  }
+
+  deleteProductForStore(id : string){
+    console.log(id);
+
+    Swal.fire({
+      title: 'Are you sure want to delete ?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._storeServices.deleteProduct(id).subscribe({
+          next: (res) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: res.message,
+              confirmButtonColor: '#28a745',
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+              this.getallproduct();
+            });
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: err.error?.message,
+              confirmButtonColor: '#d33',
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          }
+        });
+      }
+    });
   }
 
   closeModalproduct(){
     this.showModalAddProduct = false;
     this.addproductForm.reset();
+  }
+  showModaleditProduct : boolean = false ;
+  closeEditproduct(){
+    this.showModaleditProduct = false;
   }
 
 }

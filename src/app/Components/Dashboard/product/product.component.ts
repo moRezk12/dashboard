@@ -57,7 +57,6 @@ export class ProductComponent implements OnInit {
       country_ar: [''],
       stoargecondition_en: [''],
       stoargecondition_ar: [''],
-      categoryId: [''],
       departmentId: [''],
       image: this.fb.array([]),
       tableData: this.fb.array([]),

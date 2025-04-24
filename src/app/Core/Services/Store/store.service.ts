@@ -31,8 +31,24 @@ export class StoreService {
   }
 
 
+  // Get Product
   getallproductForoneStore(id : any): Observable<any> {
     return this.http.get(`${environment.apiUrl}/product/getProductsByMostawdaa/${id}`);
+  }
+
+  // Create Product
+  createProduct(data : any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/product/createMix`, data);
+  }
+
+  // Update Product
+  updateProduct( id : any , data : any): Observable<any> {
+    return this.http.patch(`${environment.apiUrl}/product/updateMixPriceAndQuantity/${id}`, data);
+  }
+
+  // Delete Product
+  deleteProduct(id : any): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/category/deleteMix/${id}`);
   }
 
 }
