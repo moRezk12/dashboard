@@ -349,7 +349,7 @@
 
         <select formControlName="Product"
           class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
-          <!-- <option value="" hidden>Select a Company</option> -->
+          <option value="" hidden>Select a Product</option>
           <option *ngFor="let prod of allProducts" [value]="prod._id">
             {{ prod.name1.en }}-{{ prod.name1.ar }}
           </option>
