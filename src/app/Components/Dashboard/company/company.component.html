@@ -311,6 +311,20 @@
       </div>
     </div>
     <form action="" [formGroup]="addproductForm"   (ngSubmit)="addProduct()">
+
+            <!-- CategoryId And Image Fields -->
+      <div class="w-full flex flex-col" >
+        <label class="text-[18px] font-medium text-gray-700 mb-1">Select Product </label>
+
+        <select formControlName="Product"
+          class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
+          <option value="" hidden>Select a Product</option>
+          <option *ngFor="let prod of allProducts" [value]="prod._id">
+            {{ prod.name1.en }}-{{ prod.name1.ar }}
+          </option>
+        </select>
+      </div>
+
       <div class="flex justify-between gap-4" >
         <!-- newprice Field -->
         <div class="flex flex-col w-full "  >
@@ -343,18 +357,7 @@
       </div>
 
 
-      <!-- CategoryId And Image Fields -->
-      <div class="w-full flex flex-col" >
-        <label class="text-[18px] font-medium text-gray-700 mb-1">Select Product </label>
 
-        <select formControlName="Product"
-          class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
-          <option value="" hidden>Select a Product</option>
-          <option *ngFor="let prod of allProducts" [value]="prod._id">
-            {{ prod.name1.en }}-{{ prod.name1.ar }}
-          </option>
-        </select>
-      </div>
 
       <!-- Buttons -->
       <div class="flex justify-between mt-4">
