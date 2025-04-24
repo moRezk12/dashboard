@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from 'src/app/Core/Services/Category/category.service';
 import { ProductService } from 'src/app/Core/Services/Products/product.service';
 import { StoreService } from 'src/app/Core/Services/Store/store.service';
@@ -14,7 +15,7 @@ export class CompanyComponent implements OnInit {
 
   adminForm!: FormGroup;
   addproductForm!: FormGroup;
-  editproductForm!: FormGroup;
+
 
 
   selectedLang: string = 'ar';
@@ -28,7 +29,9 @@ export class CompanyComponent implements OnInit {
   selectId! : number
   mode : boolean = false;
 
-  constructor(private fb: FormBuilder , private _productService : ProductService , private _storeServices : StoreService) {}
+  constructor(private fb: FormBuilder ,
+    private _router : Router,
+    private _productService : ProductService , private _storeServices : StoreService) {}
 
   ngOnInit(): void {
     this.adminForm = this.fb.group({
@@ -48,21 +51,12 @@ export class CompanyComponent implements OnInit {
     });
 
     this.addproductForm = this.fb.group({
-      Mostawdaa: [''],
-      Product: [''],
-      newprice: [''],
-      oldprice: [''],
-      quantity_en: [''],
-      quantity_ar: [''],
-    });
-
-    this.editproductForm = this.fb.group({
-      newprice: [''],
-      oldprice: [''],
-      quantity: this.fb.group({
-        en: [''],
-        ar: ['']
-      })
+      Mostawdaa: ['', [Validators.required]],
+      Product: ['' , [Validators.required] ],
+      newprice: ['' , [Validators.required] ],
+      oldprice: ['' , [Validators.required] ],
+      quantity_en: ['' , [Validators.required] ],
+      quantity_ar: ['' , [Validators.required] ],
     });
 
 
@@ -192,6 +186,9 @@ export class CompanyComponent implements OnInit {
             this.getStore();
             this.showModal = false;
             this.adminForm.reset();
+            this.image = null;
+            this.selectedFile = null;
+            this.adminForm.get('image')?.setValue(null);
           });
         },
         error: (err) => {
@@ -280,10 +277,14 @@ export class CompanyComponent implements OnInit {
   prodId! : number
 
   showStore(categoryId: any) {
-    this.showOneStore = true;
-    this.storeData = categoryId;
-    this.prodId = categoryId._id;
-    this.getallproduct();
+
+    this._router.navigate([`/details/${categoryId._id}`]);
+
+
+    // this.showOneStore = true;
+    // this.storeData = categoryId;
+    // this.prodId = categoryId._id;
+    // this.getallproduct();
   }
 
   // Get All Product
@@ -408,103 +409,9 @@ export class CompanyComponent implements OnInit {
   }
 
 
-  selectIdForProduct !: number ;
-  editProductForStore(product  :any){
-    this.showModaleditProduct = true;
-    console.log(product);
-    this.showOneStore = false;
-    this.selectIdForProduct = product._id
-
-    this.editproductForm.patchValue({
-      newprice: product.newprice,
-      oldprice: product.oldprice,
-      quantity: {
-        en: product.quantity.en,
-        ar: product.quantity.ar
-      }
-    })
-
-  }
-
-  editNewpriceForProduct(){
-    console.log(this.editproductForm.value);
-
-    this._storeServices.updateProduct(this.selectIdForProduct , this.editproductForm.value).subscribe({
-      next: (res) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Deleted!',
-          text: res.message,
-          confirmButtonColor: '#28a745',
-          timer: 2000,
-          timerProgressBar: true,
-        }).then(() => {
-          this.showModaleditProduct = false ;
-          this.getallproduct();
-        });
-      },
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: err.error?.message,
-          confirmButtonColor: '#d33',
-          timer: 2000,
-          timerProgressBar: true,
-        });
-      }
-    });
-  }
-
-  deleteProductForStore(id : string){
-    console.log(id);
-
-    Swal.fire({
-      title: 'Are you sure want to delete ?',
-      text: "",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this._storeServices.deleteProduct(id).subscribe({
-          next: (res) => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Deleted!',
-              text: res.message,
-              confirmButtonColor: '#28a745',
-              timer: 2000,
-              timerProgressBar: true,
-            }).then(() => {
-              this.getallproduct();
-            });
-          },
-          error: (err) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error!',
-              text: err.error?.message,
-              confirmButtonColor: '#d33',
-              timer: 2000,
-              timerProgressBar: true,
-            });
-          }
-        });
-      }
-    });
-  }
-
   closeModalproduct(){
     this.showModalAddProduct = false;
     this.addproductForm.reset();
-  }
-  showModaleditProduct : boolean = false ;
-  closeEditproduct(){
-    this.showModaleditProduct = false;
   }
 
 }

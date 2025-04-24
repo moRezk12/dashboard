@@ -1,0 +1,183 @@
+ <div  class="flex gap-6 flex-wrap items-start">
+
+      <!-- 🖼️ صورة المتجر -->
+      <!-- <div class="w-32 h-32 flex-shrink-0">
+        <img [src]="storeData.image?.secure_url" alt="Store Image"
+          class="w-full h-full object-cover rounded-xl border" />
+      </div> -->
+
+      <!-- 📋 التفاصيل -->
+      <div class="flex-1 space-y-2">
+        <!-- <h2 class="text-2xl font-bold text-blue-700">
+          {{ storeData.name?.en }} / {{ storeData.name?.ar }}
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-gray-700">
+          <p><span class="font-semibold text-black">Owner:</span> {{ storeData.owner?.en }} / {{ storeData.owner?.ar }}</p>
+          <p><span class="font-semibold text-black">Phone:</span> {{ storeData.phone }}</p>
+          <p><span class="font-semibold text-black">Whatsapp:</span> {{ storeData.watsapp }}</p>
+          <p><span class="font-semibold text-black">Work Date:</span> {{ storeData.workdate?.en }} / {{ storeData.workdate?.ar }}</p>
+          <p><span class="font-semibold text-black">Location 1:</span> {{ storeData.location1?.en }} / {{ storeData.location1?.ar }}</p>
+          <p><span class="font-semibold text-black">Location 2:</span> {{ storeData.location2?.en }} / {{ storeData.location2?.ar }}</p>
+        </div>
+      </div> -->
+    </div>
+
+
+
+    <table class="w-full bg-white shadow rounded overflow-hidden text-center mt-[20px] ">
+      <thead class="bg-gray-100 text-gray-700">
+        <tr>
+          <th class="py-2 px-4">#</th>
+          <th class="py-2 px-4">Name Store</th>
+          <th class="py-2 px-4">Old Price</th>
+          <th class="py-2 px-4">New Price</th>
+          <th class="py-2 px-4">Quantity</th>
+          <th class="py-2 px-4">ِActions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of allProducts let i = index" class="border-b">
+          <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
+          <td class="py-2 px-4 align-middle ">{{ product.Mostawdaa?.en }} </td>
+          <td class="py-2 px-4 align-middle ">{{ product.oldprice }}</td>
+          <td class="py-2 px-4 align-middle ">{{ product.newprice }}</td>
+          <td class="py-2 px-4 align-middle ">{{ product.quantity?.en }} </td>
+
+          <td class="py-3 px-4 text-center align-middle">
+            <div class="flex justify-center items-center space-x-2">
+              <button (click)="showProductForStore(product)"
+                class="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500">Show</button>
+              <button (click)="editProductForStore(product)"
+                class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Edit</button>
+              <button (click)="deleteProductForStore(product._id)"
+                class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+ </div>
+
+
+
+ <div *ngIf="showModale" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-[80%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
+    <!-- Close Button -->
+    <div class="flex justify-end items-center mb-4">
+      <div class="bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300" (click)="closemodel()">
+        ✕
+      </div>
+    </div>
+
+    <!-- Store Name -->
+    <h3 class="text-2xl font-bold mb-6 text-center">
+      Store Name: <span class="text-gray-600">{{ showData.Mostawdaa?.en }} / {{ showData.Mostawdaa?.ar }}</span>
+    </h3>
+
+    <!-- Price Section -->
+    <div class="grid grid-cols-2 gap-6 mb-8">
+      <div class="bg-blue-100 p-4 rounded-lg shadow-md">
+        <h4 class="text-lg font-semibold text-blue-600">Old Price</h4>
+        <p class="text-xl text-red-600">{{ showData.oldprice }} EGP</p>
+      </div>
+      <div class="bg-green-100 p-4 rounded-lg shadow-md">
+        <h4 class="text-lg font-semibold text-green-600">New Price</h4>
+        <p class="text-xl text-green-600">{{ showData.newprice }} EGP</p>
+      </div>
+    </div>
+
+    <!-- Product Details Section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2  gap-6 mb-8">
+      <!-- Product Name -->
+      <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+        <h5 class="font-semibold text-gray-800">Product Name</h5>
+        <p>{{ showData.Product.name1?.en }} / {{ showData.Product.name1?.ar }}</p>
+      </div>
+
+      <!-- Product Description -->
+      <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+        <h5 class="font-semibold text-gray-800">Description</h5>
+        <p>{{ showData.Product.description?.en }} / {{ showData.Product.description?.ar }}</p>
+      </div>
+
+      <!-- Product Quantity -->
+      <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+        <h5 class="font-semibold text-gray-800">Quantity</h5>
+        <p>{{ showData.Product.quantity?.en }} / {{ showData.Product.quantity?.ar }}</p>
+      </div>
+
+      <!-- Country -->
+      <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+        <h5 class="font-semibold text-gray-800">Country</h5>
+        <p>{{ showData.Product.country?.en }} / {{ showData.Product.country?.ar }}</p>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+<!-- edit Product -->
+<div *ngIf="showModaleditProduct" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div
+    class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
+    <div class="flex justify-end items-center mb-4 ">
+
+      <div
+        class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
+        (click)="closeEditproduct()">
+        ✕
+      </div>
+    </div>
+    <form action="" [formGroup]="editproductForm"   (ngSubmit)="editNewpriceForProduct()">
+      <div class="flex justify-between gap-4" >
+        <!-- newprice Field -->
+        <div class="flex flex-col w-full "  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your newprice </label>
+          <input type="text" formControlName="newprice" placeholder="Enter Your newprice"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- oldprice Field -->
+        <div class="flex flex-col w-full "  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your oldprice </label>
+          <input type="text" formControlName="oldprice" placeholder="Enter Your oldprice"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <div class="flex justify-between gap-4" formGroupName="quantity" >
+        <!-- quantity_en Field -->
+        <div class="flex flex-col w-full "  >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your quantity </label>
+          <input type="text" formControlName="en" placeholder="Enter Your quantity_en"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- quantity_ar Field -->
+        <div class="flex flex-col w-full " dir="rtl" >
+          <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الكميه بالعربيه  </label>
+          <input type="text" formControlName="ar" placeholder="ادخل الكميه بالعربيه "
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between mt-4">
+        <button type="submit" [disabled]="!editproductForm.valid"
+          class="bg-green-600 cursor-pointer disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white w-[40%] px-5 py-2 rounded hover:bg-green-700 transition">
+          Edit
+        </button>
+        <button type="button" (click)="closeEditproduct()"
+          class="bg-gray-500 cursor-pointer text-white px-5 py-2 rounded hover:bg-gray-600 transition">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

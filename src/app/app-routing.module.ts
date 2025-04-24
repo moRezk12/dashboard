@@ -15,6 +15,7 @@ import { BranchComponent } from './Components/Dashboard/branch/branch.component'
 import { MessageComponent } from './Components/Dashboard/message/message.component';
 import { DepartmentComponent } from './Components/Dashboard/department/department.component';
 import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialmedia.component';
+import { DetailsproforstoreComponent } from './Components/Dashboard/detailsproforstore/detailsproforstore.component';
 
 const routes: Routes = [
 
@@ -30,6 +31,7 @@ const routes: Routes = [
       {path : 'user' , component : UserComponent , canActivate : [authGuard]},
       {path : 'branch' , component : BranchComponent , canActivate : [authGuard] },
       {path : 'store' , component : CompanyComponent , canActivate : [authGuard] },
+      {path : 'details/:id' , component : DetailsproforstoreComponent , canActivate : [authGuard] },
       {path : 'product' , component : ProductComponent ,canActivate : [authGuard] },
       {path : 'advertisement' , component : AdvertisementComponent , canActivate : [authGuard]},
       {path : 'department' , component : DepartmentComponent , canActivate : [authGuard] },
