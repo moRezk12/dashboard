@@ -36,7 +36,7 @@ export class CompanyComponent implements OnInit {
   ngOnInit(): void {
     this.adminForm = this.fb.group({
       image: ['', [Validators.required]],
-      Watsapp: ['', [Validators.required]],
+      Watsapp: [''],
       phone: ['', [Validators.required]],
       workdate_en: ['', [Validators.required]],
       workdate_ar: ['', [Validators.required]],
@@ -276,9 +276,9 @@ export class CompanyComponent implements OnInit {
   storeData : any ;
   prodId! : number
 
-  showStore(categoryId: any) {
+  showStore(category: any) {
 
-    this._router.navigate([`/details/${categoryId._id}`]);
+    this._router.navigate([`/details/${category._id}`]);
 
 
     // this.showOneStore = true;

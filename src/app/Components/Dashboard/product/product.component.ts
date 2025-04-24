@@ -59,6 +59,7 @@ export class ProductComponent implements OnInit {
       stoargecondition_ar: [''],
       departmentId: [''],
       image: this.fb.array([]),
+      logo: this.fb.array([]),
       tableData: this.fb.array([]),
       animalTypes: this.fb.array([])
 
@@ -164,9 +165,7 @@ export class ProductComponent implements OnInit {
         console.log(res);
 
         this.allProducts = res.data.products;
-        this.currentPage = res.data.pagination.currentPage;
-        this.totalPages = res.data.pagination.totalPages;
-        this.totalProducts = res.data.pagination.totalProducts;
+
         // this.itemsPerPage = res.pagination.limit;
         this.updateVisiblePages();
       },
@@ -317,9 +316,13 @@ export class ProductComponent implements OnInit {
     const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
     animalTypesFormArray.clear();
 
+    // imagesArray
     const imageFormArray = this.productForm.get('image') as FormArray;
     imageFormArray.clear();
-    // imagesArray
+
+    // imagesArray Logo
+    const imageFormArrayTwo = this.productForm.get('logo') as FormArray;
+    imageFormArrayTwo.clear();
 
     this.editingIndex = null;
     this.showModal = true;
@@ -333,25 +336,6 @@ export class ProductComponent implements OnInit {
   addOrUpdateProduct() {
     this.showData = false;
 
-    if( this.productForm.get('oldprice')?.value == 'null' || this.productForm.get('oldprice')?.value == null || this.productForm.get('oldprice')?.value == '' ) {
-      this.productForm.get('oldprice')?.setValue(0);
-
-    }
-
-    if (this.productForm.invalid) {
-      console.log(this.productForm.value);
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Form',
-        text: 'Please fill in all required fields and upload images.',
-        confirmButtonColor: '#d33',
-        confirmButtonText: 'OK'
-      });
-
-      return;
-    }
-
     this.productForm.enable();
     const formData = new FormData();
 
@@ -360,7 +344,7 @@ export class ProductComponent implements OnInit {
 
       if (key === 'tableData' || key === 'animalTypes') {
         formData.append(key, JSON.stringify(value));
-      } else if (key !== 'image') {
+      } else if (key !== 'image'  && key !== 'logo') {
         formData.append(key, value);
       }
     });
@@ -368,6 +352,10 @@ export class ProductComponent implements OnInit {
 
     this.selectedFiles.forEach((file: File) => {
       formData.append('image', file);
+    });
+
+    this.selectedFilesTwo.forEach((file: File) => {
+      formData.append('logo', file);
     });
 
     formData.forEach((value, key) => {
@@ -455,9 +443,15 @@ export class ProductComponent implements OnInit {
   get imagesArray(): FormArray {
     return this.productForm.get('image') as FormArray;
   }
+  get imagesArrayTwo(): FormArray {
+    return this.productForm.get('logo') as FormArray;
+  }
 
   selectedFiles: File[] = [];
+  selectedFilesTwo: File[] = [];
+
   images: string[] = [];
+  imagesTwo: string[] = [];
 
   onFileSelected(event: any) {
     const files: FileList = event.target.files;
@@ -504,6 +498,51 @@ export class ProductComponent implements OnInit {
       this.selectedFiles.splice(index, 1);
     });
   }
+  onFileSelectedTwo(event: any) {
+    const files: FileList = event.target.files;
+
+    // تحقق من الحد الأقصى للصور
+    if (files.length + this.imagesArrayTwo.length > 3) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Limit Exceeded!',
+        text: 'You can upload up to 3 images only!',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        if (this.imagesArrayTwo.length < 3 && !this.imagesArrayTwo.value.includes(e.target.result)) {
+          this.imagesArrayTwo.push(this.fb.control(e.target.result)); // حفظ Base64 للعرض
+          this.selectedFilesTwo.push(file); // حفظ الملف الفعلي
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // حذف الصورة
+  removeImageTwo(index: number) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'Image deleted successfully',
+      confirmButtonColor: '#28a745',
+      confirmButtonText: 'OK',
+      timer: 2000,
+      timerProgressBar: true,
+    }).then(() => {
+      // this.getProducts();
+      this.imagesArrayTwo.removeAt(index);
+      this.selectedFilesTwo.splice(index, 1);
+    });
+  }
 
 
   // Edit an Product
@@ -539,6 +578,11 @@ export class ProductComponent implements OnInit {
     this.imagesArray.clear();
     product.image.forEach((img: any) => {
       this.imagesArray.push(this.fb.control(img.secure_url));
+    });
+
+    this.imagesArrayTwo.clear();
+    product.logo.forEach((img: any) => {
+      this.imagesArrayTwo.push(this.fb.control(img.secure_url));
     });
 
     const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
@@ -609,6 +653,11 @@ export class ProductComponent implements OnInit {
     this.imagesArray.clear();
     product.image.forEach((img: any) => {
       this.imagesArray.push(this.fb.control(img.secure_url));
+    });
+
+    this.imagesArrayTwo.clear();
+    product.logo.forEach((img: any) => {
+      this.imagesArrayTwo.push(this.fb.control(img.secure_url));
     });
 
     const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;

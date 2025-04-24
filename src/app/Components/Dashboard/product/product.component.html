@@ -386,6 +386,34 @@
             </div>
           </div>
         </div>
+        <div class="w-full flex flex-col">
+          <label class="text-[18px] font-medium text-gray-700 mb-1">Upload Images Company</label>
+
+          <!-- زر رفع الصور -->
+          <div class="relative border-2 border-dashed border-blue-500 rounded-lg p-4 flex flex-col items-center justify-center
+                      cursor-pointer bg-blue-50 transition">
+            <input type="file" (change)="onFileSelectedTwo($event)" accept="image/*" multiple
+              class="absolute inset-0 opacity-0 cursor-pointer" *ngIf="!showData" />
+
+            <svg *ngIf="imagesArrayTwo.length < 3 || !showData " class="w-12 h-12 text-blue-500 mb-2" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+            </svg>
+
+            <p class="text-gray-600" *ngIf="imagesArrayTwo.length === 0">Click to upload</p>
+
+            <!-- عرض الصور -->
+            <div class="flex gap-2 mt-4">
+              <div *ngFor="let img of imagesArrayTwo.value; let i = index" class="relative w-24 h-24">
+                <img [src]="img" class="w-full h-full object-cover rounded-lg border border-gray-300 shadow">
+                <button type="button" (click)="removeImageTwo(i)" *ngIf="!showData"
+                  class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition">
+                  ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
