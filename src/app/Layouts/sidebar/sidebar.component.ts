@@ -16,6 +16,7 @@ export class SidebarComponent {
     { url: '/branch', name: 'Branch' },
     { url: '/product', name: 'Product' },
     { url: '/store', name: 'Store' },
+    { url: '/wood', name: 'Wood' },
     { url: '/order', name: 'Order' },
     { url: '/social', name: 'Social Media' },
     { url: '/message', name: 'Message' },

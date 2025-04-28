@@ -27,6 +27,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { DepartmentComponent } from './Components/Dashboard/department/department.component';
 import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialmedia.component';
 import { DetailsproforstoreComponent } from './Components/Dashboard/detailsproforstore/detailsproforstore.component';
+import { WoodComponent } from './Components/Dashboard/wood/wood.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { DetailsproforstoreComponent } from './Components/Dashboard/detailsprofo
     MessageComponent,
     DepartmentComponent,
     SocialmediaComponent,
-    DetailsproforstoreComponent
+    DetailsproforstoreComponent,
+    WoodComponent
   ],
   imports: [
     BrowserModule,

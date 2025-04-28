@@ -16,6 +16,7 @@ import { MessageComponent } from './Components/Dashboard/message/message.compone
 import { DepartmentComponent } from './Components/Dashboard/department/department.component';
 import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialmedia.component';
 import { DetailsproforstoreComponent } from './Components/Dashboard/detailsproforstore/detailsproforstore.component';
+import { WoodComponent } from './Components/Dashboard/wood/wood.component';
 
 const routes: Routes = [
 
@@ -37,7 +38,8 @@ const routes: Routes = [
       {path : 'department' , component : DepartmentComponent , canActivate : [authGuard] },
       {path : 'social' , component : SocialmediaComponent , canActivate : [authGuard] },
       {path : 'order' , component : OrderComponent , canActivate : [authGuard] },
-      {path : 'message' , component : MessageComponent , canActivate : [authGuard] }
+      {path : 'message' , component : MessageComponent , canActivate : [authGuard] },
+      {path : 'wood' , component : WoodComponent , canActivate : [authGuard] }
     ],
 
   }

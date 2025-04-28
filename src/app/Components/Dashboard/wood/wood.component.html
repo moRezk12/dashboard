@@ -7,7 +7,7 @@
     Save Changes
   </button> -->
     <button (click)="openAddModal()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
-      + Add Product
+      + Add Wood
     </button>
   </div>
 
@@ -17,7 +17,7 @@
       class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
 
       <div class="flex justify-between items-center mb-4 ">
-        <h2 class="text-xl font-semibold ">{{ mode ? 'Edit Product' : 'Add Product' }}</h2>
+        <h2 class="text-xl font-semibold ">{{ mode ? 'Edit Wood' : 'Add Wood' }}</h2>
 
         <div
           class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
@@ -63,66 +63,19 @@
           </button>
         </div>
 
-        <!-- animals Type -->
-        <div class="w-full flex flex-col"  >
-          <label class="text-[18px] font-medium text-gray-700 mb-1" *ngIf="animalTypesArray.controls.length > 0 " >Animal Types</label>
-
-          <div formArrayName="animalTypes" *ngIf="animalTypesArray.controls.length > 0 " >
-            <div *ngFor="let animal of animalTypesArray.controls; let i = index" [formGroupName]="i"
-              class="flex gap-2 mb-2 items-center">
-
-              <!-- English Input -->
-              <input type="text" formControlName="en" placeholder="Name (English)"
-                class="border px-3 py-2 rounded w-1/2" />
-
-              <!-- Arabic Input -->
-              <input type="text" formControlName="ar" placeholder="الاسم (العربية)"
-                class="border px-3 py-2 rounded w-1/2" dir="rtl" />
-
-              <!-- Remove Button -->
-              <button type="button" *ngIf="!showData" (click)="removeAnimal(i)"
-                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                ✕
-              </button>
-            </div>
-          </div>
-
-          <button type="button" *ngIf="!showData" [disabled]="showData" (click)="addAnimal()"
-            class="bg-blue-500 cursor-pointer disabled:hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-[0.5] text-white px-4 py-2 rounded mt-2">
-            + Add Suitable for
-          </button>
-        </div>
-
-
         <!-- Name one Fields -->
         <div class="flex justify-between items-center gap-3 ">
           <!-- Name En Field -->
           <div class="w-full flex flex-col">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Name Product </label>
-            <input type="text" formControlName="name1_en" placeholder="Enter Name Product"
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Name Wood </label>
+            <input type="text" formControlName="name1_en" placeholder="Enter Name Wood"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small *ngIf="productForm.get('name1_en')?.errors?.['required'] && productForm.get('name1_en')?.touched"
-              class="text-red-500 mt-1">
-              Name is required
-            </small>
-            <small *ngIf="productForm.get('name1_en')?.errors?.['minlength']"
-              class="text-red-500 mt-1">
-              Name must be at least {{ productForm.get('name1_en')?.errors?.['minlength'].requiredLength }} characters
-            </small> -->
           </div>
           <!-- Name Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم المنتج</label>
-            <input type="text" formControlName="name1_ar" placeholder="ادخل الاسم المنتج"
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم الحطب</label>
+            <input type="text" formControlName="name1_ar" placeholder="ادخل الاسم الحطب"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small *ngIf="productForm.get('name1_ar')?.errors?.['required'] && productForm.get('name1_ar')?.touched"
-              class="text-red-500 mt-1">
-              Name is required
-            </small>
-            <small *ngIf="productForm.get('name1_ar')?.errors?.['minlength'] "
-              class="text-red-500 mt-1">
-              Name must be at least {{ productForm.get('name1_ar')?.errors?.['minlength'].requiredLength }} characters
-            </small> -->
           </div>
         </div>
 
@@ -130,83 +83,15 @@
         <div class="flex justify-between items-center gap-3 ">
           <!-- Name En Field -->
           <div class="w-full flex flex-col">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">Product Overview </label>
-            <input type="text" formControlName="name2_en" placeholder="Product Overview"
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Wood Overview </label>
+            <input type="text" formControlName="name2_en" placeholder="Wood Overview"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small *ngIf="productForm.get('name2_en')?.errors?.['required'] && productForm.get('name2_en')?.touched"
-              class="text-red-500 mt-1">
-              Product Overview is required
-            </small>
-            <small *ngIf="productForm.get('name2_en')?.errors?.['minlength'] "
-              class="text-red-500 mt-1">
-              Product Overview must be at least {{ productForm.get('name2_en')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
           </div>
           <!-- Name Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">نبذه عن المنتج</label>
-            <input type="text" formControlName="name2_ar" placeholder="نبذه عن المنتج"
+            <label class="text-[18px] font-medium text-gray-700 mb-1">نبذه عن الحطب</label>
+            <input type="text" formControlName="name2_ar" placeholder="نبذه عن الحطب"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small *ngIf="productForm.get('name2_ar')?.errors?.['required'] && productForm.get('name2_ar')?.touched"
-              class="text-red-500 mt-1">
-              Product Overview is required
-            </small>
-            <small *ngIf="productForm.get('name2_ar')?.errors?.['minlength'] "
-              class="text-red-500 mt-1">
-              Product Overview must be at least {{ productForm.get('name2_ar')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
-          </div>
-        </div>
-
-        <!-- description Fields -->
-        <div class="flex justify-between items-center gap-3 ">
-          <!-- description En Field -->
-          <div class="w-full flex flex-col">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">Description </label>
-            <!-- <input type="text" formControlName="description_en" placeholder="Enter Your description"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" /> -->
-
-            <textarea type="text" formControlName="description_en" placeholder="Enter Your description"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="4"></textarea>
-
-            <!-- <small
-              *ngIf="productForm.get('description_en')?.errors?.['required'] && productForm.get('description_en')?.touched"
-              class="text-red-500 mt-1">
-              Description is required
-            </small>
-            <small
-              *ngIf="productForm.get('description_en')?.errors?.['minlength'] ouched"
-              class="text-red-500 mt-1">
-              Description must be at least {{ productForm.get('description_en')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
-          </div>
-          <!-- description Ar Field -->
-          <div class="w-full flex flex-col" dir="rtl">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">
-              ادخل الوصف باللغه العربيه
-            </label>
-            <!-- <input type="text" formControlName="description_ar" placeholder="ادخل الوصف باللغه العربيه"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" /> -->
-
-            <textarea type="text" formControlName="description_ar" placeholder="ادخل الوصف باللغه العربيه"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="4"></textarea>
-
-            <!-- <small
-              *ngIf="productForm.get('description_ar')?.errors?.['required'] && productForm.get('description_ar')?.touched"
-              class="text-red-500 mt-1">
-              Description is required
-            </small>
-            <small
-              *ngIf="productForm.get('description_ar')?.errors?.['minlength'] ouched"
-              class="text-red-500 mt-1">
-              Description must be at least {{ productForm.get('description_ar')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
           </div>
         </div>
 
@@ -217,17 +102,6 @@
             <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Quantity </label>
             <input type="text" formControlName="quantity_en" placeholder="Enter Your Quantity"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small
-              *ngIf="productForm.get('quantity_en')?.errors?.['required'] && productForm.get('quantity_en')?.touched"
-              class="text-red-500 mt-1">
-              Quantity is required
-            </small>
-            <small
-              *ngIf="productForm.get('quantity_en')?.errors?.['minlength'] hed"
-              class="text-red-500 mt-1">
-              Quantity must be at least {{ productForm.get('quantity_en')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
           </div>
           <!-- Quantity Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
@@ -236,58 +110,30 @@
             </label>
             <input type="text" formControlName="quantity_ar" placeholder="ادخل الكميه باللغه العربية"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small
-              *ngIf="productForm.get('quantity_ar')?.errors?.['required'] && productForm.get('quantity_ar')?.touched"
-              class="text-red-500 mt-1">
-              الكمية مطلوبة
-            </small>
-            <small
-              *ngIf="productForm.get('quantity_ar')?.errors?.['minlength'] hed"
-              class="text-red-500 mt-1">
-              Quantity must be at least {{ productForm.get('quantity_ar')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
           </div>
 
         </div>
 
-        <!-- Country Fields -->
+
+        <!-- Description Fields -->
         <div class="flex justify-between items-center gap-3 ">
-          <!-- Country En Field -->
+          <!-- Quantity En Field -->
           <div class="w-full flex flex-col">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your country </label>
-            <input type="text" formControlName="country_en" placeholder="Enter Your country"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small *ngIf="productForm.get('country_en')?.errors?.['required'] && productForm.get('country_en')?.touched"
-              class="text-red-500 mt-1">
-              Country is required
-            </small>
-            <small
-              *ngIf="productForm.get('country_en')?.errors?.['minlength'] ed"
-              class="text-red-500 mt-1">
-              Country must be at least {{ productForm.get('country_en')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Description </label>
+            <textarea type="text" formControlName="description_en" placeholder="Enter Your description"
+            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="4"></textarea>
           </div>
-          <!-- Country Ar Field -->
+          <!-- Quantity Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
             <label class="text-[18px] font-medium text-gray-700 mb-1">
-              ادخل البلد باللغه العربية
+              ادخل الوصف باللغه العربية
             </label>
-            <input type="text" formControlName="country_ar" placeholder="ادخل البلد باللغه العربية"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small *ngIf="productForm.get('country_ar')?.errors?.['required'] && productForm.get('country_ar')?.touched"
-              class="text-red-500 mt-1">
-              الكمية مطلوبة
-            </small>
-            <small
-              *ngIf="productForm.get('country_ar')?.errors?.['minlength'] ed"
-              class="text-red-500 mt-1">
-              Country must be at least {{ productForm.get('country_ar')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
-          </div>
 
+            <textarea type="text" formControlName="description_ar" placeholder="ادخل الوصف باللغه العربيه"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="4"></textarea>
+          </div>
         </div>
 
         <!-- Storage Fields -->
@@ -297,18 +143,6 @@
             <label class="text-[18px] font-medium text-gray-700 mb-1">Storage conditions</label>
             <input type="text" formControlName="stoargecondition_en" placeholder="Enter Storage conditions"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small
-              *ngIf="productForm.get('stoargecondition_en')?.errors?.['required'] && productForm.get('stoargecondition_en')?.touched"
-              class="text-red-500 mt-1">
-              Country is required
-            </small>
-            <small
-              *ngIf="productForm.get('stoargecondition_en')?.errors?.['minlength']"
-              class="text-red-500 mt-1">
-              Country must be at least
-              {{ productForm.get('stoargecondition_en')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
           </div>
           <!-- Country Ar Field -->
           <div class="w-full flex flex-col" dir="rtl">
@@ -317,43 +151,44 @@
             </label>
             <input type="text" formControlName="stoargecondition_ar" placeholder="شروط التخزين"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <!-- <small
-              *ngIf="productForm.get('stoargecondition_ar')?.errors?.['required'] && productForm.get('stoargecondition_ar')?.touched"
-              class="text-red-500 mt-1">
-              الكمية مطلوبة
-            </small>
-            <small
-              *ngIf="productForm.get('stoargecondition_ar')?.errors?.['minlength'] "
-              class="text-red-500 mt-1">
-              Country must be at least
-              {{ productForm.get('stoargecondition_ar')?.errors?.['minlength'].requiredLength }}
-              characters
-            </small> -->
+          </div>
+        </div>
+
+        <!-- Country Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- Country En Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your country </label>
+            <input type="text" formControlName="country_en" placeholder="Enter Your country"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <!-- Country Ar Field -->
+          <div class="w-full flex flex-col" dir="rtl">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">
+              ادخل البلد باللغه العربية
+            </label>
+            <input type="text" formControlName="country_ar" placeholder="ادخل البلد باللغه العربية"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+        <!-- Price Fields -->
+        <div class="flex justify-between items-center gap-3 ">
+          <!-- oldprice En Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your oldprice </label>
+            <input type="text" formControlName="oldprice" placeholder="Enter Your oldprice"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
         </div>
-
-
-
-        <!-- DepartmentId And Image Fields -->
-        <div class="w-full flex flex-col" *ngIf="!mode">
-          <label class="text-[18px] font-medium text-gray-700 mb-1">Select Department</label>
-
-          <select formControlName="departmentId"
-            class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
-            <option value="" disabled hidden>Select a Department</option>
-            <option *ngFor="let department of departments" [value]="department._id">
-              {{ department.name.en }}-{{ department.name.ar }}
-            </option>
-          </select>
-
-          <small
-            *ngIf="productForm.get('departmentId')?.errors?.['required'] && productForm.get('departmentId')?.touched"
-            class="text-red-500 mt-1">
-            Department is required
-          </small>
+        <div class="flex justify-between items-center gap-3 " >
+          <!-- newprice Field -->
+          <div class="w-full flex flex-col">
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your newprice </label>
+            <input type="text" formControlName="newprice" placeholder="Enter Your newprice"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
         </div>
-
 
 
         <!-- Image Field -->
@@ -414,10 +249,6 @@
             </div>
           </div>
         </div>
-
-
-
-
         <!-- Buttons  -->
         <div class="flex justify-between mt-4">
           <button type="submit"  *ngIf="!showData"
@@ -440,12 +271,9 @@
       <tr>
         <th class="py-2 px-4">Sort</th>
         <th class="py-2 px-4">#</th>
-        <th class="py-2 px-4">Name Product</th>
+        <th class="py-2 px-4">Name Wood</th>
         <th class="py-2 px-4">Quantity</th>
-        <!-- <th class="py-2 px-4">New Price</th> -->
         <th class="py-2 px-4">Country</th>
-        <!-- <th class="py-2 px-4">Category</th> -->
-        <!-- <th class="py-2 px-4">Image</th> -->
         <th class="py-2 px-4">Actions</th>
       </tr>
     </thead>
@@ -463,12 +291,7 @@
         <td class="py-2 px-4 align-middle">{{ product.number }}</td>
         <td class="py-2 px-4 align-middle">{{ product.name1.en }}</td>
         <td class="py-2 px-4 align-middle">{{ product.quantity.en }}</td>
-        <!-- <td class="py-2 px-4 align-middle">{{ product.newprice }}</td> -->
         <td class="py-2 px-4 align-middle">{{ product.country.en }}</td>
-        <!-- <td class="py-2 px-4 align-middle">{{ admin.category }}</td> -->
-        <!-- <td class="py-2 px-4 align-middle ">
-          <img class=" mx-auto w-[50px] h-[50px] rounded-full " [src]="admin.image" alt="">
-        </td> -->
         <td class="py-3 px-4 text-center align-middle">
           <div class="flex justify-center items-center space-x-2">
             <button (click)="showProduct(product)"
@@ -488,10 +311,10 @@
       <!-- <h2 class="text-2xl font-bold mb-4">قائمة المنتجات</h2> -->
 
       <!-- Pagination -->
-      <!-- <div class="p-4">
+      <div class="p-4">
         <div class="flex justify-between items-center mb-4 text-lg font-semibold">
           <div class="text-gray-700">
-            Page {{ currentPage }} of {{ totalPages }} | Total Products: {{ totalProducts }}
+            Page {{ currentPage }} of {{ totalPages }} | Total Woods: {{ totalProducts }}
           </div>
           <div class="flex items-center gap-2">
             <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1"
@@ -517,7 +340,7 @@
             </button>
           </div>
         </div>
-      </div> -->
+      </div>
 
 
 
