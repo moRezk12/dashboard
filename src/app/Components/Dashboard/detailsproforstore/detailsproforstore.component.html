@@ -29,7 +29,8 @@
       <thead class="bg-gray-100 text-gray-700">
         <tr>
           <th class="py-2 px-4">#</th>
-          <th class="py-2 px-4">Name Store</th>
+          <th class="py-2 px-4">Store Name </th>
+          <th class="py-2 px-4">Product Name </th>
           <th class="py-2 px-4">Old Price</th>
           <th class="py-2 px-4">New Price</th>
           <th class="py-2 px-4">Quantity</th>
@@ -39,10 +40,11 @@
       <tbody>
         <tr *ngFor="let product of allProducts let i = index" class="border-b">
           <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
-          <td class="py-2 px-4 align-middle ">{{ product.Mostawdaa?.en }} </td>
+          <td class="py-2 px-4 align-middle ">{{ product.Mostawdaa?.ar }} </td>
+          <td class="py-2 px-4 align-middle ">{{ product.Product?.name1?.ar || 'N/A' }} </td>
           <td class="py-2 px-4 align-middle ">{{ product.oldprice }}</td>
           <td class="py-2 px-4 align-middle ">{{ product.newprice }}</td>
-          <td class="py-2 px-4 align-middle ">{{ product.quantity?.en }} </td>
+          <td class="py-2 px-4 align-middle ">{{ product.quantity?.ar }} </td>
 
           <td class="py-3 px-4 text-center align-middle">
             <div class="flex justify-center items-center space-x-2">

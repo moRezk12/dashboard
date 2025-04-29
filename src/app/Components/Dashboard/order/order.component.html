@@ -50,24 +50,28 @@
           <thead class="text-center" >
             <tr class="bg-gray-100 ">
               <th class="border px-3 py-2 align-middle ">#</th>
-              <th class="border px-3 py-2 align-middle ">Product (EN)</th>
-              <th class="border px-3 py-2 align-middle ">Product (AR)</th>
+              <th class="border px-3 py-2 align-middle ">Store Name</th>
+              <th class="border px-3 py-2 align-middle ">Product Name</th>
               <th class="border px-3 py-2 align-middle ">Quantity</th>
               <th class="border px-3 py-2 align-middle ">Price</th>
+              <th class="border px-3 py-2 align-middle ">country</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let product of selectOneOrder.products; let i = index" class="text-center">
               <td class="border px-3 py-2 align-middle">{{ i + 1 }}</td>
               <td class="border px-3 py-2 align-middle">
-                {{ product?.productId ? product.productId.name1?.en : 'N/A' }}
+                {{ product.warehouseName || 'N/A' }}
               </td>
               <td class="border px-3 py-2 align-middle">
-                {{ product?.productId ? product.productId.name1?.ar : 'N/A' }}
+                {{ product.name || 'N/A' }}
               </td>
-              <td class="border px-3 py-2 align-middle">{{ product?.quantity }}</td>
+              <td class="border px-3 py-2 align-middle">{{ product?.quantity || 'N/A'}}</td>
               <td class="border px-3 py-2 align-middle">
-                {{ product?.productId ? product.productId.newprice : 'N/A' }}
+                {{ product.price || 'N/A' }}
+              </td>
+              <td class="border px-3 py-2 align-middle">
+                {{ product.country || 'N/A' }}
               </td>
             </tr>
 
@@ -111,26 +115,6 @@
             <option value="waiting">Waiting</option>
           </select>
         </div>
-
-
-        <!-- <div class="flex flex-col">
-          <label class="text-[18px] font-medium text-gray-700 mb-1">Status</label>
-          <input
-            type="text"
-            formControlName="status"
-            placeholder="Enter status"
-            class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-
-
-          <small
-            *ngIf="statusForm.get('status')?.errors?.['required'] && statusForm.get('status')?.touched"
-            class="text-red-500 mt-1"
-          >
-            Status is required
-          </small>
-        </div> -->
 
         <!-- Buttons -->
         <div class="flex justify-between mt-6">

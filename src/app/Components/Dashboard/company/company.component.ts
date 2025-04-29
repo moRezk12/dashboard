@@ -37,7 +37,7 @@ export class CompanyComponent implements OnInit {
     this.adminForm = this.fb.group({
       image: ['', [Validators.required]],
       Watsapp: [''],
-      phone: ['', [Validators.required]],
+      phone: [''],
       workdate_en: ['', [Validators.required]],
       workdate_ar: ['', [Validators.required]],
       owner_en: ['', [Validators.required]],
@@ -53,10 +53,10 @@ export class CompanyComponent implements OnInit {
     this.addproductForm = this.fb.group({
       Mostawdaa: ['', [Validators.required]],
       Product: ['' , [Validators.required] ],
-      newprice: ['' , [Validators.required] ],
-      oldprice: ['' , [Validators.required] ],
-      quantity_en: ['' , [Validators.required] ],
-      quantity_ar: ['' , [Validators.required] ],
+      newprice: ['' ],
+      oldprice: ['' ],
+      quantity_en: ['' ],
+      quantity_ar: ['' ],
     });
 
 

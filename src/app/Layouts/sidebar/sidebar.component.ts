@@ -15,7 +15,7 @@ export class SidebarComponent {
     { url: '/user', name: 'User' },
     { url: '/branch', name: 'Branch' },
     { url: '/product', name: 'Product' },
-    { url: '/store', name: 'Store' },
+    { url: '/store', name: 'Stores' },
     { url: '/wood', name: 'Wood' },
     { url: '/order', name: 'Order' },
     { url: '/social', name: 'Social Media' },

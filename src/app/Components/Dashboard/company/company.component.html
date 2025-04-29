@@ -20,7 +20,7 @@
     <div
       class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
       <div class="flex justify-between items-center mb-4 ">
-        <h2 class="text-xl font-semibold mb-4">{{ mode ? 'Edit Category' : 'Add Category' }}</h2>
+        <h2 class="text-xl font-semibold mb-4">{{ mode ? 'Edit Store' : 'Add Store' }}</h2>
 
         <div
           class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
@@ -71,7 +71,7 @@
         <div class="flex justify-between gap-4" >
           <!-- location1_en Field -->
           <div class="flex flex-col w-full "  >
-            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your location1 </label>
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your location </label>
             <input type="text" formControlName="location1_en" placeholder="Enter Your location1_en"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
@@ -87,15 +87,15 @@
         <div class="flex justify-between gap-4" >
           <!-- location2_en Field -->
           <div class="flex flex-col w-full "  >
-            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your location2 </label>
-            <input type="text" formControlName="location2_en" placeholder="Enter Your location2_en"
+            <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your location Link </label>
+            <input type="text" formControlName="location2_en" placeholder="Enter Your location"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
           <!-- location2_ar Field -->
           <div class="flex flex-col w-full " dir="rtl" >
-            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل موقع المخرن بالعربيه </label>
-            <input type="text" formControlName="location2_ar" placeholder="ادخل موقع المخرن بالعربيه"
+            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل لينك موقع المخرن بالعربيه </label>
+            <input type="text" formControlName="location2_ar" placeholder="ادخل لينك موقع المخرن بالعربيه"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
         </div>
@@ -105,14 +105,14 @@
           <!-- workdate_en Field -->
         <div class="flex flex-col w-full "  >
           <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your workdate </label>
-          <input type="text" formControlName="workdate_en" placeholder="Enter Your workdate_en"
+          <input type="text" formControlName="workdate_en" placeholder="Enter Your workdate"
             class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
         <!-- workdate_ar Field -->
         <div class="flex flex-col w-full " dir="rtl" >
-          <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الوقت باللغه العربيه </label>
-          <input type="text" formControlName="workdate_ar" placeholder="ادخل الوقت باللغه العربيه"
+          <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل توقيت العمل باللغه العربيه </label>
+          <input type="text" formControlName="workdate_ar" placeholder="ادخل توقيت العمل باللغه العربيه"
             class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
       </div>
@@ -188,8 +188,8 @@
     <thead class="bg-gray-100 text-gray-700">
       <tr>
         <th class="py-2 px-4">#</th>
-        <th class="py-2 px-4">Owner(EN)</th>
-        <th class="py-2 px-4">location(EN)</th>
+        <th class="py-2 px-4">Owner</th>
+        <th class="py-2 px-4">location</th>
         <th class="py-2 px-4">phone</th>
         <th class="py-2 px-4">Actions</th>
       </tr>
@@ -197,8 +197,8 @@
     <tbody>
       <tr *ngFor="let store of stores; let i = index" class="border-b">
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
-        <td class="py-2 px-4 align-middle ">{{ store?.owner?.en }}</td>
-        <td class="py-2 px-4 align-middle ">{{ store?.location1?.en }}</td>
+        <td class="py-2 px-4 align-middle ">{{ store?.owner?.ar }}</td>
+        <td class="py-2 px-4 align-middle ">{{ store?.location1?.ar }}</td>
         <td class="py-2 px-4 align-middle ">{{ store?.phone }}</td>
 
         <td class="py-3 px-4 text-center align-middle">
