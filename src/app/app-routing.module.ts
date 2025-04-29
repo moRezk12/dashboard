@@ -1,3 +1,4 @@
+import { NotifycationComponent } from './Components/Dashboard/notifycation/notifycation.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Components/Auth/login/login.component';
@@ -39,7 +40,8 @@ const routes: Routes = [
       {path : 'social' , component : SocialmediaComponent , canActivate : [authGuard] },
       {path : 'order' , component : OrderComponent , canActivate : [authGuard] },
       {path : 'message' , component : MessageComponent , canActivate : [authGuard] },
-      {path : 'wood' , component : WoodComponent , canActivate : [authGuard] }
+      {path : 'wood' , component : WoodComponent , canActivate : [authGuard] },
+      {path : 'notify' , component : NotifycationComponent , canActivate : [authGuard] }
     ],
 
   }

@@ -28,6 +28,7 @@ import { DepartmentComponent } from './Components/Dashboard/department/departmen
 import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialmedia.component';
 import { DetailsproforstoreComponent } from './Components/Dashboard/detailsproforstore/detailsproforstore.component';
 import { WoodComponent } from './Components/Dashboard/wood/wood.component';
+import { NotifycationComponent } from './Components/Dashboard/notifycation/notifycation.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { WoodComponent } from './Components/Dashboard/wood/wood.component';
     DepartmentComponent,
     SocialmediaComponent,
     DetailsproforstoreComponent,
-    WoodComponent
+    WoodComponent,
+    NotifycationComponent
   ],
   imports: [
     BrowserModule,
