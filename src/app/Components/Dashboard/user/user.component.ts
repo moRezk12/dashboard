@@ -32,6 +32,7 @@ export class UserComponent implements OnInit {
 
   // edit Notification
   orderForm!: FormGroup;
+  notification!: FormGroup;
   selectedFile: File | null = null;
   imagePreview: string | null = null;
 
@@ -66,6 +67,12 @@ export class UserComponent implements OnInit {
       orderDetails_en: ['', Validators.required],
       orderDetails_ar: ['', Validators.required],
       image: [null] // سيتم رفعها عند الإرسال
+    });
+
+    this.notification = this.fb.group({
+      userId: [''],
+      title: [''],
+      body: [''],
     });
 
   }
@@ -269,6 +276,56 @@ export class UserComponent implements OnInit {
 
   }
 
+
+  // Sendnotify
+  showModalNotify : boolean = false ;
+  notifyId! : number
+  Sendnotify(id : number) {
+    console.log(id);
+    this.showModalNotify = true;
+    this.notifyId = id;
+  }
+
+  sendnotification(){
+    if(this.notification.get('userId')!.value === '' ){
+      this.notification.get('userId')!.setValue(this.notifyId);
+    }
+    console.log(this.notification.value);
+
+    this._userService.sendNotify(this.notification.value).subscribe({
+          next: (res) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: res.message,
+              confirmButtonColor: '#28a745',
+              confirmButtonText: 'OK',
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+              this.showModalNotify = false;
+              this.notification.reset();
+            });
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: err.error?.message,
+              confirmButtonColor: '#d33',
+              confirmButtonText: 'Close',
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+              this.showModal = true;
+            });
+          }
+        });
+
+  }
+
+  closeModalNotify() {
+    this.showModalNotify = false;
+  }
 
   // Show an admin
   show : boolean = false ;

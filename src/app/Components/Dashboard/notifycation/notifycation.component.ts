@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DepartmentService } from 'src/app/Core/Services/department/department.service';
+import { NotifyService } from 'src/app/Core/Services/Notify/notify.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,14 +17,12 @@ export class NotifycationComponent implements OnInit {
   selectId! : number
   mode : boolean = false;
 
-  constructor(private fb: FormBuilder ) {}
+  constructor(private fb: FormBuilder , private _notify : NotifyService ) {}
 
   ngOnInit(): void {
     this.departmentForm = this.fb.group({
-      name_en: [''],
-      name_ar: [''],
-      content_en: [''],
-      content_ar: [''],
+      title: [''],
+      body: [''],
     });
 
     // Get Departments
@@ -32,9 +31,20 @@ export class NotifycationComponent implements OnInit {
   }
 
   // Get departments
-  departments : any = [];
+  notifications : any = [];
   getDepartment(): void {
+    this._notify.getNotif().subscribe({
+      next: (res) => {
+        console.log(res);
 
+        this.notifications = res.notifications;
+        const unreadCount = this.notifications.filter((n : any) => !n.isRead).length;
+        this._notify.getCounter(unreadCount);
+      },
+      error: (err) => {
+        console.error('Error :', err);
+      }
+    });
   }
 
   // Open the modal
@@ -58,104 +68,36 @@ export class NotifycationComponent implements OnInit {
     console.log(data);
 
 
-    if(!this.mode) {
-      // this._departmentService.createDepartment(data).subscribe({
-      //   next: (res) => {
-      //     Swal.fire({
-      //       icon: 'success',
-      //       title: 'Success',
-      //       text: res.message,
-      //       confirmButtonColor: '#28a745',
-      //       confirmButtonText: 'OK',
-      //       timer: 2000,
-      //       timerProgressBar: true,
-      //     }).then(() => {
-      //       this.getDepartment();
-      //       this.showModal = false;
-      //       this.departmentForm.reset();
-      //     });
-      //   },
-      //   error: (err) => {
-      //     Swal.fire({
-      //       icon: 'error',
-      //       title: err.error?.message,
-      //       confirmButtonColor: '#d33',
-      //       confirmButtonText: 'Close',
-      //       timer: 2000,
-      //       timerProgressBar: true,
-      //     }).then(() => {
-      //       this.showModal = true;
-      //     });
-      //   }
-      // });
-    }else {
-      // Update Category
-      // this._departmentService.updateDepartment(this.selectId, data).subscribe({
-      //   next: (res) => {
-      //     Swal.fire({
-      //       icon: 'success',
-      //       title: 'Success',
-      //       text: res.message,
-      //       confirmButtonColor: '#28a745',
-      //       confirmButtonText: 'OK',
-      //       timer: 2000,
-      //       timerProgressBar: true,
-      //     }).then(() => {
-      //       this.getDepartment();
-      //       this.showModal = false;
-      //       this.departmentForm.reset();
-      //     });
-      //   },
-      //   error: (err) => {
-      //     Swal.fire({
-      //       icon: 'error',
-      //       title: err.error?.message,
-      //       confirmButtonColor: '#d33',
-      //       confirmButtonText: 'Close',
-      //       timer: 2000,
-      //       timerProgressBar: true,
-      //     }).then(() => {
-      //       this.showModal = true;
-      //     });
-      //   }
-      // });
-    }
-  }
-
-  // Edit an Department
-  editDepartment(depatment: any) {
-    this.mode = true;
-    this.showModal = false;
-    this.departmentForm.enable();
-    this.departmentForm.patchValue({
-      name_en: depatment.name.en,
-      name_ar: depatment.name.ar,
+    this._notify.sendNotify(data).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: res.message,
+          confirmButtonColor: '#28a745',
+          confirmButtonText: 'OK',
+          timer: 2000,
+          timerProgressBar: true,
+        }).then(() => {
+          this.getDepartment();
+          this.showModal = false;
+          this.departmentForm.reset();
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: err.error?.message,
+          confirmButtonColor: '#d33',
+          confirmButtonText: 'Close',
+          timer: 2000,
+          timerProgressBar: true,
+        }).then(() => {
+          this.showModal = true;
+        });
+      }
     });
-    this.selectId = depatment._id;
-    this.showModal = true;
   }
-
-  // Show an admin
-  // show : boolean = false ;
-
-  // showCategory(categoryId: any) {
-  //   this.show = true;
-  //   this.departmentForm.disable();
-
-  //   const selectedCategory = this.departments.find((cat : any ) => cat._id === categoryId);
-
-  //     if (selectedCategory) {
-  //       this.departmentForm.patchValue({
-  //         name_en: selectedCategory.name.en,
-  //         name_ar: selectedCategory.name.ar,
-  //         image: selectedCategory.image.secure_url,
-  //       });
-  //     }
-  //     this.imagePreview = selectedCategory.image.secure_url;
-
-  //   this.showModal = true;
-  // }
-
 
   // Delete an Department
   deleteDepartment(id: string) {

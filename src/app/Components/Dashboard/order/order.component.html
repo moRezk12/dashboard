@@ -52,6 +52,7 @@
               <th class="border px-3 py-2 align-middle ">#</th>
               <th class="border px-3 py-2 align-middle ">Store Name</th>
               <th class="border px-3 py-2 align-middle ">Product Name</th>
+              <th class="border px-3 py-2 align-middle ">Type</th>
               <th class="border px-3 py-2 align-middle ">Quantity</th>
               <th class="border px-3 py-2 align-middle ">Price</th>
               <th class="border px-3 py-2 align-middle ">country</th>
@@ -65,6 +66,9 @@
               </td>
               <td class="border px-3 py-2 align-middle">
                 {{ product.name || 'N/A' }}
+              </td>
+              <td class="border px-3 py-2 align-middle">
+                {{ product.type || 'N/A' }}
               </td>
               <td class="border px-3 py-2 align-middle">{{ product?.quantity || 'N/A'}}</td>
               <td class="border px-3 py-2 align-middle">

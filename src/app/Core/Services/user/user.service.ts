@@ -36,4 +36,9 @@ export class UserService {
     }
 
 
+    // Send Notificatin For User
+    sendNotify(body : any ):Observable<any>{
+      return this.http.post<any>(`${environment.apiUrl}/category/sendnotification` ,body);
+    }
+
 }

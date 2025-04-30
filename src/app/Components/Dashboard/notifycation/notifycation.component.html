@@ -9,7 +9,7 @@
       </select>
     </div> -->
     <button (click)="openAddModal()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
-      + Add Notification
+      + Send Notification
     </button>
   </div>
 
@@ -19,7 +19,7 @@
     <div class="bg-white p-8 rounded-2xl shadow-2xl w-[60%] mx-auto relative">
 
       <div class="flex justify-between items-center mb-4 ">
-        <h2 class="text-xl font-semibold mb-4">{{ mode ? 'Edit Notification' : 'Add Notification' }}</h2>
+        <h2 class="text-xl font-semibold mb-4">Send Notification</h2>
 
         <div
           class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
@@ -38,14 +38,7 @@
           <!-- Name En Field -->
           <div class="flex flex-col w-full ">
             <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Title </label>
-            <input type="text" formControlName="name_en" placeholder="Enter Your Name"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-
-          <!-- Name Ar Field -->
-          <div class="flex flex-col w-full " dir="rtl">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الاسم باللغه العربيه</label>
-            <input type="text" formControlName="name_ar" placeholder="ادخل الاسم باللغه العربيه"
+            <input type="text" formControlName="title" placeholder="Enter Your Name"
               class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
         </div>
@@ -55,15 +48,8 @@
         <!-- Content En Field -->
           <div class="flex flex-col w-full ">
             <label class="text-[18px] font-medium text-gray-700 mb-1">Enter Your Content </label>
-            <input type="text" formControlName="content_en" placeholder="Enter Your Content"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-
-          <!-- Content Ar Field -->
-          <div class="flex flex-col w-full " dir="rtl">
-            <label class="text-[18px] font-medium text-gray-700 mb-1">ادخل الموضوع باللغه العربيه</label>
-            <input type="text" formControlName="content_ar" placeholder="ادخل الموضوع باللغه العربيه"
-              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <textarea  formControlName="body" placeholder="Enter Your Content"
+              class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" ></textarea>
           </div>
         </div>
 
@@ -82,5 +68,24 @@
 
     </div>
   </div>
+
+
+  <div class="mt-4" >
+    <ng-container *ngFor="let notification of notifications" >
+      <div
+      [ngClass]="{'bg-blue-500 text-white': notification.isRead === false , ' bg-blue-100 text-blue-800': notification.isRead === true }"
+      class="mt-2 flex items-start  border border-blue-300  px-4 py-3 rounded-lg shadow-md">
+        <svg
+        [ngClass]="{' text-white ': notification.isRead === false , ' text-blue-800': notification.isRead === true }"
+        class="w-6 h-6 mr-2 mt-1 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zM9 5a1 1 0 112 0v4a1 1 0 01-2 0V5zm1 6a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
+        </svg>
+        <p>
+          {{ notification.body }}
+        </p>
+      </div>
+    </ng-container>
+  </div>
+
 
 </div>
