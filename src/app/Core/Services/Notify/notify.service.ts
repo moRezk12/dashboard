@@ -32,4 +32,5 @@ export class NotifyService {
     return this.http.post<any>(`${environment.apiUrl}/category/notifyall` ,body);
   }
 
+
 }

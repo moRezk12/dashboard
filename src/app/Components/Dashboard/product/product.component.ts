@@ -45,8 +45,8 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
-      name1_en: ['' , Validators.required],
-      name1_ar: ['' , Validators.required],
+      name1_en: ['' ],
+      name1_ar: ['' ],
       name2_en: [''],
       name2_ar: [''],
       description_en: [''],
@@ -57,7 +57,7 @@ export class ProductComponent implements OnInit {
       country_ar: [''],
       stoargecondition_en: [''],
       stoargecondition_ar: [''],
-      departmentId: [''],
+      departmentId: ['', Validators.required],
       image: this.fb.array([]),
       logo: this.fb.array([]),
       tableData: this.fb.array([]),
@@ -334,6 +334,26 @@ export class ProductComponent implements OnInit {
 
   // Add or update an Product
   addOrUpdateProduct() {
+
+    console.log(this.mode);
+    if(!this.mode){
+      // Check if departmentId is selected
+        if (!this.productForm.get('departmentId')?.value) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Please Select Department',
+          confirmButtonColor: '#d33',
+          timerProgressBar: true,
+        }).then(() => {
+          this.showModal = true;
+
+        });
+
+        return;
+      }
+    }
+
     this.showData = false;
 
     this.productForm.enable();
@@ -349,14 +369,23 @@ export class ProductComponent implements OnInit {
       }
     });
 
+    if(this.selectedFiles.length > 0) {
+      this.selectedFiles.forEach((file: File) => {
+        formData.append('image', file);
+      });
+    }else {
+      formData.append('image', '');
+    }
 
-    this.selectedFiles.forEach((file: File) => {
-      formData.append('image', file);
-    });
+    if(this.selectedFilesTwo.length > 0) {
+      this.selectedFilesTwo.forEach((file: File) => {
+        formData.append('logo', file);
+      });
+    }else {
+      formData.append('logo', '');
+    }
 
-    this.selectedFilesTwo.forEach((file: File) => {
-      formData.append('logo', file);
-    });
+
 
     formData.forEach((value, key) => {
       if (value instanceof File) {
@@ -370,7 +399,8 @@ export class ProductComponent implements OnInit {
 
     this.showModal = false;
 
-    console.log( "new   "+  JSON.stringify(formData));
+    console.log( "new   "+  JSON.stringify(this.productForm.value));
+    console.log(   this.productForm.value);
 
     if(!this.mode) {
       this._productService.createProducts(formData).subscribe({
@@ -382,11 +412,11 @@ export class ProductComponent implements OnInit {
             text: res.message,
             confirmButtonColor: '#28a745',
             confirmButtonText: 'OK',
-            timer: 2000,
             timerProgressBar: true,
           }).then(() => {
             this.getProducts();
-
+            this.selectedFiles = [];
+            this.selectedFilesTwo = [];
             this.productForm.reset();
           });
         },
@@ -396,7 +426,6 @@ export class ProductComponent implements OnInit {
             title: 'Error!',
             text: err.error?.message,
             confirmButtonColor: '#d33',
-            timer: 2000,
             timerProgressBar: true,
           }).then(() => {
             this.showModal = true;
@@ -474,8 +503,8 @@ export class ProductComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         if (this.imagesArray.length < 3 && !this.imagesArray.value.includes(e.target.result)) {
-          this.imagesArray.push(this.fb.control(e.target.result)); // حفظ Base64 للعرض
-          this.selectedFiles.push(file); // حفظ الملف الفعلي
+          this.imagesArray.push(this.fb.control(e.target.result));
+          this.selectedFiles.push(file);
         }
       };
       reader.readAsDataURL(file);
@@ -519,8 +548,8 @@ export class ProductComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         if (this.imagesArrayTwo.length < 3 && !this.imagesArrayTwo.value.includes(e.target.result)) {
-          this.imagesArrayTwo.push(this.fb.control(e.target.result)); // حفظ Base64 للعرض
-          this.selectedFilesTwo.push(file); // حفظ الملف الفعلي
+          this.imagesArrayTwo.push(this.fb.control(e.target.result));
+          this.selectedFilesTwo.push(file);
         }
       };
       reader.readAsDataURL(file);
@@ -541,6 +570,8 @@ export class ProductComponent implements OnInit {
       // this.getProducts();
       this.imagesArrayTwo.removeAt(index);
       this.selectedFilesTwo.splice(index, 1);
+      console.log( "image Logo"+ this.selectedFilesTwo);
+
     });
   }
 
