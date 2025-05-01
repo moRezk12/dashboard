@@ -324,6 +324,9 @@ export class ProductComponent implements OnInit {
     const imageFormArrayTwo = this.productForm.get('logo') as FormArray;
     imageFormArrayTwo.clear();
 
+    this.selectedFiles = [];
+    this.selectedFilesTwo = [];
+
     this.editingIndex = null;
     this.showModal = true;
   }
@@ -335,7 +338,6 @@ export class ProductComponent implements OnInit {
   // Add or update an Product
   addOrUpdateProduct() {
 
-    console.log(this.mode);
     if(!this.mode){
       // Check if departmentId is selected
         if (!this.productForm.get('departmentId')?.value) {
@@ -369,21 +371,22 @@ export class ProductComponent implements OnInit {
       }
     });
 
-    if(this.selectedFiles.length > 0) {
-      this.selectedFiles.forEach((file: File) => {
-        formData.append('image', file);
-      });
-    }else {
+    // image
+    if(this.selectedFiles.length === 0) {
       formData.append('image', '');
     }
 
-    if(this.selectedFilesTwo.length > 0) {
-      this.selectedFilesTwo.forEach((file: File) => {
-        formData.append('logo', file);
-      });
-    }else {
+    this.selectedFiles.forEach((file: File) => {
+      formData.append('image', file);
+    });
+    // logo
+    if(this.selectedFilesTwo.length === 0) {
       formData.append('logo', '');
     }
+
+    this.selectedFilesTwo.forEach((file: File) => {
+      formData.append('logo', file);
+    });
 
 
 
@@ -415,8 +418,8 @@ export class ProductComponent implements OnInit {
             timerProgressBar: true,
           }).then(() => {
             this.getProducts();
-            this.selectedFiles = [];
-            this.selectedFilesTwo = [];
+            this.imagesArray.clear();
+            this.imagesArrayTwo.clear();
             this.productForm.reset();
           });
         },
@@ -505,6 +508,8 @@ export class ProductComponent implements OnInit {
         if (this.imagesArray.length < 3 && !this.imagesArray.value.includes(e.target.result)) {
           this.imagesArray.push(this.fb.control(e.target.result));
           this.selectedFiles.push(file);
+          console.log(this.imagesArray);
+
         }
       };
       reader.readAsDataURL(file);
@@ -524,6 +529,8 @@ export class ProductComponent implements OnInit {
     }).then(() => {
       // this.getProducts();
       this.imagesArray.removeAt(index);
+      console.log(this.imagesArray);
+
       this.selectedFiles.splice(index, 1);
     });
   }
@@ -549,6 +556,8 @@ export class ProductComponent implements OnInit {
       reader.onload = (e: any) => {
         if (this.imagesArrayTwo.length < 3 && !this.imagesArrayTwo.value.includes(e.target.result)) {
           this.imagesArrayTwo.push(this.fb.control(e.target.result));
+          console.log(this.imagesArrayTwo);
+
           this.selectedFilesTwo.push(file);
         }
       };
@@ -569,8 +578,9 @@ export class ProductComponent implements OnInit {
     }).then(() => {
       // this.getProducts();
       this.imagesArrayTwo.removeAt(index);
+      console.log(this.imagesArrayTwo);
+
       this.selectedFilesTwo.splice(index, 1);
-      console.log( "image Logo"+ this.selectedFilesTwo);
 
     });
   }
@@ -659,7 +669,9 @@ export class ProductComponent implements OnInit {
   // ShowData an Product
   categoryName: string = '';
   showProduct(product: any) {
-    console.log(product);
+
+    console.log( "showProduct" );
+    console.log(product );
 
     this.mode = true;
     this.showData = true;
@@ -682,6 +694,8 @@ export class ProductComponent implements OnInit {
 
 
     this.imagesArray.clear();
+    console.log( this.imagesArray);
+
     product.image.forEach((img: any) => {
       this.imagesArray.push(this.fb.control(img.secure_url));
     });
