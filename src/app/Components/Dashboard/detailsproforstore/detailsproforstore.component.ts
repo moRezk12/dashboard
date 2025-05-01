@@ -103,9 +103,10 @@ export class DetailsproforstoreComponent {
 
     // Call the API to reorder
     const movedProduct = this.allProducts[fromLocalIndex];
+    console.log( "234243"+ JSON.stringify(movedProduct));
 
     if (movedProduct && fromGlobalIndex !== toGlobalIndex) {
-      this.saveOrder(movedProduct._id, toGlobalIndex);
+      this.saveOrder(movedProduct.Product._id, toGlobalIndex);
     }
   }
 

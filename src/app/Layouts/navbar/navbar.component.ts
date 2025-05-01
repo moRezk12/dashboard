@@ -11,6 +11,28 @@ export class NavbarComponent implements OnInit {
 
   count : number = 0;
   constructor(private notify: NotifyService , private _router : Router) {
+
+
+  }
+
+  readNotification() {
+    this.notify.readAllNotifications().subscribe({
+      next: (res) => {
+        console.log(res);
+        this._router.navigate(['/notify']);
+
+        setTimeout(() => {
+        this.notify.getCounter(0);
+        }, 30000);
+
+      },
+      error: (err) => {
+        console.error('Error :', err);
+      }
+    });
+  }
+
+  ngOnInit(): void {
     this.notify.counter.subscribe({
       next: (res) => {
         this.count = res;
@@ -21,24 +43,6 @@ export class NavbarComponent implements OnInit {
         console.error('Error :', err);
       }
     });
-
-  }
-
-  readNotification() {
-    this.notify.readAllNotifications().subscribe({
-      next: (res) => {
-        console.log(res);
-        this._router.navigate(['/notify']);
-        this.notify.getCounter(0);
-      },
-      error: (err) => {
-        console.error('Error :', err);
-      }
-    });
-  }
-
-  ngOnInit(): void {
-
   }
 
 }
