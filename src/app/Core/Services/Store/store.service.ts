@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -13,7 +13,6 @@ export class StoreService {
   getStore(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/product/getAllMostawdaas`,  {});
   }
-
 
   // Create Store
   createStore(data : any): Observable<any> {
@@ -31,9 +30,20 @@ export class StoreService {
   }
 
 
+  // Details One Store
   // Get Product
-  getallproductForoneStore(id : any): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/product/getProductsByMostawdaa/${id}`);
+  getallproductForoneStore(id : any , page?: number ): Observable<any> {
+    let params = new HttpParams();
+    if (page) {
+      params = params.set('page', page);
+    }
+    return this.http.post(`${environment.apiUrl}/product/getProductsByMostawdaa/${id}` , {} , { params });
+  }
+
+  updateProductOrder(orderedWoods:  { productId: string , mostawdaaId : string, newIndex: number }): Observable<any> {
+    console.log( "Api perirri" + JSON.stringify(orderedWoods));
+    console.log( orderedWoods);
+    return this.http.post(`${environment.apiUrl}/product/reorderProductInWarehouse`, orderedWoods );
   }
 
   // Create Product
@@ -50,5 +60,7 @@ export class StoreService {
   deleteProduct(id : any): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/category/deleteMix/${id}`);
   }
+
+
 
 }

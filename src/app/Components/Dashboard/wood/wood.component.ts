@@ -27,8 +27,8 @@ export class WoodComponent implements OnInit {
   totalPages: number = 1;
   totalProducts: number = 0;
   itemsPerPage: number = 10;
-  // limit: number = 10; // عدد المنتجات في كل صفحة
   visiblePages: number[] = [];
+  // limit: number = 10; // عدد المنتجات في كل صفحة
 
   allProducts : any = []
 
@@ -180,7 +180,7 @@ export class WoodComponent implements OnInit {
 
     const orderedProducts =  {
       productId: productId,
-      newIndex: newIndex
+      newIndex: newIndex  
     };
 
     console.log(orderedProducts);

@@ -16,7 +16,11 @@ export class CompanyComponent implements OnInit {
   adminForm!: FormGroup;
   addproductForm!: FormGroup;
 
-
+  currentPage: number = 1;
+  totalPages: number = 1;
+  totalProducts: number = 0;
+  itemsPerPage: number = 10;
+  visiblePages: number[] = [];
 
   selectedLang: string = 'ar';
   showModal = false;
@@ -280,16 +284,11 @@ export class CompanyComponent implements OnInit {
 
     this._router.navigate([`/details/${category._id}`]);
 
-
-    // this.showOneStore = true;
-    // this.storeData = categoryId;
-    // this.prodId = categoryId._id;
-    // this.getallproduct();
   }
 
   // Get All Product
   getallproduct(){
-    this._storeServices.getallproductForoneStore( this.prodId).subscribe({
+    this._storeServices.getallproductForoneStore(this.currentPage , this.prodId).subscribe({
       next: (res) => {
         this.allProducts = res.data.products ;
         console.log(this.allProducts);
