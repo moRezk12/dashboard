@@ -16,6 +16,9 @@ export class StoreService {
 
   // Create Store
   createStore(data : any): Observable<any> {
+    console.log("Api " + JSON.stringify(data));
+    console.log(data);
+
     return this.http.post(`${environment.apiUrl}/category/createMostawdaa`, data);
   }
 

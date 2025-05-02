@@ -12,22 +12,22 @@ export class AppComponent implements OnInit {
   constructor(private notify : NotifyService){}
 
   ngOnInit(): void {
-    this.loadNotifications();
+    // this.loadNotifications();
 
-    setInterval(() => {
-      this.loadNotifications();
-    }, 50000);
+    // setInterval(() => {
+    //   this.loadNotifications();
+    // }, 50000);
   }
 
-  loadNotifications() {
-    this.notify.getNotif().subscribe({
-      next: (res) => {
-        const unreadCount = res.notifications.filter((n: any) => !n.isRead).length;
-        this.notify.getCounter(unreadCount);
-      },
-      error: (err) => console.error('Error:', err)
-    });
-  }
+  // loadNotifications() {
+  //   this.notify.getNotif().subscribe({
+  //     next: (res) => {
+  //       const unreadCount = res.notifications.filter((n: any) => !n.isRead).length;
+  //       this.notify.getCounter(unreadCount);
+  //     },
+  //     error: (err) => console.error('Error:', err)
+  //   });
+  // }
 
 
 

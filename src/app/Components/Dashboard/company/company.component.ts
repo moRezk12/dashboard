@@ -40,7 +40,7 @@ export class CompanyComponent implements OnInit {
   ngOnInit(): void {
     this.adminForm = this.fb.group({
       image: ['', [Validators.required]],
-      Watsapp: [''],
+      watsapp: [''],
       phone: [''],
       workdate_en: [''],
       workdate_ar: [''],
@@ -103,7 +103,7 @@ export class CompanyComponent implements OnInit {
     }).then(() => {
       this.image = null;
       this.selectedFile = null;
-    this.adminForm.get('image')?.setValue(null);
+      this.adminForm.get('image')?.setValue(null);
     });
   }
 
@@ -164,6 +164,8 @@ export class CompanyComponent implements OnInit {
     console.log(this.adminForm.value);
     const formData = new FormData();
     Object.keys(this.adminForm.controls).forEach(key => {
+      console.log(key + ' : ' + this.adminForm.get(key)?.value);
+
       if (key !== 'image') {
         formData.append(key, this.adminForm.get(key)?.value);
       }
@@ -189,10 +191,7 @@ export class CompanyComponent implements OnInit {
           }).then(() => {
             this.getStore();
             this.showModal = false;
-            this.adminForm.reset();
-            this.image = null;
-            this.selectedFile = null;
-            this.adminForm.get('image')?.setValue(null);
+            this.clearFormAndImage();
           });
         },
         error: (err) => {
@@ -244,6 +243,13 @@ export class CompanyComponent implements OnInit {
 
   }
 
+  clearFormAndImage() {
+    this.adminForm.reset(); // إعادة تعيين النموذج
+    this.image = null; // مسح مسار الصورة
+    this.selectedFile = null; // إزالة الملف المحدد
+    this.adminForm.get('image')?.setValue(null); // إعادة تعيين قيمة الصورة في النموذج
+  }
+
   // Edit an admin
   editStore(category: any) {
     this.mode = true;
@@ -253,7 +259,7 @@ export class CompanyComponent implements OnInit {
 
 
     this.adminForm.patchValue({
-      Watsapp: category.watsapp || '',
+      watsapp: category.watsapp || '',
       phone: category.phone || '',
       workdate_en: category.workdate.en || '',
       workdate_ar: category.workdate.ar || '',
@@ -381,6 +387,7 @@ export class CompanyComponent implements OnInit {
           icon: 'success',
           title: 'Success',
           text: res.message,
+          // text: 'Product Added successfully',
           confirmButtonColor: '#28a745',
           confirmButtonText: 'OK',
           timer: 2000,

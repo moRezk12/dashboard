@@ -22,7 +22,7 @@ export class SidebarComponent {
     { url: '/message', name: 'Message' },
     { url: '/advertisement', name: 'Advertisement' },
     { url: '/department', name: 'Department' },
-    // { url: '/notify', name: 'Notification' },
+    { url: '/notify', name: 'Notification' },
   ]
 
   Logout() {
