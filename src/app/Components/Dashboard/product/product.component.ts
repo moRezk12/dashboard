@@ -388,18 +388,9 @@ export class ProductComponent implements OnInit {
       }
     });
 
-    // image
-    if(this.selectedFiles.length === 0) {
-      formData.append('image', '');
-    }
-
     this.selectedFiles.forEach((file: File) => {
       formData.append('image', file);
     });
-    // logo
-    if(this.selectedFilesTwo.length === 0) {
-      formData.append('logo', '');
-    }
 
     this.selectedFilesTwo.forEach((file: File) => {
       formData.append('logo', file);
@@ -408,18 +399,16 @@ export class ProductComponent implements OnInit {
 
 
     formData.forEach((value, key) => {
-      if (value instanceof File) {
-        console.log(`${key}: [File] ${value.name}`);
-      } else {
+
         console.log(`${key}: ${value}`);
-      }
+
     });
 
 
 
     this.showModal = false;
 
-    console.log( "new   "+  JSON.stringify(this.productForm.value));
+    console.log( "new   ");
     console.log(   this.productForm.value);
 
     if(!this.mode) {
