@@ -355,7 +355,7 @@ export class ProductComponent implements OnInit {
   }
 
   addOrUpdateProduct() {
-    if (this.selectedFiles.length === 0 && !this.mode) {
+    if (this.selectedFiles.length === 0 ) {
       Swal.fire({
         icon: 'error',
         title: 'Error!',
