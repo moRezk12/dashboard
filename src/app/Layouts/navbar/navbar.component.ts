@@ -36,7 +36,6 @@ export class NavbarComponent implements OnInit {
     this.notify.counter.subscribe({
       next: (res) => {
         this.count = res;
-        console.log(res);
 
       },
       error: (err) => {
