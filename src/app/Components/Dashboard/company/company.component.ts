@@ -223,7 +223,7 @@ export class CompanyComponent implements OnInit {
           }).then(() => {
             this.getStore();
             this.showModal = false;
-            this.adminForm.reset();
+            this.clearFormAndImage();
           });
         },
         error: (err) => {
@@ -352,6 +352,7 @@ export class CompanyComponent implements OnInit {
   closeModal() {
     this.mode = false;
     this.showModal = false;
+    this.clearFormAndImage();
     this.adminForm.reset();
     this.show = false;
   }
