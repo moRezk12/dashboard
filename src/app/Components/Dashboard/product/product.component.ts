@@ -45,8 +45,8 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
-      name1_en: ['' ],
-      name1_ar: ['' ],
+      name1_en: ['' , Validators.required],
+      name1_ar: ['' , Validators.required],
       name2_en: [''],
       name2_ar: [''],
       description_en: [''],
@@ -338,6 +338,11 @@ export class ProductComponent implements OnInit {
   // Add or update an Product
   addOrUpdateProduct() {
 
+    console.log("imagesArray On submit ");
+
+    console.log(this.imagesArray);
+    console.log(this.imagesArrayTwo);
+
     if(!this.mode){
       // Check if departmentId is selected
         if (!this.productForm.get('departmentId')?.value) {
@@ -352,6 +357,18 @@ export class ProductComponent implements OnInit {
 
         });
 
+        return;
+      }
+      else if (!this.productForm.get('name1_en')?.value  || !this.productForm.get('name1_ar')?.value) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: this.productForm.get('name1_ar')?.value ? 'Please Enter Name in English' : 'Please Enter Name in Arabic',
+          confirmButtonColor: '#d33',
+          timerProgressBar: true,
+        }).then(() => {
+          this.showModal = true;
+        });
         return;
       }
     }
@@ -507,7 +524,14 @@ export class ProductComponent implements OnInit {
       reader.onload = (e: any) => {
         if (this.imagesArray.length < 3 && !this.imagesArray.value.includes(e.target.result)) {
           this.imagesArray.push(this.fb.control(e.target.result));
+
+          console.log("imagesArray");
+          console.log(this.imagesArray);
+
           this.selectedFiles.push(file);
+          console.log("selectedFiles");
+          console.log(this.selectedFiles);
+
           console.log(this.imagesArray);
 
         }
@@ -556,9 +580,13 @@ export class ProductComponent implements OnInit {
       reader.onload = (e: any) => {
         if (this.imagesArrayTwo.length < 3 && !this.imagesArrayTwo.value.includes(e.target.result)) {
           this.imagesArrayTwo.push(this.fb.control(e.target.result));
+          console.log("imagesArrayTwo");
           console.log(this.imagesArrayTwo);
 
           this.selectedFilesTwo.push(file);
+          console.log("selectedFilesTwo");
+          console.log(this.selectedFilesTwo);
+
         }
       };
       reader.readAsDataURL(file);
@@ -590,6 +618,9 @@ export class ProductComponent implements OnInit {
 
   editdata : boolean = false;
   editProduct(product: any) {
+    console.log(this.productForm.value);
+    console.log("product");
+
     console.log(product);
 
     this.mode = true;
@@ -658,7 +689,10 @@ export class ProductComponent implements OnInit {
 
     this.editingIndex = product._id;
     console.log('editingIndex:', this.editingIndex);
-    console.log("product " + JSON.stringify(product)) ;
+
+    console.log("product");
+    console.log(this.productForm.value);
+    // console.log("product " + JSON.stringify(product)) ;
 
     this.showModal = true;
   }
