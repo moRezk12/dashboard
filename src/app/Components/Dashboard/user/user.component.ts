@@ -283,15 +283,15 @@ export class UserComponent implements OnInit {
   Sendnotify(id : number) {
     console.log(id);
     this.showModalNotify = true;
-    // this.notifyId = id;
+    this.notifyId = id;
     this.notification.get('userId')?.setValue(id);
   }
 
   sendnotification(){
 
-    // if(this.notification.get('userId')!.value === '' ){
-    //   this.notification.get('userId')!.setValue(this.notifyId);
-    // }
+    if(this.notification.get('userId')?.value === 'null' || this.notification.get('userId')?.value === null || this.notification.get('userId')?.value === '' ){
+      this.notification.get('userId')?.setValue(this.notifyId);
+    }
     console.log(this.notification.value);
 
     this._userService.sendNotify(this.notification.value).subscribe({
