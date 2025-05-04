@@ -489,7 +489,6 @@ export class ProductComponent implements OnInit {
     });
 
     if (this.selectedFilesTwo.length === 0){
-      
       formData.append('logo', '');
     }else {
       this.selectedFilesTwo.forEach((file: File) => {

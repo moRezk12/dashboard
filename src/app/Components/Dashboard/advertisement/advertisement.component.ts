@@ -69,10 +69,9 @@ export class AdvertisementComponent implements OnInit {
     selectedFiles: File[] = [];
     images: string[] = [];
 
-    onFileSelected(event: any) {
+    onFileSelected(event: any): void {
       const files: FileList = event.target.files;
 
-      // تحقق من الحد الأقصى للصور
       if (files.length + this.imagesArray.length > 3) {
         Swal.fire({
           icon: 'warning',
@@ -87,16 +86,27 @@ export class AdvertisementComponent implements OnInit {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
 
+        if (file.size > 2 * 1024 * 1024) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Limit Exceeded!',
+            text: 'Image size must be less than 2 MB.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          })
+        }
+
         const reader = new FileReader();
         reader.onload = (e: any) => {
           if (this.imagesArray.length < 3 && !this.imagesArray.value.includes(e.target.result)) {
-            this.imagesArray.push(this.fb.control(e.target.result)); // حفظ Base64 للعرض
-            this.selectedFiles.push(file); // حفظ الملف الفعلي
+            this.imagesArray.push(this.fb.control(e.target.result));
+            this.selectedFiles.push(file);
           }
         };
         reader.readAsDataURL(file);
       }
     }
+
 
     // حذف الصورة
     removeImage(index: number) {
@@ -118,6 +128,7 @@ export class AdvertisementComponent implements OnInit {
 
   // Open the modal
   openAddModal() {
+    this.selectedFiles = [];
     this.adminForm.enable();
     this.adminForm.reset();
     this.editingIndex = null;
@@ -160,6 +171,9 @@ export class AdvertisementComponent implements OnInit {
             this.getAllAdvertise();
             this.showPassword = false ;
             this.mode = false ;
+            this.selectedFiles = [];
+            this.imagesArray.clear();
+            this.adminForm.reset();
           });
         },
         error : (err) => {
