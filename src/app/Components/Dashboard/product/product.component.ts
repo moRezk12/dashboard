@@ -71,9 +71,11 @@ export class ProductComponent implements OnInit {
     // Get All Products
     this.getProducts();
     // Get Category
-    this.getCategory();
+    // this.getCategory();
+
+
     // Get Department
-    this.getDepartment();
+    // this.getDepartment();
 
     // Pagination
     this.updateVisiblePages();
@@ -254,30 +256,30 @@ export class ProductComponent implements OnInit {
 
 
   // Get Category
-  categories : any = [];
-  getCategory(): void {
-    this._categoryService.getCategories().subscribe({
-      next: (res) => {
-        if (res?.data?.categories) {
+  // categories : any = [];
+  // getCategory(): void {
+  //   this._categoryService.getCategories().subscribe({
+  //     next: (res) => {
+  //       if (res?.data?.categories) {
 
-          this.categories = res.data.categories;
+  //         this.categories = res.data.categories;
 
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: res.message,
-            confirmButtonColor: '#d33',
-            timer: 2000,
-            timerProgressBar: true,
-          })
-        }
-      },
-      error: (err) => {
-        console.error('Error :', err);
-      }
-    });
-  }
+  //       } else {
+  //         Swal.fire({
+  //           icon: 'error',
+  //           title: 'Error!',
+  //           text: res.message,
+  //           confirmButtonColor: '#d33',
+  //           timer: 2000,
+  //           timerProgressBar: true,
+  //         })
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error :', err);
+  //     }
+  //   });
+  // }
   // Get Department
   departments : any = [];
   getDepartment(): void {
@@ -365,6 +367,8 @@ export class ProductComponent implements OnInit {
 
   // Open the modal
   openAddModal() {
+    this.getDepartment();
+
     this.mode = false;
     this.productForm.addControl('categoryId', this.fb.control('', Validators.required));
     this.productForm.addControl('departmentId', this.fb.control('', Validators.required));
@@ -510,6 +514,8 @@ export class ProductComponent implements OnInit {
           });
         },
         error: (err) => {
+          console.log(err);
+
           Swal.fire({
             icon: 'error',
             title: 'Error!',
