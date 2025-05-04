@@ -393,7 +393,7 @@
             <input type="file" (change)="onFileSelectedTwo($event)" accept="image/*" multiple
               class="absolute inset-0 opacity-0 cursor-pointer" *ngIf="!showData" />
 
-            <svg *ngIf="imagesArrayTwo.controls.length < 3 || !showData " class="w-12 h-12 text-blue-500 mb-2" fill="none"
+            <svg *ngIf="imagesArrayTwo.controls.length < 1 || !showData " class="w-12 h-12 text-blue-500 mb-2" fill="none"
               stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
             </svg>

@@ -324,7 +324,23 @@ export class ProductComponent implements OnInit {
 
   onFileSelected(event: any): void {
     const files = event.target.files;
+
     if (files) {
+      // Check total number of selected + existing files
+      const totalFiles = this.selectedFiles.length + files.length;
+
+      if (totalFiles > 3) {
+        console.error('يمكنك رفع 3 صور فقط');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Limit Exceeded!',
+          text: 'يمكنك رفع 3 صور فقط',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        })
+        return;
+      }
+
       for (let file of files) {
         if (this.imagesArray.length < 3) {
           const reader = new FileReader();
@@ -338,11 +354,27 @@ export class ProductComponent implements OnInit {
     }
   }
 
+
   onFileSelectedTwo(event: any): void {
     const files = event.target.files;
     if (files) {
+
+      const totalFiles = this.selectedFilesTwo.length + files.length;
+
+      if (totalFiles > 1) {
+        console.error('يمكنك رفع صوره واحده فقط');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Limit Exceeded!',
+          text: 'يمكنك رفع صوره واحده فقط',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        })
+        return;
+      }
+
       for (let file of files) {
-        if (this.imagesArrayTwo.length < 3) {
+        if (this.imagesArrayTwo.length < 1) {
           const reader = new FileReader();
           reader.onload = (e: any) => {
             this.imagesArrayTwo.push(this.fb.control(e.target.result));
@@ -393,6 +425,8 @@ export class ProductComponent implements OnInit {
   addOrUpdateProduct() {
 
     console.log("this.productForm.value");
+    console.log(this.productForm.value);
+
     console.log(this.selectedFiles);
     console.log(this.selectedFilesTwo);
 
@@ -454,9 +488,15 @@ export class ProductComponent implements OnInit {
       formData.append('image', file);
     });
 
-    this.selectedFilesTwo.forEach((file: File) => {
-      formData.append('logo', file);
-    });
+    if (this.selectedFilesTwo.length === 0){
+      
+      formData.append('logo', '');
+    }else {
+      this.selectedFilesTwo.forEach((file: File) => {
+        formData.append('logo', file);
+      });
+    }
+
 
 
     this.showModal = false;
