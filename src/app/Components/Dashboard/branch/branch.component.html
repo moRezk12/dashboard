@@ -14,7 +14,7 @@
       <div class="flex items-center mb-4 "
         [ngClass]="{ 'justify-between ': !show, 'justify-end ': show }"
       >
-        <h2 class="text-xl font-semibold mb-4" *ngIf="!show" >{{ mode ? 'Edit Admin' : 'Add Admin' }}</h2>
+        <h2 class="text-xl font-semibold mb-4" *ngIf="!show" >{{ mode ? 'Edit Branch' : 'Add Branch' }}</h2>
 
         <div
           class=" bg-red-500 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-md cursor-pointer transition-all duration-300"
@@ -26,110 +26,101 @@
 
       <form [formGroup]="branchForm" (ngSubmit)="addBranche()" class="space-y-4">
 
-        <!-- Name1 Fields -->
-        <div class="flex gap-3" formGroupName="name1">
-          <!-- Branch Name (English) -->
-          <div class="w-full">
-            <label class="font-medium text-gray-700">Branch Name (English)</label>
-            <input type="text" formControlName="en" placeholder="Enter Branch Name in English"
-              class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="branchForm.get('name1')?.get('en')?.invalid && branchForm.get('name1')?.get('en')?.touched"
-              class="text-red-500">
-              Required & must be at least 3 characters
-            </small>
-          </div>
+    <!-- Name1 Fields -->
+    <div class="flex gap-3" formGroupName="name1">
+      <div class="w-full">
+        <label class="font-medium text-gray-700">Branch Name (English)</label>
+        <input type="text" formControlName="en" placeholder="Enter Branch Name in English"
+          class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+        <small *ngIf="branchForm.get('name1.en')?.touched && branchForm.get('name1.en')?.errors?.['required']"
+          class="text-red-500">This field is required</small>
+        <small *ngIf="branchForm.get('name1.en')?.touched && branchForm.get('name1.en')?.errors?.['minlength']"
+          class="text-red-500">Must be at least 3 characters</small>
+      </div>
 
-          <!-- Branch Name (Arabic) -->
-          <div class="w-full" dir="rtl" >
-            <label class="font-medium text-gray-700">ادخل الاسم باللغه العربية</label>
-            <input type="text" formControlName="ar" placeholder="ادخل الاسم باللغه العربية"
-              class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="branchForm.get('name1')?.get('ar')?.invalid && branchForm.get('name1')?.get('ar')?.touched"
-              class="text-red-500">
-              Required & must be at least 3 characters
-            </small>
-          </div>
-        </div>
+      <div class="w-full" dir="rtl">
+        <label class="font-medium text-gray-700">ادخل الاسم باللغه العربية</label>
+        <input type="text" formControlName="ar" placeholder="ادخل الاسم باللغه العربية"
+          class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+        <small *ngIf="branchForm.get('name1.ar')?.touched && branchForm.get('name1.ar')?.errors?.['required']"
+          class="text-red-500">هذا الحقل مطلوب</small>
+        <small *ngIf="branchForm.get('name1.ar')?.touched && branchForm.get('name1.ar')?.errors?.['minlength']"
+          class="text-red-500">يجب أن يكون على الأقل 3 أحرف</small>
+      </div>
+    </div>
 
-        <!-- Name2 Fields -->
-        <div class="flex gap-3" formGroupName="name2">
-          <!-- Branch Name (English) -->
-          <div class="w-full">
-            <label class="font-medium text-gray-700">Branch Name (English)</label>
-            <input type="text" formControlName="en" placeholder="Enter Branch Name in English"
-              class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="branchForm.get('name2')?.get('en')?.invalid && branchForm.get('name2')?.get('en')?.touched"
-              class="text-red-500">
-              Required & must be at least 3 characters
-            </small>
-          </div>
+    <!-- Name2 Fields -->
+    <div class="flex gap-3" formGroupName="name2">
+      <div class="w-full">
+        <label class="font-medium text-gray-700">Branch Name (English)</label>
+        <input type="text" formControlName="en" placeholder="Enter Branch Name in English"
+          class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+        <small *ngIf="branchForm.get('name2.en')?.touched && branchForm.get('name2.en')?.errors?.['required']"
+          class="text-red-500">This field is required</small>
+        <small *ngIf="branchForm.get('name2.en')?.touched && branchForm.get('name2.en')?.errors?.['minlength']"
+          class="text-red-500">Must be at least 3 characters</small>
+      </div>
 
-          <!-- Branch Name (Arabic) -->
-          <div class="w-full" dir="rtl" >
-            <label class="font-medium text-gray-700">ادخل الاسم باللغه العربية</label>
-            <input type="text" formControlName="ar" placeholder="ادخل الاسم باللغه العربية"
-              class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-            <small *ngIf="branchForm.get('name2')?.get('ar')?.invalid && branchForm.get('name2')?.get('ar')?.touched"
-              class="text-red-500">
-              Required & must be at least 3 characters
-            </small>
-          </div>
-        </div>
+      <div class="w-full" dir="rtl">
+        <label class="font-medium text-gray-700">ادخل الاسم باللغه العربية</label>
+        <input type="text" formControlName="ar" placeholder="ادخل الاسم باللغه العربية"
+          class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+        <small *ngIf="branchForm.get('name2.ar')?.touched && branchForm.get('name2.ar')?.errors?.['required']"
+          class="text-red-500">هذا الحقل مطلوب</small>
+        <small *ngIf="branchForm.get('name2.ar')?.touched && branchForm.get('name2.ar')?.errors?.['minlength']"
+          class="text-red-500">يجب أن يكون على الأقل 3 أحرف</small>
+      </div>
+    </div>
 
+    <!-- Address Fields -->
+    <div class="flex gap-3" formGroupName="address">
+      <div class="w-full">
+        <label class="font-medium text-gray-700">Address (English)</label>
+        <input type="text" formControlName="en" placeholder="Enter Address in English"
+          class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+        <small *ngIf="branchForm.get('address.en')?.touched && branchForm.get('address.en')?.errors?.['required']"
+          class="text-red-500">This field is required</small>
+        <small *ngIf="branchForm.get('address.en')?.touched && branchForm.get('address.en')?.errors?.['minlength']"
+          class="text-red-500">Must be at least 3 characters</small>
+      </div>
 
-        <!-- Address Fields -->
-        <div class="flex gap-3" formGroupName="address">
-          <!-- Address (English) -->
-          <div class="w-full">
-            <label class="font-medium text-gray-700">Address (English)</label>
-            <input type="text" formControlName="en" placeholder="Enter Address in English"
-              class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-            <small
-              *ngIf="branchForm.get('address')?.get('en')?.invalid && branchForm.get('address')?.get('en')?.touched"
-              class="text-red-500">
-              Required & must be at least 3 characters
-            </small>
-          </div>
+      <div class="w-full" dir="rtl">
+        <label class="font-medium text-gray-700">ادخل العنوان باللغه العربية</label>
+        <input type="text" formControlName="ar" placeholder="ادخل العنوان باللغه العربية"
+          class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+        <small *ngIf="branchForm.get('address.ar')?.touched && branchForm.get('address.ar')?.errors?.['required']"
+          class="text-red-500">هذا الحقل مطلوب</small>
+        <small *ngIf="branchForm.get('address.ar')?.touched && branchForm.get('address.ar')?.errors?.['minlength']"
+          class="text-red-500">يجب أن يكون على الأقل 3 أحرف</small>
+      </div>
+    </div>
 
-          <!-- Address (Arabic) -->
-          <div class="w-full" dir="rtl" >
-            <label class="font-medium text-gray-700">ادخل العنوان باللغه العربية</label>
-            <input type="text" formControlName="ar" placeholder="ادخل العنوان باللغه العربية"
-              class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-            <small
-              *ngIf="branchForm.get('address')?.get('ar')?.invalid && branchForm.get('address')?.get('ar')?.touched"
-              class="text-red-500">
-              Required & must be at least 3 characters
-            </small>
-          </div>
-        </div>
+    <!-- Phone Field -->
+    <div class="w-full">
+      <label class="font-medium text-gray-700">Phone</label>
+      <input type="text" formControlName="phone" placeholder="Enter Phone Number"
+        class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+      <small *ngIf="branchForm.get('phone')?.touched && branchForm.get('phone')?.errors?.['required']"
+        class="text-red-500">Mobile Number is required</small>
+      <small *ngIf="branchForm.get('phone')?.touched && branchForm.get('phone')?.errors?.['pattern']"
+        class="text-red-500">Invalid phone number (should start with +966 and have 9 digits)</small>
+    </div>
 
-
-        <!-- Phone Field -->
-        <div class="w-full">
-          <label class="font-medium text-gray-700">Phone</label>
-          <input type="text" formControlName="phone" placeholder="Enter Phone Number"
-            class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-          <small *ngIf="branchForm.get('phone')?.invalid && branchForm.get('phone')?.touched" class="text-red-500">
-            Phone number is required & must be numeric
-          </small>
-        </div>
-
-        <!-- Location Link Field -->
-        <div class="w-full">
-          <label class="font-medium text-gray-700">Location</label>
-          <input type="text" formControlName="locationLink" placeholder="Enter Location Link"
-            class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
-          <small *ngIf="branchForm.get('locationLink')?.invalid && branchForm.get('locationLink')?.touched"
-            class="text-red-500">
-            Enter a valid URL
-          </small>
-        </div>
+    <!-- Location Link Field -->
+    <div class="w-full">
+      <label class="font-medium text-gray-700">Location</label>
+      <input type="text" formControlName="locationLink" placeholder="Enter Location Link"
+        class="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" />
+      <small *ngIf="branchForm.get('locationLink')?.touched && branchForm.get('locationLink')?.errors?.['required']"
+        class="text-red-500">Location is required</small>
+      <small *ngIf="branchForm.get('locationLink')?.touched && branchForm.get('locationLink')?.errors?.['pattern']"
+        class="text-red-500">Enter a valid URL (starts with http or https)</small>
+    </div>
 
         <!-- Submit Button -->
         <div class="mt-4 flex justify-between">
           <button type="submit" [disabled]="branchForm.invalid" *ngIf="!show"
-            class="bg-green-600 text-white px-5 py-2 w-[40%] rounded hover:bg-green-700 transition">
+            class="disabled:hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-[0.5] bg-green-600 text-white px-5 py-2 w-[40%] rounded hover:bg-green-700 transition">
             {{ mode ? 'Update' : 'Add' }}
           </button>
           <button type="button" (click)="closeModal()"

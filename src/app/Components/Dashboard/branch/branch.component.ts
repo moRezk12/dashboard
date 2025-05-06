@@ -28,18 +28,18 @@ export class BranchComponent implements OnInit {
   ngOnInit(): void {
     this.branchForm = this.fb.group({
       name1: this.fb.group({
-        en: ['', [Validators.required, Validators.minLength(3)]],
-        ar: ['', [Validators.required, Validators.minLength(3)]]
+        en: ['', [Validators.required]],
+        ar: ['', [Validators.required]]
       }),
       name2: this.fb.group({
-        en: ['', [Validators.required, Validators.minLength(3)]],
-        ar: ['', [Validators.required, Validators.minLength(3)]]
+        en: ['', [Validators.required]],
+        ar: ['', [Validators.required]]
       }),
       address: this.fb.group({
-        en: ['', [Validators.required, Validators.minLength(3)]],
-        ar: ['', [Validators.required, Validators.minLength(3)]]
+        en: ['', [Validators.required]],
+        ar: ['', [Validators.required]]
       }),
-      phone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],  // يسمح فقط بالأرقام
+      phone: ['', [Validators.required, Validators.pattern(/^(\+966)?\d{9}$/)]],  // يسمح فقط بالأرقام
       locationLink: ['', [Validators.required, Validators.pattern(/https?:\/\/.*/)]]
     });
 
@@ -66,6 +66,8 @@ export class BranchComponent implements OnInit {
   getAllBranches() : void {
     this._branchservice.getBranches().subscribe({
       next : (res) => {
+        console.log(res);
+
         this.branches = res.data.branches;
 
       },
@@ -98,12 +100,14 @@ export class BranchComponent implements OnInit {
   // Add or update an admin
   addBranche() {
     this.showModal = false;
+    console.log(this.branchForm.value);
     this.branchForm.enable();
     if (!this.branchForm.valid) {
       return
     }
 
     const adminData = this.branchForm.value;
+
     if(!this.mode) {
       this._branchservice.createBranch(adminData).subscribe({
         next : (res) => {

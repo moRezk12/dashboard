@@ -33,7 +33,7 @@ export class AdminComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.minLength(3)]],
-      mobileNumber: ['', [Validators.required,]],
+      mobileNumber: ['', [Validators.required, Validators.pattern(/^(\+966)?\d{9}$/)]],
       password: ['', this.mode ? [] : [Validators.required]],
       city : ['', [Validators.required]]
     });
@@ -41,8 +41,8 @@ export class AdminComponent implements OnInit {
     // Check if the value is a phone number
     this.adminForm.get('mobileNumber')?.valueChanges.subscribe(value => {
     if (this.isPhoneNumber(value)) {
-      if (!value.startsWith('+20')) {
-        this.adminForm.patchValue({ mobileNumber: `+2${value}` }, { emitEvent: false });
+      if (!value.startsWith('+966')) {
+        this.adminForm.patchValue({ mobileNumber: `+966${value}` }, { emitEvent: false });
       }
     }
   });
