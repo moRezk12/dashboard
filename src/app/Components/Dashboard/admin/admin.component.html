@@ -80,7 +80,7 @@
           <small *ngIf="adminForm.get('mobileNumber')?.touched && adminForm.get('mobileNumber')?.errors?.['required']"
             class="text-red-500 mt-1">Mobile Number is required</small>
           <small *ngIf="adminForm.get('mobileNumber')?.touched && adminForm.get('mobileNumber')?.errors?.['pattern']"
-            class="text-red-500 mt-1">Mobile Number must be digits only</small>
+            class="text-red-500 mt-1">Invalid phone number (should start with +966 and have 9 digits)</small>
         </div>
 
         <!-- Password -->
