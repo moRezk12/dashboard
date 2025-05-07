@@ -68,6 +68,7 @@ export class AdvertisementComponent implements OnInit {
 
     selectedFiles: File[] = [];
     images: string[] = [];
+    allowedExtensions : string[] = ['jpg', 'jpeg', 'png', 'gif'];
 
     onFileSelected(event: any): void {
       const files: FileList = event.target.files;
@@ -95,7 +96,17 @@ export class AdvertisementComponent implements OnInit {
             confirmButtonText: 'OK'
           })
         }
-
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+        if (!fileExtension || !this.allowedExtensions.includes(fileExtension)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'تنبيه!',
+            text: ' فقط .jpg أو .jpeg أو .png أو .gif الرجاء اختيار صورة بصيغة  ',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+          return;
+        }
         const reader = new FileReader();
         reader.onload = (e: any) => {
           if (this.imagesArray.length < 3 && !this.imagesArray.value.includes(e.target.result)) {

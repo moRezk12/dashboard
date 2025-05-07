@@ -22,6 +22,11 @@ export class WoodComponent implements OnInit {
   // when click on button show
   showData : boolean = false;
 
+  // Images
+
+  selectedFiles: File[] = [];
+  selectedFilesTwo: File[] = [];
+
   // Pagination
   currentPage: number = 1;
   totalPages: number = 1;
@@ -48,8 +53,8 @@ export class WoodComponent implements OnInit {
       name1_ar: [''],
       name2_en: [''],
       name2_ar: [''],
-      oldprice: [''],
-      newprice: [''],
+      oldprice: ['' , Validators.required],
+      newprice: ['' , Validators.required],
       description_en: [''],
       description_ar: [''],
       stoargecondition_en: [''],
@@ -180,7 +185,7 @@ export class WoodComponent implements OnInit {
 
     const orderedProducts =  {
       productId: productId,
-      newIndex: newIndex  
+      newIndex: newIndex
     };
 
     console.log(orderedProducts);
@@ -207,6 +212,155 @@ export class WoodComponent implements OnInit {
     });
   }
 
+  // Images
+
+  get imagesArray(): FormArray {
+    return this.productForm.get('image') as FormArray;
+  }
+
+  get imagesArrayTwo(): FormArray {
+    return this.productForm.get('logo') as FormArray;
+  }
+
+  allowedExtensions : string[] = ['jpg', 'jpeg', 'png', 'gif'];
+  onFileSelected(event: any): void {
+    const files = event.target.files;
+
+    if (files) {
+      // Check total number of selected + existing files
+      const totalFiles = this.selectedFiles.length + files.length;
+
+      if (totalFiles > 3) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Limit Exceeded!',
+          text: 'You can upload up to 3 images only!',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        });
+        return;
+      }
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        if (file.size > 2 * 1024 * 1024) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Limit Exceeded!',
+            text: 'Image size must be less than 2 MB.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          })
+        }
+      }
+
+      for (let file of files) {
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+        if (!fileExtension || !this.allowedExtensions.includes(fileExtension)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'تنبيه!',
+            text: ' فقط .jpg أو .jpeg أو .png أو .gif الرجاء اختيار صورة بصيغة  ',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+          return;
+        }
+
+        if (this.imagesArray.length < 3) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.imagesArray.push(this.fb.control(e.target.result));
+            this.selectedFiles.push(file);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  }
+
+
+  onFileSelectedTwo(event: any): void {
+    const files = event.target.files;
+    if (files) {
+
+      const totalFiles = this.selectedFilesTwo.length + files.length;
+
+      if (totalFiles > 1) {
+        console.error('يمكنك رفع صوره واحده فقط');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Limit Exceeded!',
+          text: 'يمكنك رفع صوره واحده فقط',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        })
+        return;
+      }
+
+      for (let file of files) {
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+        if (!fileExtension || !this.allowedExtensions.includes(fileExtension)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'تنبيه!',
+            text: ' فقط .jpg أو .jpeg أو .png أو .gif الرجاء اختيار صورة بصيغة  ',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+          return;
+        }
+        if (this.imagesArrayTwo.length < 1) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.imagesArrayTwo.push(this.fb.control(e.target.result));
+            this.selectedFilesTwo.push(file);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  }
+
+  removeImage(index: number) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'Image deleted successfully',
+      confirmButtonColor: '#28a745',
+      confirmButtonText: 'OK',
+      timer: 2000,
+      timerProgressBar: true,
+    }).then(() => {
+      this.imagesArray.removeAt(index);
+      this.selectedFiles.splice(index, 1);
+    });
+  }
+
+
+  removeImageTwo(index: number) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'Image deleted successfully',
+      confirmButtonColor: '#28a745',
+      confirmButtonText: 'OK',
+      timer: 2000,
+      timerProgressBar: true,
+    }).then(() => {
+      this.imagesArrayTwo.removeAt(index);
+      this.selectedFilesTwo.splice(index, 1);
+    });
+  }
+
+  clearDateForImages(){
+    this.selectedFiles = [];
+    this.selectedFilesTwo = [];
+    this.imagesArray.clear();
+    this.imagesArrayTwo.clear();
+  }
+
   // Open the modal
   openAddModal() {
     this.mode = false;
@@ -215,13 +369,15 @@ export class WoodComponent implements OnInit {
     const tableDataFormArray = this.productForm.get('tableData') as FormArray;
     tableDataFormArray.clear();
 
-    // imagesArray
-    const imageFormArray = this.productForm.get('image') as FormArray;
-    imageFormArray.clear();
+    this.clearDateForImages();
 
-    // imagesArray Logo
-    const imageFormArrayTwo = this.productForm.get('logo') as FormArray;
-    imageFormArrayTwo.clear();
+    console.log(this.imagesArray);
+    console.log(this.imagesArrayTwo);
+    console.log(this.selectedFiles);
+    console.log(this.selectedFilesTwo);
+
+
+
 
     this.editingIndex = null;
     this.showModal = true;
@@ -233,7 +389,90 @@ export class WoodComponent implements OnInit {
 
   // Add or update an Product
   addOrUpdateProduct() {
+
+
+
+
     this.showData = false;
+
+
+    console.log("this.productForm.value");
+    console.log(this.productForm.value);
+
+    console.log(this.selectedFiles);
+    console.log(this.selectedFilesTwo);
+
+
+    if (this.selectedFiles.length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Please Select Wood Image',
+        confirmButtonColor: '#d33',
+        timerProgressBar: true,
+      }).then(() => {
+        this.showModal = true;
+      });
+      return;
+    }
+
+
+    let newPriceRaw = this.productForm.get('newprice')?.value;
+    let oldPriceRaw = this.productForm.get('oldprice')?.value;
+
+    const newPrice = typeof newPriceRaw === 'string' ? newPriceRaw.trim() : newPriceRaw?.toString().trim();
+    const oldPrice = typeof oldPriceRaw === 'string' ? oldPriceRaw.trim() : oldPriceRaw?.toString().trim();
+
+    this.productForm.get('newprice')?.setValue(newPrice);
+
+    console.log(`New Price: "${newPrice}"`);
+
+    console.log(this.productForm.get('oldprice')?.value);
+
+
+
+    console.log(`Old Price: "${oldPrice}"`);
+
+
+
+    if (!newPrice) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Please Enter New Price',
+        confirmButtonColor: '#d33',
+        timerProgressBar: true,
+      }).then(() => {
+        this.showModal = true;
+      });
+      return;
+    }
+
+
+    if (!this.productForm.get('newprice')?.value ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text:  'Please Enter New Price ',
+        confirmButtonColor: '#d33',
+        timerProgressBar: true,
+      }).then(() => {
+        this.showModal = true;
+      });
+      return;
+    } else if (!this.productForm.get('name1_en')?.value || !this.productForm.get('name1_ar')?.value) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: this.productForm.get('name1_ar')?.value ? 'Please Enter Name in English' : 'Please Enter Name in Arabic',
+        confirmButtonColor: '#d33',
+        timerProgressBar: true,
+      }).then(() => {
+        this.showModal = true;
+      });
+      return;
+    }
+
 
     this.productForm.enable();
     const formData = new FormData();
@@ -248,28 +487,28 @@ export class WoodComponent implements OnInit {
       }
     });
 
+    // if(this.productForm.get('oldprice')?.value === null || this.productForm.get('oldprice')?.value === '' || this.productForm.get('oldprice')?.value === undefined){
+    //   formData.append('oldprice', '0');
+    // }
 
     this.selectedFiles.forEach((file: File) => {
       formData.append('image', file);
     });
 
-    this.selectedFilesTwo.forEach((file: File) => {
-      formData.append('logo', file);
-    });
+    if (this.selectedFilesTwo.length === 0){
+      const logoEmpty = '';
+      console.log("logo is empty" +logoEmpty);
 
-    formData.forEach((value, key) => {
-      if (value instanceof File) {
-        console.log(`${key}: [File] ${value.name}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
+      formData.append('logo', logoEmpty);
+    }else {
+      this.selectedFilesTwo.forEach((file: File) => {
+        formData.append('logo', file);
+      });
+    }
 
 
 
     this.showModal = false;
-
-    console.log( "new   "+  JSON.stringify(formData));
 
     if(!this.mode) {
       this._woodService.createWoods(formData).subscribe({
@@ -285,17 +524,20 @@ export class WoodComponent implements OnInit {
             timerProgressBar: true,
           }).then(() => {
             this.getProducts(this.currentPage);
+            this.clearDateForImages();
 
             this.productForm.reset();
           });
         },
         error: (err) => {
+          console.log(err);
+
           Swal.fire({
             icon: 'error',
             title: 'Error!',
             text: err.error?.message,
             confirmButtonColor: '#d33',
-            timer: 2000,
+            // timer: 2000,
             timerProgressBar: true,
           }).then(() => {
             this.showModal = true;
@@ -317,14 +559,18 @@ export class WoodComponent implements OnInit {
             timerProgressBar: true,
           }).then(() => {
             this.getProducts(this.currentPage);
+            this.clearDateForImages();
+
             this.productForm.reset();
           });
         },
         error: (err) => {
+          console.log(err);
+
           Swal.fire({
             icon: 'error',
             title: 'Error!',
-            text: err.error?.message,
+            text: err.error?.message || "Server Error",
             confirmButtonColor: '#d33',
             timer: 2000,
             timerProgressBar: true,
@@ -337,111 +583,9 @@ export class WoodComponent implements OnInit {
 
   }
 
-  // Images
 
-  get imagesArray(): FormArray {
-    return this.productForm.get('image') as FormArray;
-  }
-  get imagesArrayTwo(): FormArray {
-    return this.productForm.get('logo') as FormArray;
-  }
 
-  selectedFiles: File[] = [];
-  selectedFilesTwo: File[] = [];
 
-  images: string[] = [];
-  imagesTwo: string[] = [];
-
-  onFileSelected(event: any) {
-    const files: FileList = event.target.files;
-
-    // تحقق من الحد الأقصى للصور
-    if (files.length + this.imagesArray.length > 3) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Limit Exceeded!',
-        text: 'You can upload up to 3 images only!',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
-      });
-      return;
-    }
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        if (this.imagesArray.length < 3 && !this.imagesArray.value.includes(e.target.result)) {
-          this.imagesArray.push(this.fb.control(e.target.result)); // حفظ Base64 للعرض
-          this.selectedFiles.push(file); // حفظ الملف الفعلي
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  // حذف الصورة
-  removeImage(index: number) {
-    Swal.fire({
-      icon: 'success',
-      title: 'Success',
-      text: 'Image deleted successfully',
-      confirmButtonColor: '#28a745',
-      confirmButtonText: 'OK',
-      timer: 2000,
-      timerProgressBar: true,
-    }).then(() => {
-      // this.getProducts(this.currentPage);
-      this.imagesArray.removeAt(index);
-      this.selectedFiles.splice(index, 1);
-    });
-  }
-  onFileSelectedTwo(event: any) {
-    const files: FileList = event.target.files;
-
-    // تحقق من الحد الأقصى للصور
-    if (files.length + this.imagesArrayTwo.length > 3) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Limit Exceeded!',
-        text: 'You can upload up to 3 images only!',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
-      });
-      return;
-    }
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        if (this.imagesArrayTwo.length < 3 && !this.imagesArrayTwo.value.includes(e.target.result)) {
-          this.imagesArrayTwo.push(this.fb.control(e.target.result)); // حفظ Base64 للعرض
-          this.selectedFilesTwo.push(file); // حفظ الملف الفعلي
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  // حذف الصورة
-  removeImageTwo(index: number) {
-    Swal.fire({
-      icon: 'success',
-      title: 'Success',
-      text: 'Image deleted successfully',
-      confirmButtonColor: '#28a745',
-      confirmButtonText: 'OK',
-      timer: 2000,
-      timerProgressBar: true,
-    }).then(() => {
-      // this.getProducts(this.currentPage);
-      this.imagesArrayTwo.removeAt(index);
-      this.selectedFilesTwo.splice(index, 1);
-    });
-  }
 
 
   // Edit an Product
@@ -449,6 +593,10 @@ export class WoodComponent implements OnInit {
   editdata : boolean = false;
   editProduct(product: any) {
     console.log(product);
+
+    // Clear existing images and logos
+    this.clearDateForImages();
+
 
     this.mode = true;
     this.showModal = false;
@@ -473,15 +621,21 @@ export class WoodComponent implements OnInit {
     });
 
     // Image
-    this.imagesArray.clear();
-    product.image.forEach((img: any) => {
+    product.image?.forEach(async (img: any) => {
+      const file = await this.urlToFile(img.secure_url, 'dummy.jpg');
+      this.selectedFiles.push(file);
       this.imagesArray.push(this.fb.control(img.secure_url));
     });
 
-    this.imagesArrayTwo.clear();
-    product.logo.forEach((img: any) => {
+
+    product.logo?.forEach(async (img: any) => {
+      const file = await this.urlToFile(img.secure_url, 'dummy.jpg');
+      this.selectedFilesTwo.push(file);
       this.imagesArrayTwo.push(this.fb.control(img.secure_url));
     });
+
+
+
     // Table Data
     const tableDataFormArray = this.productForm.get('tableData') as FormArray;
     tableDataFormArray.clear();
@@ -508,7 +662,12 @@ export class WoodComponent implements OnInit {
     this.showModal = true;
   }
 
-
+  async urlToFile(url: string, filename: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const file = new File([blob], filename, { type: blob.type });
+    return file;
+  }
 
 
   // ShowData an Product

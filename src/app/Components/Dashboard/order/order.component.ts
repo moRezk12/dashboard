@@ -64,6 +64,8 @@ export class OrderComponent implements OnInit {
   selectedFile: File | null = null;
   imagePreview: string | null = null;
 
+  allowedExtensions : string[] = ['jpg', 'jpeg', 'png', 'gif'];
+
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
 
@@ -75,6 +77,18 @@ export class OrderComponent implements OnInit {
         title: 'Only one image allowed!',
         text: 'Please remove the current image before selecting a new one.',
         confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    if (!fileExtension || !this.allowedExtensions.includes(fileExtension)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'تنبيه!',
+        text: ' فقط .jpg أو .jpeg أو .png أو .gif الرجاء اختيار صورة بصيغة  ',
+        confirmButtonColor: '#d33',
         confirmButtonText: 'OK'
       });
       return;
@@ -300,11 +314,19 @@ export class OrderComponent implements OnInit {
 
   // send Message
   sendMessage(order: any) {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
+    this.sendMessageForm.get('orderDate')?.setValue(formattedDate);
+
+    
     // this.selectOneOrder = order;
     this.sendMessageForm.get('email')?.setValue(order.user.email);
     // const imageFormArray = this.sendMessageForm.get('image') as FormArray;
     //     imageFormArray.clear();
     this.showModalSend = true;
+
+
+
   }
 
   // edit

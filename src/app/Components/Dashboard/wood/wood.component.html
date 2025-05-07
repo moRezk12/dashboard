@@ -199,7 +199,7 @@
           <!-- زر رفع الصور -->
           <div class="relative border-2 border-dashed border-blue-500 rounded-lg p-4 flex flex-col items-center justify-center
                       cursor-pointer bg-blue-50 transition">
-            <input type="file" (change)="onFileSelected($event)" accept="image/*" multiple
+            <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png, .gif" multiple
               class="absolute inset-0 opacity-0 cursor-pointer" *ngIf="!showData" />
 
             <svg *ngIf="imagesArray.length < 3 || !showData " class="w-12 h-12 text-blue-500 mb-2" fill="none"
@@ -227,7 +227,7 @@
           <!-- زر رفع الصور -->
           <div class="relative border-2 border-dashed border-blue-500 rounded-lg p-4 flex flex-col items-center justify-center
                       cursor-pointer bg-blue-50 transition">
-            <input type="file" (change)="onFileSelectedTwo($event)" accept="image/*" multiple
+            <input type="file" (change)="onFileSelectedTwo($event)" accept=".jpg, .jpeg, .png, .gif" multiple
               class="absolute inset-0 opacity-0 cursor-pointer" *ngIf="!showData" />
 
             <svg *ngIf="imagesArrayTwo.length < 3 || !showData " class="w-12 h-12 text-blue-500 mb-2" fill="none"

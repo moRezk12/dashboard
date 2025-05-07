@@ -280,6 +280,9 @@ export class ProductComponent implements OnInit {
   //     }
   //   });
   // }
+
+
+
   // Get Department
   departments : any = [];
   getDepartment(): void {
@@ -322,6 +325,7 @@ export class ProductComponent implements OnInit {
     return this.productForm.get('logo') as FormArray;
   }
 
+  allowedExtensions : string[] = ['jpg', 'jpeg', 'png', 'gif'];
   onFileSelected(event: any): void {
     const files = event.target.files;
 
@@ -330,18 +334,42 @@ export class ProductComponent implements OnInit {
       const totalFiles = this.selectedFiles.length + files.length;
 
       if (totalFiles > 3) {
-        console.error('يمكنك رفع 3 صور فقط');
         Swal.fire({
           icon: 'warning',
           title: 'Limit Exceeded!',
-          text: 'يمكنك رفع 3 صور فقط',
+          text: 'You can upload up to 3 images only!',
           confirmButtonColor: '#3085d6',
           confirmButtonText: 'OK'
-        })
+        });
         return;
       }
 
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        if (file.size > 2 * 1024 * 1024) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Limit Exceeded!',
+            text: 'Image size must be less than 2 MB.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          })
+        }
+      }
+
       for (let file of files) {
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+        if (!fileExtension || !this.allowedExtensions.includes(fileExtension)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'تنبيه!',
+            text: ' فقط .jpg أو .jpeg أو .png أو .gif الرجاء اختيار صورة بصيغة  ',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+          return;
+        }
         if (this.imagesArray.length < 3) {
           const reader = new FileReader();
           reader.onload = (e: any) => {
@@ -361,19 +389,44 @@ export class ProductComponent implements OnInit {
 
       const totalFiles = this.selectedFilesTwo.length + files.length;
 
+
       if (totalFiles > 1) {
-        console.error('يمكنك رفع صوره واحده فقط');
         Swal.fire({
           icon: 'warning',
           title: 'Limit Exceeded!',
-          text: 'يمكنك رفع صوره واحده فقط',
+          text: 'You can upload up to 3 images only!',
           confirmButtonColor: '#3085d6',
           confirmButtonText: 'OK'
-        })
+        });
         return;
       }
 
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        if (file.size > 2 * 1024 * 1024) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Limit Exceeded!',
+            text: 'Image size must be less than 2 MB.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          })
+        }
+      }
+
       for (let file of files) {
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+        if (!fileExtension || !this.allowedExtensions.includes(fileExtension)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'تنبيه!',
+            text: ' فقط .jpg أو .jpeg أو .png أو .gif الرجاء اختيار صورة بصيغة  ',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+          return;
+        }
         if (this.imagesArrayTwo.length < 1) {
           const reader = new FileReader();
           reader.onload = (e: any) => {
@@ -397,25 +450,37 @@ export class ProductComponent implements OnInit {
     this.selectedFilesTwo.splice(index, 1);
   }
 
+  clearDateForImages(){
+    this.selectedFiles = [];
+    this.selectedFilesTwo = [];
+    this.imagesArray.clear();
+    this.imagesArrayTwo.clear();
+  }
+
   // Open the modal
   openAddModal() {
     this.getDepartment();
 
     this.mode = false;
-    this.productForm.addControl('categoryId', this.fb.control('', Validators.required));
-    this.productForm.addControl('departmentId', this.fb.control('', Validators.required));
+  // احذف الكنترولات القديمة لو موجودة
+  if (this.productForm.contains('departmentId')) {
+    this.productForm.removeControl('departmentId');
+  }
+
+  this.productForm.reset();
+
+  // أضف الكنترولز بعد reset
+  this.productForm.addControl('departmentId', this.fb.control('', Validators.required));
+
     this.productForm.enable();
-    this.productForm.reset();
+
     const tableDataFormArray = this.productForm.get('tableData') as FormArray;
     tableDataFormArray.clear();
 
     const animalTypesFormArray = this.productForm.get('animalTypes') as FormArray;
     animalTypesFormArray.clear();
 
-    this.selectedFiles = [];
-    this.selectedFilesTwo = [];
-    this.imagesArray.clear();
-    this.imagesArrayTwo.clear();
+    this.clearDateForImages();
 
     this.editingIndex = null;
     this.showModal = true;
@@ -489,7 +554,10 @@ export class ProductComponent implements OnInit {
     });
 
     if (this.selectedFilesTwo.length === 0){
-      formData.append('logo', '');
+      const logoEmpty = '';
+      console.log( "Logo Empty" + logoEmpty);
+
+      formData.append('logo', logoEmpty);
     }else {
       this.selectedFilesTwo.forEach((file: File) => {
         formData.append('logo', file);
@@ -512,10 +580,8 @@ export class ProductComponent implements OnInit {
             timerProgressBar: true,
           }).then(() => {
             this.getProducts();
-            this.selectedFiles = [];
-            this.selectedFilesTwo = [];
-            this.imagesArray.clear();
-            this.imagesArrayTwo.clear();
+            this.clearDateForImages();
+
             this.productForm.reset();
           });
         },
@@ -544,10 +610,8 @@ export class ProductComponent implements OnInit {
           }).then(() => {
             this.getProducts();
             this.productForm.reset();
-            this.selectedFiles = [];
-            this.selectedFilesTwo = [];
-            this.imagesArray.clear();
-            this.imagesArrayTwo.clear();
+            this.clearDateForImages();
+
             this.mode = false;
             this.editingIndex = null;
           });
@@ -636,12 +700,6 @@ export class ProductComponent implements OnInit {
     //     this.selectedFilesTwo.push(img.secure_url);
     //   });
     // }
-
-    this.imagesArray.clear();
-    this.imagesArrayTwo.clear();
-
-    this.selectedFiles = [];
-    this.selectedFilesTwo = [];
 
     product.image?.forEach(async (img: any) => {
       const file = await this.urlToFile(img.secure_url, 'dummy.jpg');

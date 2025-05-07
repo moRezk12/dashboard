@@ -76,12 +76,23 @@ export class CompanyComponent implements OnInit {
 
   image: string | null = null;
   selectedFile: File | null = null;
+  allowedExtensions : string[] = ['jpg', 'jpeg', 'png', 'gif'];
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
     if (!file) return;
-
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    if (!fileExtension || !this.allowedExtensions.includes(fileExtension)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'تنبيه!',
+        text: ' فقط .jpg أو .jpeg أو .png أو .gif الرجاء اختيار صورة بصيغة  ',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.image = e.target.result;

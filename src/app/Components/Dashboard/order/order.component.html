@@ -144,7 +144,7 @@
     </div>
   </div>
   <!-- Modal Send Message -->
-  <div *ngIf="showModalSend" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+  <div *ngIf="showModalSend" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg  p-6 w-[60%] mx-auto max-h-[90vh] overflow-y-auto scrollbar-hide relative">
       <!-- <button (click)="showModal = false" class="absolute top-2 right-2 text-gray-600 hover:text-red-600">✖</button> -->
 
@@ -290,7 +290,7 @@
             <input
               type="file"
               (change)="onFileSelected($event)"
-              accept="image/*"
+              accept=".jpg, .jpeg, .png, .gif"
               class="absolute inset-0 opacity-0 cursor-pointer"
             />
 
