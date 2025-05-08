@@ -506,6 +506,9 @@ export class WoodComponent implements OnInit {
       });
     }
 
+    (formData as any).forEach?.((value: any, key: any) => {
+      console.log(`${key}:`, value);
+    });
 
 
     this.showModal = false;
@@ -535,7 +538,7 @@ export class WoodComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error!',
-            text: err.error?.message,
+            text: err.error?.message || "Server Error",
             confirmButtonColor: '#d33',
             // timer: 2000,
             timerProgressBar: true,

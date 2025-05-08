@@ -544,7 +544,7 @@ export class ProductComponent implements OnInit {
       const value = this.productForm.get(key)?.value;
       if (key === 'tableData' || key === 'animalTypes') {
         formData.append(key, JSON.stringify(value));
-      } else if (key !== 'image' && key !== 'logo') {
+      } else if (key !== 'image') {
         formData.append(key, value);
       }
     });
@@ -553,16 +553,27 @@ export class ProductComponent implements OnInit {
       formData.append('image', file);
     });
 
-    if (this.selectedFilesTwo.length === 0){
-      const logoEmpty = '';
-      console.log( "Logo Empty" + logoEmpty);
+    // if (this.selectedFilesTwo.length === 0){
+    //   const logoEmpty = '';
+    //   console.log( "Logo Empty" + logoEmpty);
 
-      formData.append('logo', logoEmpty);
-    }else {
+    //   formData.append('logo', logoEmpty);
+    // }else {
+    //   this.selectedFilesTwo.forEach((file: File) => {
+    //     formData.append('logo', file);
+    //   });
+    // }
+
+    // فقط ابعت لو فيه ملفات
+    if (this.selectedFilesTwo.length > 0) {
       this.selectedFilesTwo.forEach((file: File) => {
         formData.append('logo', file);
       });
     }
+
+    (formData as any).forEach?.((value: any, key: any) => {
+      console.log(`${key}:`, value);
+    });
 
 
 
@@ -589,7 +600,7 @@ export class ProductComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error!',
-            text: err.error?.message,
+            text: err.error?.message  ,
             confirmButtonColor: '#d33',
             timerProgressBar: true,
           }).then(() => {
@@ -622,7 +633,7 @@ export class ProductComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error!',
-            text: err.error?.message,
+            text: err.error?.message ,
             confirmButtonColor: '#d33',
             timerProgressBar: true,
           }).then(() => {

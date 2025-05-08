@@ -10,8 +10,8 @@
   </div> -->
 
   <!-- Modal Overlay -->
-  <div *ngIf="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg w-[600px] p-6 relative">
+  <div *ngIf="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-[70%] p-6 relative">
       <!-- <button (click)="showModal = false" class="absolute top-2 right-2 text-gray-600 hover:text-red-600">✖</button> -->
 
       <!-- Order Details -->
@@ -54,7 +54,8 @@
               <th class="border px-3 py-2 align-middle ">Product Name</th>
               <th class="border px-3 py-2 align-middle ">Type</th>
               <th class="border px-3 py-2 align-middle ">Quantity</th>
-              <th class="border px-3 py-2 align-middle ">Price</th>
+              <th class="border px-3 py-2 align-middle ">Item Price</th>
+              <th class="border px-3 py-2 align-middle ">Total Price</th>
               <th class="border px-3 py-2 align-middle ">country</th>
             </tr>
           </thead>
@@ -73,6 +74,9 @@
               <td class="border px-3 py-2 align-middle">{{ product?.quantity || 'N/A'}}</td>
               <td class="border px-3 py-2 align-middle">
                 {{ product.price || 'N/A' }}
+              </td>
+              <td class="border px-3 py-2 align-middle">
+                {{ product.price * product.quantity || 'N/A' }}
               </td>
               <td class="border px-3 py-2 align-middle">
                 {{ product.country || 'N/A' }}

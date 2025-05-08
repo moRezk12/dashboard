@@ -266,6 +266,7 @@ export class OrderComponent implements OnInit {
   // Show order
   showOrder(order: any) {
     this.selectOneOrder = order;
+    console.log(this.selectOneOrder);
 
     this.showModal = true;
   }
@@ -318,7 +319,7 @@ export class OrderComponent implements OnInit {
     const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
     this.sendMessageForm.get('orderDate')?.setValue(formattedDate);
 
-    
+
     // this.selectOneOrder = order;
     this.sendMessageForm.get('email')?.setValue(order.user.email);
     // const imageFormArray = this.sendMessageForm.get('image') as FormArray;
