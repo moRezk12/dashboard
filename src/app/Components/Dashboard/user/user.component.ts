@@ -112,6 +112,9 @@ export class UserComponent implements OnInit {
       if (this.selectedFile) {
         formData.append('image', this.selectedFile);
       }
+      else {
+        formData.append('image', '');
+      }
 
       Object.keys(this.orderForm.value).forEach(key => {
         formData.append(key, this.orderForm.get(key)?.value);
@@ -144,7 +147,7 @@ export class UserComponent implements OnInit {
           timer: 2000,
           timerProgressBar: true,
         }).then(() => {
-          this.showModal = true;
+          this.showModal = false;
         });
       },
     });
@@ -353,18 +356,26 @@ export class UserComponent implements OnInit {
       orderNumber: notify.orderNumber,
       ordervalue: notify.ordervalue,
       orderDate: notify.orderDate,
-      orderPaid: notify.orderPaid,
-      remainingAmount: notify.remainingAmount,
+      // orderPaid: notify.orderPaid,
+      // remainingAmount: notify.remainingAmount,
       orderStatus_en: notify.orderStatus?.en || '',
       orderStatus_ar: notify.orderStatus?.ar || '',
       orderDetails_en: notify.orderDetails?.en || '',
       orderDetails_ar: notify.orderDetails?.ar || '',
     });
 
+    for (let i = 0; i < notify.orderPaid.length; i++) {
+      this.orderForm.get(`orderPaid`)?.patchValue(notify.orderPaid[i].amount);
+    }
+
+    for (let i = 0; i < notify.remainingAmount.length; i++) {
+      this.orderForm.get(`remainingAmount`)?.patchValue(notify.remainingAmount[i].amount);
+    }
+
     // تحميل الصورة إذا كانت موجودة
     if (notify.image?.secure_url) {
       this.imagePreview = notify.image.secure_url;
-      this.selectedFile = null; // تعيينها لـ null لأن الصورة جاية من API مش ملف جديد
+      this.selectedFile = null;
     } else {
       this.imagePreview = null;
       this.selectedFile = null;
@@ -445,6 +456,20 @@ export class UserComponent implements OnInit {
 
 
   }
+
+  formatWordsPerLine(text: string, wordsPerLine: number = 3): string {
+    if (!text) return '';
+
+    const words = text.split(' ');
+    const lines: string[] = [];
+
+    for (let i = 0; i < words.length; i += wordsPerLine) {
+      lines.push(words.slice(i, i + wordsPerLine).join(' '));
+    }
+
+    return lines.join('<br>');
+  }
+
 
 
 }

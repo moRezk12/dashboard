@@ -56,12 +56,25 @@
             <td class="p-2 align-middle border">{{ notif.orderDate ?? 'N/A' }}</td>
             <td class="p-2 align-middle border">{{ notif.orderStatus?.en ?? 'N/A' }}</td>
             <td class="p-2 align-middle border">{{ notif.orderStatus?.ar ?? 'N/A' }}</td>
-            <td class="p-2 align-middle border">{{ notif.orderDetails?.en ?? 'N/A' }}</td>
-            <td class="p-2 align-middle border">{{ notif.orderDetails?.ar ?? 'N/A' }}</td>
+            <td class="p-2 align-middle border" [innerHTML]="formatWordsPerLine(notif.orderDetails?.en)"></td>
+            <td class="p-2 align-middle border" [innerHTML]="formatWordsPerLine(notif.orderDetails?.ar)"></td>
+
             <td class="p-2 align-middle border">{{ notif.orderNumber ?? 'N/A' }}</td>
             <td class="p-2 align-middle border">{{ notif.ordervalue ?? 'N/A' }}</td>
-            <td class="p-2 align-middle border">{{ notif.orderPaid ?? 'N/A' }}</td>
-            <td class="p-2 align-middle border">{{ notif.remainingAmount ?? 'N/A' }}</td>
+            <td class="p-2 align-middle border">
+              <div *ngFor="let item of notif.orderPaid" >
+                <span>
+                  {{ item.amount ?? 'N/A' }}
+                </span>
+              </div>
+            </td>
+            <td class="p-2 align-middle border">
+              <div *ngFor="let item of notif.remainingAmount" >
+                <span>
+                  {{ item.amount ?? 'N/A' }}
+                </span>
+              </div>
+            </td>
             <td class="py-2 px-4 align-middle border ">
               <!-- <img *ngIf="notif.image.secure_url" class=" mx-auto w-[50px] h-[50px] rounded-full " [src]="notif.image.secure_url" alt="">
               {{ !(notif.image.secure_url) ?? 'No Image' }} -->
