@@ -151,23 +151,24 @@ export class OrderComponent implements OnInit {
 
     const formData = this.sendMessageForm.value;
 
-    if (
-      this.sendMessageForm.get('orderPaid')?.value === null ||
-      this.sendMessageForm.get('orderPaid')?.value === '' ||
-      this.sendMessageForm.get('orderPaid')?.value === 'null'
-    ) {
-      this.sendMessageForm.get('orderPaid')?.setValue('');
-    }
+    // if (
+    //   this.sendMessageForm.get('orderPaid')?.value === null ||
+    //   this.sendMessageForm.get('orderPaid')?.value === '' ||
+    //   this.sendMessageForm.get('orderPaid')?.value === 'null'
+    // ) {
+    //   this.sendMessageForm.get('orderPaid')?.setValue('');
+    // }
 
-    if (
-      this.sendMessageForm.get('remainingAmount')?.value === null ||
-      this.sendMessageForm.get('remainingAmount')?.value === '' ||
-      this.sendMessageForm.get('remainingAmount')?.value === 'null'
-    ) {
-      this.sendMessageForm.get('remainingAmount')?.setValue('');
-    }
+    // if (
+    //   this.sendMessageForm.get('remainingAmount')?.value === null ||
+    //   this.sendMessageForm.get('remainingAmount')?.value === '' ||
+    //   this.sendMessageForm.get('remainingAmount')?.value === 'null'
+    // ) {
+    //   this.sendMessageForm.get('remainingAmount')?.setValue('');
+    // }
 
     if (this.sendMessageForm.valid) {
+
       const formData = new FormData();
       if (this.selectedFile) {
         formData.append('image', this.selectedFile);
@@ -175,10 +176,16 @@ export class OrderComponent implements OnInit {
 
       Object.keys(this.sendMessageForm.value).forEach(key => {
         const value = this.sendMessageForm.get(key)?.value;
-        if (key !== 'image') {
-          formData.append(key, value);
-        }
+          // ✅ فقط أضف القيمة لو مش فاضية
+          if (key !== 'image' && value !== null && value !== '' && value !== 'null') {
+            formData.append(key, value);
+          }
       });
+
+      (formData as any).forEach?.((value: any, key: any) => {
+        console.log(`${key}:`, value);
+      });
+
 
       this._orderservice.sendToUser(formData).subscribe({
         next: (res) => {
