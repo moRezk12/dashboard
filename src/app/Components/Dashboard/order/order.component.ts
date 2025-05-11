@@ -151,22 +151,6 @@ export class OrderComponent implements OnInit {
 
     const formData = this.sendMessageForm.value;
 
-    // if (
-    //   this.sendMessageForm.get('orderPaid')?.value === null ||
-    //   this.sendMessageForm.get('orderPaid')?.value === '' ||
-    //   this.sendMessageForm.get('orderPaid')?.value === 'null'
-    // ) {
-    //   this.sendMessageForm.get('orderPaid')?.setValue('');
-    // }
-
-    // if (
-    //   this.sendMessageForm.get('remainingAmount')?.value === null ||
-    //   this.sendMessageForm.get('remainingAmount')?.value === '' ||
-    //   this.sendMessageForm.get('remainingAmount')?.value === 'null'
-    // ) {
-    //   this.sendMessageForm.get('remainingAmount')?.setValue('');
-    // }
-
     if (this.sendMessageForm.valid) {
 
       const formData = new FormData();
