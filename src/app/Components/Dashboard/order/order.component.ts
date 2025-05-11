@@ -156,7 +156,7 @@ export class OrderComponent implements OnInit {
       this.sendMessageForm.get('orderPaid')?.value === '' ||
       this.sendMessageForm.get('orderPaid')?.value === 'null'
     ) {
-      this.sendMessageForm.get('orderPaid')?.setValue(0);
+      this.sendMessageForm.get('orderPaid')?.setValue('');
     }
 
     if (
@@ -164,7 +164,7 @@ export class OrderComponent implements OnInit {
       this.sendMessageForm.get('remainingAmount')?.value === '' ||
       this.sendMessageForm.get('remainingAmount')?.value === 'null'
     ) {
-      this.sendMessageForm.get('remainingAmount')?.setValue(0);
+      this.sendMessageForm.get('remainingAmount')?.setValue('');
     }
 
     if (this.sendMessageForm.valid) {
