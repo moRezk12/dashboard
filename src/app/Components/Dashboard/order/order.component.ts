@@ -182,19 +182,7 @@ export class OrderComponent implements OnInit {
             timerProgressBar: true,
           }).then(() => {
             this.showModalSend = false;
-            this.sendMessageForm.reset({
-              email: '',
-              image: '',
-              orderStatus_en: '',
-              orderStatus_ar: '',
-              orderDetails_en: '',
-              orderDetails_ar: '',
-              orderPaid: 0,
-              remainingAmount: 0,
-              orderDate: '',
-              orderNumber: 0,
-              ordervalue: 0
-            });
+            this.sendMessageForm.reset();
             this.selectedFile = null;
             this.imagePreview = null;
           });

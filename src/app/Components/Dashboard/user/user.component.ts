@@ -100,12 +100,12 @@ export class UserComponent implements OnInit {
     if (this.orderForm.valid) {
       console.log(this.orderForm.value);
 
-      if( this.orderForm.get('orderPaid')?.value == 'null' || this.orderForm.get('orderPaid')?.value == null || this.orderForm.get('orderPaid')?.value == '' ) {
-        this.orderForm.get('orderPaid')?.setValue(0);
-      }
-      if( this.orderForm.get('remainingAmount')?.value == 'null' || this.orderForm.get('remainingAmount')?.value == null || this.orderForm.get('remainingAmount')?.value == '' ) {
-        this.orderForm.get('remainingAmount')?.setValue(0);
-      }
+      // if( this.orderForm.get('orderPaid')?.value == 'null' || this.orderForm.get('orderPaid')?.value == null || this.orderForm.get('orderPaid')?.value == '' ) {
+      //   this.orderForm.get('orderPaid')?.setValue(0);
+      // }
+      // if( this.orderForm.get('remainingAmount')?.value == 'null' || this.orderForm.get('remainingAmount')?.value == null || this.orderForm.get('remainingAmount')?.value == '' ) {
+      //   this.orderForm.get('remainingAmount')?.setValue(0);
+      // }
 
       const formData = new FormData();
 
@@ -117,7 +117,11 @@ export class UserComponent implements OnInit {
       }
 
       Object.keys(this.orderForm.value).forEach(key => {
-        formData.append(key, this.orderForm.get(key)?.value);
+        const value = this.orderForm.get(key)?.value;
+
+        if (key !== 'image' && value !== null && value !== '' && value !== 'null') {
+            formData.append(key, value);
+          }
       });
 
       console.log('Form Data:', formData);
@@ -349,7 +353,7 @@ export class UserComponent implements OnInit {
   editNotification(notify: any , email: any) {
     this.showModal = false;
     this.formEditNotification = true;
-    console.log(notify);
+    console.log("notify" + notify);
     this.orderForm.patchValue({
       notificationId : notify._id,
       email: email,
