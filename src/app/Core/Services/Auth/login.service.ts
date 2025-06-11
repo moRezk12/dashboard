@@ -17,7 +17,7 @@ export class LoginService {
 
   // Forget Password
   forgetpass(data : any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/auth/forgetpasswordphone`, data);
+    return this.http.post(`${environment.apiUrl}/auth/forgetPasswordphoneadmin`, data);
   }
 
   // Confirm Password
