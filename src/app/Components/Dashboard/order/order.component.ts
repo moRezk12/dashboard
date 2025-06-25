@@ -45,7 +45,7 @@ export class OrderComponent implements OnInit {
     this.updateVisiblePages();
 
     this.sendMessageForm = this.fb.group({
-      email: [''],
+      username: [''],
       image: [''],
       orderStatus_en: ['', Validators.required],
       orderStatus_ar: ['', Validators.required],
@@ -242,7 +242,7 @@ export class OrderComponent implements OnInit {
   filterOrders : any
   get filteredCategories() {
     return this.orders.filter((order: any) =>
-      (order.user?.email?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase()) ||
+      (order.user?.username?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase()) ||
       (order.user?.username?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase())
     );
 
@@ -308,7 +308,7 @@ export class OrderComponent implements OnInit {
 
 
     // this.selectOneOrder = order;
-    this.sendMessageForm.get('email')?.setValue(order.user.email);
+    this.sendMessageForm.get('username')?.setValue(order.user.username);
     // const imageFormArray = this.sendMessageForm.get('image') as FormArray;
     //     imageFormArray.clear();
     this.showModalSend = true;

@@ -30,12 +30,9 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.adminForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      firstName: ['', [Validators.required, Validators.minLength(3)]],
-      lastName: ['', [Validators.required, Validators.minLength(3)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       mobileNumber: ['', [Validators.required, Validators.pattern(/^(\+966)?\d{9}$/)]],
-      password: ['', this.mode ? [] : [Validators.required]],
-      city : ['', [Validators.required]]
+      password: ['', this.mode ? [] : [Validators.required]]
     });
 
     // Check if the value is a phone number
@@ -54,13 +51,14 @@ export class AdminComponent implements OnInit {
 
     // Check if the value is a phone number
     isPhoneNumber(value: string): boolean {
-      return /^[0-9]{10,}$/.test(value);
+      return /^[0-9]{3,}$/.test(value);
     }
 
   // Get All Admins
   getAllAdmins() : void {
     this._adminservices.getAdmins().subscribe({
       next : (res) => {
+        console.log(res);
 
         this.admins = res.data.admins;
       },
@@ -167,18 +165,10 @@ export class AdminComponent implements OnInit {
     this.mode = true;
     this.showModal = false;
     this.adminForm.enable();
-    const fullname = category.username;
-
-    const [firstName, lastName] = fullname.split(' ');
-    this.adminForm.get('firstName')?.setValue(firstName);
-    this.adminForm.get('lastName')?.setValue(lastName);
 
     this.adminForm.patchValue({
-      email: category.email,
-      firstName: firstName,
-      lastName: lastName,
+      username: category.username,
       mobileNumber: category.mobileNumber,
-      city : category.city
     });
     this.selectId = category.id;
     // Remove password validator
@@ -194,18 +184,17 @@ export class AdminComponent implements OnInit {
     this.hideInputpass = true;
     this.show = true;
     this.adminForm.disable();
-    const fullname = category.username;
+    // const fullname = category.username;
 
-    const [firstName, lastName] = fullname.split(' ');
-    this.adminForm.get('firstName')?.setValue(firstName);
-    this.adminForm.get('lastName')?.setValue(lastName);
+    // const [firstName, lastName] = fullname.split(' ');
+    // this.adminForm.get('firstName')?.setValue(firstName);
+    // this.adminForm.get('lastName')?.setValue(lastName);
 
     this.adminForm.patchValue({
-      email: category.email,
-      firstName: firstName,
-      lastName: lastName,
+      // email: category.email,
+      username: category.username,
       mobileNumber: category.mobileNumber,
-      city : category.city
+      // city : category.city
     });
     this.selectId = category.id;
     this.showModal = true;

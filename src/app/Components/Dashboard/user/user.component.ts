@@ -50,7 +50,7 @@ export class UserComponent implements OnInit {
 
   constructor(  private _userService : UserService , private fb : FormBuilder) {
     this.userForm = this.fb.group({
-      email: [''],
+      username: [''],
       Points: ['', [Validators.required, Validators.min(0)]]
     });
 
@@ -274,7 +274,7 @@ export class UserComponent implements OnInit {
     console.log(user);
 
     this.userForm.patchValue({
-      email : user.email,
+      username : user.username,
       Points : user.Points
     })
 
