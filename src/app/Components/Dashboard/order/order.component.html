@@ -348,12 +348,9 @@
       <tr>
         <th class="py-2 px-4">#</th>
         <th class="py-2 px-4" >userName</th>
-        <th class="py-2 px-4" >Email</th>
+        <th class="py-2 px-4" >Phone Number</th>
         <th class="py-2 px-4" >Status</th>
         <th class="py-2 px-4" >Data</th>
-        <!-- <th class="py-2 px-4" >name_en</th> -->
-        <!-- <th class="py-2 px-4" >name_ar</th> -->
-        <!-- <th class="py-2 px-4">Price</th> -->
         <th class="py-2 px-4">Actions</th>
       </tr>
     </thead>
@@ -363,7 +360,7 @@
       class="border-b">
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
         <td class="py-2 px-4 align-middle ">{{ order.user.username }}  </td>
-        <td class="py-2 px-4 align-middle ">{{ order.user.email }}  </td>
+        <td class="py-2 px-4 align-middle ">{{ order.user.mobileNumber }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.status }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.createdAt | date }}  </td>
         <td class="py-3 px-4 text-center align-middle">
