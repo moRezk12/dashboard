@@ -359,8 +359,8 @@
       [ngClass]="{ 'bg-green-400': (order.status === 'done' || order.status === 'Done' ) }"
       class="border-b">
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
-        <td class="py-2 px-4 align-middle ">{{ order.user.username }}  </td>
-        <td class="py-2 px-4 align-middle ">{{ order.user.mobileNumber }}  </td>
+        <td class="py-2 px-4 align-middle ">{{ order.user?.username }}  </td>
+        <td class="py-2 px-4 align-middle ">{{ order.phone }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.status }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.createdAt | date }}  </td>
         <td class="py-3 px-4 text-center align-middle">

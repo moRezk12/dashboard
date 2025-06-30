@@ -302,19 +302,20 @@ export class OrderComponent implements OnInit {
 
   // send Message
   sendMessage(order: any) {
+    this.showModalSend = true;
     const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
+    const formattedDate = today.toISOString().split('T')[0];
     this.sendMessageForm.get('orderDate')?.setValue(formattedDate);
 
+    setTimeout(() => {
+      this.sendMessageForm.get('orderDate')?.setValue(formattedDate);
+      this.sendMessageForm.get('username')?.setValue(order.user.username);
 
-    // this.selectOneOrder = order;
+      console.log('formatted date:', formattedDate);
+      console.log('form orderDate:', this.sendMessageForm.get('orderDate')?.value);
+    }, 0);
+
     this.sendMessageForm.get('username')?.setValue(order.user.username);
-    // const imageFormArray = this.sendMessageForm.get('image') as FormArray;
-    //     imageFormArray.clear();
-    this.showModalSend = true;
-
-
-
   }
 
   // edit
