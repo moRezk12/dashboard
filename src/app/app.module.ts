@@ -29,6 +29,7 @@ import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialm
 import { DetailsproforstoreComponent } from './Components/Dashboard/detailsproforstore/detailsproforstore.component';
 import { WoodComponent } from './Components/Dashboard/wood/wood.component';
 import { NotifycationComponent } from './Components/Dashboard/notifycation/notifycation.component';
+import { LivestockBannerComponent } from './Components/Dashboard/livestock-banner/livestock-banner.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { NotifycationComponent } from './Components/Dashboard/notifycation/notif
     SocialmediaComponent,
     DetailsproforstoreComponent,
     WoodComponent,
-    NotifycationComponent
+    NotifycationComponent,
+    LivestockBannerComponent
   ],
   imports: [
     BrowserModule,

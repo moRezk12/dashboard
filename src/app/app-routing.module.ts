@@ -18,6 +18,7 @@ import { DepartmentComponent } from './Components/Dashboard/department/departmen
 import { SocialmediaComponent } from './Components/Dashboard/socialmedia/socialmedia.component';
 import { DetailsproforstoreComponent } from './Components/Dashboard/detailsproforstore/detailsproforstore.component';
 import { WoodComponent } from './Components/Dashboard/wood/wood.component';
+import { LivestockBannerComponent } from './Components/Dashboard/livestock-banner/livestock-banner.component';
 
 const routes: Routes = [
 
@@ -36,6 +37,7 @@ const routes: Routes = [
       {path : 'details/:id' , component : DetailsproforstoreComponent , canActivate : [authGuard] },
       {path : 'product' , component : ProductComponent ,canActivate : [authGuard] },
       {path : 'advertisement' , component : AdvertisementComponent , canActivate : [authGuard]},
+      {path : 'livestockBanner' , component : LivestockBannerComponent , canActivate : [authGuard]},
       {path : 'department' , component : DepartmentComponent , canActivate : [authGuard] },
       {path : 'social' , component : SocialmediaComponent , canActivate : [authGuard] },
       {path : 'order' , component : OrderComponent , canActivate : [authGuard] },

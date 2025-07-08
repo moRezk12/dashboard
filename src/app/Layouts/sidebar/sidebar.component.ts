@@ -21,6 +21,7 @@ export class SidebarComponent {
     { url: '/social', name: 'Social Media' },
     { url: '/message', name: 'Message' },
     { url: '/advertisement', name: 'Advertisement' },
+    { url: '/livestockBanner', name: 'Livestock Banner' },
     { url: '/department', name: 'Department' },
     { url: '/notify', name: 'Notification' },
   ]
