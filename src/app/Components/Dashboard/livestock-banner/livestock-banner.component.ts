@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { AdvertisementService } from 'src/app/Core/Services/Advertisement/advertisement.service';
+import { LivestockBannerService } from 'src/app/Core/Services/livestockBanner/livestock-banner.service';
 import Swal from 'sweetalert2';
 
 
@@ -25,7 +26,7 @@ export class LivestockBannerComponent implements OnInit {
 
   editingIndex: number | null = null;
 
-  constructor(private fb: FormBuilder , private _advService : AdvertisementService ) {}
+  constructor(private fb: FormBuilder , private _livestockService : LivestockBannerService ) {}
 
   ngOnInit(): void {
     this.adminForm = this.fb.group({
@@ -40,7 +41,7 @@ export class LivestockBannerComponent implements OnInit {
 
   // Get All Admins
   getAllAdvertise() : void {
-    this._advService.getAdv().subscribe({
+    this._livestockService.getlivestock().subscribe({
       next : (res) => {
 
         this.advertise = res.data.images ;
@@ -165,7 +166,7 @@ export class LivestockBannerComponent implements OnInit {
 
 
     if(!this.mode) {
-      this._advService.createAdv(formData).subscribe({
+      this._livestockService.createlivestock(formData).subscribe({
         next : (res) => {
 
           Swal.fire({
@@ -220,7 +221,7 @@ export class LivestockBannerComponent implements OnInit {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed) {
-        this._advService.deleteAdv(image).subscribe({
+        this._livestockService.deletelivestock(image).subscribe({
           next: (res) => {
             Swal.fire({
               icon: 'success',
