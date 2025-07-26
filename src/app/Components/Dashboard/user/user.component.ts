@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
     });
 
     this.orderForm = this.fb.group({
-      email: [''],
+      // email: [''],
       notificationId: ['', Validators.required],
       orderNumber: ['', Validators.required],
       ordervalue: ['', Validators.required],
@@ -206,7 +206,7 @@ export class UserComponent implements OnInit {
   // Search
   get filteredUsers() {
     return this.Users.filter((user: any) =>
-      (user?.email?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase())
+      (user?.username?.toLowerCase() ?? '').includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -240,6 +240,8 @@ export class UserComponent implements OnInit {
   showModalUser : boolean = false ;
   editUserWithPoints(){
     if(this.userForm.valid){
+      console.log(this.userForm.value);
+
       this._userService.updateUser(this.userForm.value).subscribe({
         next : (res) => {
           console.log(res);
@@ -350,13 +352,13 @@ export class UserComponent implements OnInit {
 
   formEditNotification : boolean = false ;
 
-  editNotification(notify: any , email: any) {
+  editNotification(notify: any ) {
     this.showModal = false;
     this.formEditNotification = true;
     console.log("notify" + notify);
     this.orderForm.patchValue({
       notificationId : notify._id,
-      email: email,
+      // email: email,
       orderNumber: notify.orderNumber,
       ordervalue: notify.ordervalue,
       orderDate: notify.orderDate,

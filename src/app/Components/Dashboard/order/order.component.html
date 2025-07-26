@@ -9,6 +9,12 @@
     />
   </div> -->
 
+  <div class="mb-4 flex justify-between items-center">
+    <button (click)="refreshOrders()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" >
+      Refresh
+    </button>
+  </div>
+
   <!-- Modal Overlay -->
   <div *ngIf="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg w-[70%] p-6 relative">
@@ -28,8 +34,8 @@
 
       <div class="grid grid-cols-2 gap-4 text-gray-700">
         <div>
-          <p><span class="font-semibold">UserName:</span> {{ selectOneOrder.user.username }}</p>
-          <p><span class="font-semibold">Email:</span> {{ selectOneOrder.user.email }}</p>
+          <p><span class="font-semibold">UserName:</span> {{ selectOneOrder.user?.username || 'Not found' }}   </p>
+          <!-- <p><span class="font-semibold">Email:</span> {{ selectOneOrder.user?.email }}</p> -->
           <p><span class="font-semibold">Phone:</span> {{ selectOneOrder.phone }}</p>
           <p><span class="font-semibold">Address:</span> {{ selectOneOrder.address }}</p>
         </div>
@@ -359,7 +365,7 @@
       [ngClass]="{ 'bg-green-400': (order.status === 'done' || order.status === 'Done' ) }"
       class="border-b">
         <td class="py-2 px-4 align-middle ">{{ i + 1 }}</td>
-        <td class="py-2 px-4 align-middle ">{{ order.user?.username }}  </td>
+        <td class="py-2 px-4 align-middle ">{{ order.user?.username || 'Not Found' }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.phone }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.status }}  </td>
         <td class="py-2 px-4 align-middle ">{{ order.createdAt | date }}  </td>

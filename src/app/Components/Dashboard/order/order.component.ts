@@ -60,6 +60,20 @@ export class OrderComponent implements OnInit {
 
   }
 
+  refreshOrders() {
+    Swal.fire({
+      icon: 'info',
+      title: 'Orders Refreshed',
+      text: 'The order list has been refreshed successfully.',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.getOrder(this.currentPage);
+      }
+    });
+  }
+
   // image
   selectedFile: File | null = null;
   imagePreview: string | null = null;
@@ -309,13 +323,13 @@ export class OrderComponent implements OnInit {
 
     setTimeout(() => {
       this.sendMessageForm.get('orderDate')?.setValue(formattedDate);
-      this.sendMessageForm.get('username')?.setValue(order.user.username);
+      this.sendMessageForm.get('username')?.setValue(order.user?.username || 'not found');
 
       console.log('formatted date:', formattedDate);
       console.log('form orderDate:', this.sendMessageForm.get('orderDate')?.value);
     }, 0);
 
-    this.sendMessageForm.get('username')?.setValue(order.user.username);
+    this.sendMessageForm.get('username')?.setValue(order.user?.username);
   }
 
   // edit

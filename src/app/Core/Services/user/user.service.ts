@@ -21,12 +21,12 @@ export class UserService {
     }
 
     // Update user
-    updateUser(data : any): Observable<any> {
+    updateUser( data : any): Observable<any> {
       return this.http.patch(`${environment.apiUrl}/user/Updateuseraccount`, data);
     }
 
     // updata Notification
-    updateNotification(data : any): Observable<any> {
+    updateNotification( data : any): Observable<any> {
       return this.http.post(`${environment.apiUrl}/category/updateNotification`, data);
     }
 
